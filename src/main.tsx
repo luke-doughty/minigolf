@@ -1,10 +1,12 @@
 import { Canvas } from '@react-three/fiber'
 import { Leva } from 'leva'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
+import { Physics } from '@react-three/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Scene } from './Scene'
 import './styles/main.css'
+import { Experience } from './sceneTwo'
 
 function Main() {
   return (
@@ -30,14 +32,17 @@ function Main() {
           outputColorSpace: SRGBColorSpace,
         }}
         camera={{
-          fov: 55,
           near: 0.1,
           far: 200,
-          position: [3, 2, 9],
+          position: [-12, 22, 16],
         }}
         shadows
       >
-        <Scene />
+        <Suspense>
+          <Physics debug>
+            <Scene />
+          </Physics>
+        </Suspense>{' '}
       </Canvas>
     </div>
   )
