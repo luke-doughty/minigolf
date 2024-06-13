@@ -34,7 +34,7 @@ function Main() {
         camera={{
           near: 0.1,
           far: 200,
-          position: [-12, 22, 16],
+          position: [-15, 7, 0],
         }}
         shadows
       >
@@ -42,7 +42,7 @@ function Main() {
           <Physics debug>
             <Scene />
           </Physics>
-        </Suspense>{' '}
+        </Suspense>
       </Canvas>
     </div>
   )

@@ -3,14 +3,15 @@ import { Object3DNode, useFrame } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
-import { useRef } from 'react'
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
-import { Cube } from './components/Cube'
+import { useRef, useState } from 'react'
+import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from 'three'
 import { GolfBall } from './components/golfBall'
 import { Plane } from './components/Plane'
 import { extend } from '@react-three/fiber'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
+import { CourseOneWalls } from './components/CourseOneWalls'
+import { PowerMeter } from './components/PowerMeter'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -23,6 +24,7 @@ function Scene() {
   const { performance } = useControls('Monitoring', {
     performance: false,
   })
+  const [o] = useState(() => new Object3D())
 
   const cubeRef = useRef<Mesh<BoxGeometry, MeshBasicMaterial>>(null)
 
@@ -30,18 +32,20 @@ function Scene() {
 
   return (
     <>
+      {/* <OrbitControls /> */}
       {performance && <Perf position='top-left' />}
 
-      <OrbitControls />
-      <ambientLight />
       <directionalLight
-        position={[-15, 22, 8]}
-        scale={[5, 5, 5]}
+        position={[-5, 5, 8]}
         intensity={3.5}
         castShadow
+        target={o}
         shadow-mapSize={[1024 * 2, 1024 * 2]}
-      />
-      <ambientLight intensity={0.2} />
+      >
+        <orthographicCamera attach='shadow-camera' args={[-20, 20, 20, -20]} />
+      </directionalLight>
+
+      <CourseOneWalls />
 
       <GolfBall />
 
@@ -56,6 +60,7 @@ function Scene() {
         bevelEnabled
         bevelSize={0.03}
         bevelThickness={0.03}
+        receiveShadow
       >
         Hello
         <meshBasicMaterial color='blue' />
