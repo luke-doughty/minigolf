@@ -1,10 +1,10 @@
 import { OrbitControls, Text, Text3D } from '@react-three/drei'
-import { Object3DNode, useFrame } from '@react-three/fiber'
+import { Object3DNode, useFrame, useThree } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import { useRef, useState } from 'react'
-import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Raycaster } from 'three'
 import { GolfBall } from './components/golfBall'
 import { Plane } from './components/Plane'
 import { extend } from '@react-three/fiber'
@@ -26,9 +26,11 @@ function Scene() {
   })
   const [o] = useState(() => new Object3D())
 
+  useFrame((_, delta) => {})
+
   const cubeRef = useRef<Mesh<BoxGeometry, MeshBasicMaterial>>(null)
 
-  useFrame((_, delta) => {})
+  const ray = new Raycaster()
 
   return (
     <>

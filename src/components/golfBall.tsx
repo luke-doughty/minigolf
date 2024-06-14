@@ -9,7 +9,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   const { viewport } = useThree()
 
   const [startPositionDragClick, setStartPositionDragClick] = useState<Vector3>()
-  const [endPositionDragClick, setEndPositionDragClick] = useState<Vector2>()
+  const [endPositionDragClick, setEndPositionDragClick] = useState<Vector3>()
   const [isDragging, setIsDragging] = useState(false)
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
@@ -27,19 +27,27 @@ export const GolfBall: FC<RigidBodyProps> = () => {
     console.log(endPositionDragClick)
   }
 
-  useFrame(({ pointer }) => {
+  useFrame(({ pointer, raycaster, events, camera, scene }) => {
     if (isDragging) {
-      const x = (pointer.x * viewport.width) / 2
-      const y = (pointer.y * viewport.height) / 2
-      setEndPositionDragClick(new Vector2(x, y))
+      raycaster.setFromCamera(pointer, camera)
+      const intersects = raycaster.intersectObjects(scene.children)
+      const intersectPoint = intersects[0].point
+      setEndPositionDragClick(intersectPoint)
     }
   })
 
   useEffect(() => {
     const handlePointerUp = (event: MouseEvent) => {
       if (isDragging) {
-        endPosition()
         setIsDragging(false)
+      }
+      console.log('here?')
+      if (startPositionDragClick && endPositionDragClick) {
+        const impulseVector = new Vector3()
+        impulseVector.subVectors(startPositionDragClick, endPositionDragClick)
+        impulseVector.multiplyScalar(0.8)
+        console.log('doing this impulse: ', impulseVector)
+        golfBallRigidRef.current.applyImpulse(impulseVector, false)
       }
     }
 
