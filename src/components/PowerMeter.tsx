@@ -10,6 +10,7 @@ interface PowerMeterProps {
 }
 
 export const PowerMeter: FC<PowerMeterProps> = ({ isVisible, startPoint, endPoint }) => {
+  console.log('here???')
   if (!isVisible || endPoint === undefined) {
     return <mesh></mesh>
   }

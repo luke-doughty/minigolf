@@ -6,33 +6,37 @@ import { Mesh, MOUSE, Vector2, Vector3 } from 'three'
 import { PowerMeter } from './PowerMeter'
 
 export const GolfBall: FC<RigidBodyProps> = () => {
-  const { viewport } = useThree()
+  // use refs for updating vector for impulse
+  const startPositionRef = useRef<Vector3 | null>(null)
+  const endPositionRef = useRef<Vector3 | null>(null)
+  // use state for updating visual
+  const [dragPositions, setDragPositions] = useState<{
+    start: Vector3 | null
+    end: Vector3 | null
+  }>({
+    start: null,
+    end: null,
+  })
 
-  const [startPositionDragClick, setStartPositionDragClick] = useState<Vector3>()
-  const [endPositionDragClick, setEndPositionDragClick] = useState<Vector3>()
   const [isDragging, setIsDragging] = useState(false)
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
 
-  // const pushBall = () => {
-  //   golfBallRigidRef.current.applyImpulse({ x: 0, y: 2, z: 0 }, true)
-  // }
-
   const startPosition = () => {
-    setStartPositionDragClick(vec3(golfBallRigidRef.current.translation()))
-    console.log('start: ', golfBallRigidRef.current.translation())
-  }
-
-  const endPosition = () => {
-    console.log(endPositionDragClick)
+    const startPos = vec3(golfBallRigidRef.current.translation())
+    startPositionRef.current = startPos
+    setDragPositions({ start: startPos, end: dragPositions.end })
   }
 
   useFrame(({ pointer, raycaster, events, camera, scene }) => {
     if (isDragging) {
       raycaster.setFromCamera(pointer, camera)
       const intersects = raycaster.intersectObjects(scene.children)
-      const intersectPoint = intersects[0].point
-      setEndPositionDragClick(intersectPoint)
+      if (intersects.length > 0) {
+        const intersectPoint = intersects[0].point
+        endPositionRef.current = intersectPoint
+        setDragPositions({ start: dragPositions.start, end: intersectPoint })
+      }
     }
   })
 
@@ -40,14 +44,12 @@ export const GolfBall: FC<RigidBodyProps> = () => {
     const handlePointerUp = (event: MouseEvent) => {
       if (isDragging) {
         setIsDragging(false)
-      }
-      console.log('here?')
-      if (startPositionDragClick && endPositionDragClick) {
-        const impulseVector = new Vector3()
-        impulseVector.subVectors(startPositionDragClick, endPositionDragClick)
-        impulseVector.multiplyScalar(0.8)
-        console.log('doing this impulse: ', impulseVector)
-        golfBallRigidRef.current.applyImpulse(impulseVector, false)
+        if (startPositionRef.current && endPositionRef.current) {
+          const impulseVector = new Vector3()
+          impulseVector.subVectors(startPositionRef.current, endPositionRef.current)
+          impulseVector.multiplyScalar(2.8)
+          golfBallRigidRef.current.applyImpulse(impulseVector, false)
+        }
       }
     }
 
@@ -88,11 +90,13 @@ export const GolfBall: FC<RigidBodyProps> = () => {
         </Sphere>
       </RigidBody>
 
-      <PowerMeter
-        isVisible={isDragging}
-        startPoint={startPositionDragClick}
-        endPoint={endPositionDragClick}
-      />
+      {isDragging && (
+        <PowerMeter
+          isVisible={isDragging}
+          startPoint={dragPositions.start}
+          endPoint={dragPositions.end}
+        />
+      )}
     </>
   )
 }
