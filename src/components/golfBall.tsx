@@ -1,8 +1,8 @@
-import { Box, Sphere } from '@react-three/drei'
-import { useFrame, useThree } from '@react-three/fiber'
+import { Sphere } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
-import { Mesh, MOUSE, Vector2, Vector3 } from 'three'
+import { Group, Object3DEventMap, Vector3 } from 'three'
 import { PowerMeter } from './PowerMeter'
 
 export const GolfBall: FC<RigidBodyProps> = () => {
@@ -21,6 +21,10 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   const [isDragging, setIsDragging] = useState(false)
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
+  const container = useRef<Group<Object3DEventMap>>(null!)
+  const targetCameraPosition = useRef<Group<Object3DEventMap>>(null!)
+  const cameraPositionBallRelative = useRef<Group<Object3DEventMap>>(null!)
+  const cameraOffset = new Vector3(0, 4, -10)
 
   const startPosition = () => {
     const startPos = vec3(golfBallRigidRef.current.translation())
@@ -29,13 +33,20 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   }
 
   useFrame(({ pointer, raycaster, events, camera, scene }) => {
+    const ballPosition = vec3(golfBallRigidRef.current.translation())
+    const newCameraPosition = ballPosition.clone().add(cameraOffset)
+
+    camera.position.lerp(newCameraPosition, 0.05)
+
+    camera.lookAt(ballPosition)
+
     if (isDragging) {
       raycaster.setFromCamera(pointer, camera)
-      const intersects = raycaster.intersectObjects(scene.children)
-      if (intersects.length > 0) {
-        const intersectPoint = intersects[0].point
-        endPositionRef.current = intersectPoint
-        setDragPositions({ start: dragPositions.start, end: intersectPoint })
+      const floorPointer = scene.getObjectByName('floor')
+      if (floorPointer) {
+        const intersect = raycaster.intersectObject(floorPointer)
+        endPositionRef.current = intersect[0].point
+        setDragPositions({ start: dragPositions.start, end: intersect[0].point })
       }
     }
   })
@@ -48,7 +59,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
           const impulseVector = new Vector3()
           impulseVector.subVectors(startPositionRef.current, endPositionRef.current)
           impulseVector.multiplyScalar(2.8)
-          golfBallRigidRef.current.applyImpulse(impulseVector, false)
+          golfBallRigidRef.current.applyImpulse(impulseVector, true)
         }
       }
     }
@@ -76,23 +87,32 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   return (
     <>
       <RigidBody
+        name='golf-ball'
         position={[0, 2, 0]}
         colliders='ball'
         restitution={1.2}
         ref={golfBallRigidRef}
+        mass={20}
+        linearDamping={0.6}
+        angularDamping={0.6}
       >
-        <Sphere
-          castShadow
-          onPointerDown={handlePointerDown}
-          // onClick={pushBall}
-        >
-          <meshStandardMaterial color={'white'} />
-        </Sphere>
+        <group ref={container}>
+          <group ref={targetCameraPosition} position-z={2} />
+          <group ref={cameraPositionBallRelative} position-y={4} position-z={-10} />
+          <Sphere
+            castShadow
+            onPointerDown={handlePointerDown}
+            // onClick={pushBall}
+          >
+            <meshStandardMaterial color={'white'} />
+          </Sphere>
+        </group>
       </RigidBody>
 
       {isDragging && (
         <PowerMeter
           isVisible={isDragging}
+          maximumLineLength={8}
           startPoint={dragPositions.start}
           endPoint={dragPositions.end}
         />

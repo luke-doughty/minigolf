@@ -31,15 +31,11 @@ function Main() {
           toneMapping: ACESFilmicToneMapping,
           outputColorSpace: SRGBColorSpace,
         }}
-        camera={{
-          near: 0.1,
-          far: 200,
-          position: [-15, 7, 0],
-        }}
-        shadows
+        shadows={'soft'}
       >
+        <axesHelper position={[0, 5, 0]} />
         <Suspense>
-          <Physics debug>
+          <Physics debug gravity={[0, -15.81, 0]}>
             <Scene />
           </Physics>
         </Suspense>

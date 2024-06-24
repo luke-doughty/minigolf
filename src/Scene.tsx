@@ -1,10 +1,18 @@
-import { OrbitControls, Text, Text3D } from '@react-three/drei'
+import { OrbitControls, RandomizedLight, Text, Text3D } from '@react-three/drei'
 import { Object3DNode, useFrame, useThree } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import { useRef, useState } from 'react'
-import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Raycaster } from 'three'
+import {
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  MOUSE,
+  Object3D,
+  Raycaster,
+} from 'three'
 import { GolfBall } from './components/golfBall'
 import { Plane } from './components/Plane'
 import { extend } from '@react-three/fiber'
@@ -24,28 +32,39 @@ function Scene() {
   const { performance } = useControls('Monitoring', {
     performance: false,
   })
-  const [o] = useState(() => new Object3D())
-
-  useFrame((_, delta) => {})
-
-  const cubeRef = useRef<Mesh<BoxGeometry, MeshBasicMaterial>>(null)
-
-  const ray = new Raycaster()
 
   return (
     <>
-      {/* <OrbitControls /> */}
-      {performance && <Perf position='top-left' />}
-
       <directionalLight
-        position={[-5, 5, 8]}
-        intensity={3.5}
+        position={[10, 10, 10]}
+        scale={[20, 20, 20]}
+        intensity={2.5}
         castShadow
-        target={o}
         shadow-mapSize={[1024 * 2, 1024 * 2]}
-      >
-        <orthographicCamera attach='shadow-camera' args={[-20, 20, 20, -20]} />
-      </directionalLight>
+        shadow-camera-near={0.5} // Set the near plane of the shadow camera
+        shadow-camera-far={50} // Set the far plane of the shadow camera
+        shadow-camera-left={-50} // Extend the left boundary of the shadow camera frustum
+        shadow-camera-right={50} // Extend the right boundary of the shadow camera frustum
+        shadow-camera-top={50} // Extend the top boundary of the shadow camera frustum
+        shadow-camera-bottom={-50} // Extend the bottom boundary of the shadow camera frustum
+      />
+
+      <ambientLight
+        shadow={'blue'}
+        position={[10, 10, 10]}
+        scale={[20, 20, 20]}
+        intensity={1.2}
+      />
+      {/* <OrbitControls
+        // maxPolarAngle={1}
+        // minPolarAngle={1}
+        // enableZoom={false}
+        // enablePan={false}
+        mouseButtons={{ LEFT: undefined, RIGHT: MOUSE.ROTATE }}
+        // enableDamping={true}
+        // dampingFactor={0.05}
+      /> */}
+      {performance && <Perf position='top-left' />}
 
       <CourseOneWalls />
 
@@ -54,9 +73,9 @@ function Scene() {
       <Text3D
         font={'/Lobster_Regular.json'}
         scale={[5.5, 5.5, 5.5]}
-        position={[-5, 1, -15]}
+        position={[-20, 1, -5]}
         castShadow
-        rotation-y={-(Math.PI / 64) * 16}
+        rotation-y={(Math.PI / 64) * 4}
         curveSegments={24}
         bevelSegments={1}
         bevelEnabled
@@ -64,8 +83,8 @@ function Scene() {
         bevelThickness={0.03}
         receiveShadow
       >
-        Hello
-        <meshBasicMaterial color='blue' />
+        Test
+        <meshStandardMaterial color={'#87530F'} clipShadows={true} />
       </Text3D>
       <Plane />
     </>

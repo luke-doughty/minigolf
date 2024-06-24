@@ -4,9 +4,9 @@ import { FC } from 'react'
 
 export const Plane: FC<RigidBodyProps> = () => {
   return (
-    <RigidBody type='fixed' rotation-x={Math.PI * -0.5} friction={0}>
+    <RigidBody name='floor' type='fixed' rotation-x={Math.PI * -0.5} friction={5}>
       <mesh receiveShadow>
-        <boxGeometry args={[2000, 80, 1]} />
+        <boxGeometry args={[80, 2000, 1]} />
         <meshStandardMaterial clipShadows={false} color={'green'} />
       </mesh>
     </RigidBody>

@@ -9,16 +9,16 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
   return (
     <RigidBody type='fixed'>
       <group>
-        <Box castShadow position={[25, 1, 3]} scale={[55, 1, 1]}>
+        <Box castShadow position={[0, 1, -3]} scale={[9, 1, 1]}>
           <meshStandardMaterial color={'black'} />
         </Box>
-        <Box castShadow position={[-2, 1, 0]} scale={[1, 1, 5]}>
+        <Box castShadow position={[-4, 1, 25]} scale={[1, 1, 55]}>
           <meshStandardMaterial color={'black'} />
         </Box>
-        <Box castShadow position={[25, 1, -3]} scale={[55, 1, 1]}>
+        <Box castShadow position={[0, 1, 55]} scale={[9, 1, 1]}>
           <meshStandardMaterial color={'black'} />
         </Box>
-        <Box castShadow position={[52, 1, 0]} scale={[1, 1, 5]}>
+        <Box castShadow position={[4, 1, 25]} scale={[1, 1, 55]}>
           <meshStandardMaterial color={'black'} />
         </Box>
       </group>
