@@ -1,4 +1,4 @@
-import { OrbitControls, RandomizedLight, Text, Text3D } from '@react-three/drei'
+import { OrbitControls, RandomizedLight, Sphere, Text, Text3D } from '@react-three/drei'
 import { Object3DNode, useFrame, useThree } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { useControls } from 'leva'
@@ -6,6 +6,7 @@ import { Perf } from 'r3f-perf'
 import { useRef, useState } from 'react'
 import {
   BoxGeometry,
+  Fog,
   Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
@@ -20,6 +21,9 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { CourseOneWalls } from './components/CourseOneWalls'
 import { PowerMeter } from './components/PowerMeter'
+import { SignPostMultiDirection } from './components/SignPostMultiDirection'
+import { SignPostPointLeft } from './components/SignPostPointLeft'
+import { SignPostPointRight } from './components/SignPostPointRight'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -29,12 +33,9 @@ declare module '@react-three/fiber' {
 }
 
 function Scene() {
-  const { performance } = useControls('Monitoring', {
-    performance: false,
-  })
-
   return (
     <>
+      <fog attach='fog' color={'#abe8ed'} near={20} far={120} />
       <directionalLight
         position={[10, 10, 10]}
         scale={[20, 20, 20]}
@@ -55,20 +56,27 @@ function Scene() {
         scale={[20, 20, 20]}
         intensity={1.2}
       />
-      {/* <OrbitControls
-        // maxPolarAngle={1}
-        // minPolarAngle={1}
-        // enableZoom={false}
-        // enablePan={false}
-        mouseButtons={{ LEFT: undefined, RIGHT: MOUSE.ROTATE }}
-        // enableDamping={true}
-        // dampingFactor={0.05}
-      /> */}
+
       {performance && <Perf position='top-left' />}
 
       <CourseOneWalls />
 
       <GolfBall />
+      <SignPostMultiDirection
+        scale={[5, 5, 5]}
+        position={[1, 2, 50]}
+        rotation={[0, Math.PI / 2, 0]}
+      />
+      <SignPostPointLeft
+        scale={[5, 5, 5]}
+        position={[1, 2, 50]}
+        rotation={[0, Math.PI / 2, 0]}
+      />
+      <SignPostPointRight
+        scale={[5, 5, 5]}
+        position={[1, 2, 50]}
+        rotation={[0, Math.PI / 2, 0]}
+      />
 
       <Text3D
         font={'/Lobster_Regular.json'}

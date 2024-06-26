@@ -7,7 +7,7 @@ export const Plane: FC<RigidBodyProps> = () => {
     <RigidBody name='floor' type='fixed' rotation-x={Math.PI * -0.5} friction={5}>
       <mesh receiveShadow>
         <boxGeometry args={[80, 2000, 1]} />
-        <meshStandardMaterial clipShadows={false} color={'green'} />
+        <meshStandardMaterial clipShadows={false} color={'#ebe38f'} />
       </mesh>
     </RigidBody>
   )
