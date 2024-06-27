@@ -52,6 +52,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
 
   useEffect(() => {
     const handlePointerUp = (event: MouseEvent) => {
+      console.log('released')
       if (isDragging) {
         setIsDragging(false)
         if (startPositionRef.current && endPositionRef.current) {

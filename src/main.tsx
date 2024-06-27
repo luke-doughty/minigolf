@@ -7,23 +7,11 @@ import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Scene } from './Scene'
 import './styles/main.css'
 import { Experience } from './sceneTwo'
+import { Loader } from '@react-three/drei'
 
 function Main() {
   return (
     <div className='main'>
-      <Leva
-        collapsed={false}
-        oneLineLabels={false}
-        flat={true}
-        theme={{
-          sizes: {
-            titleBarHeight: '28px',
-          },
-          fontSizes: {
-            root: '10px',
-          },
-        }}
-      />
       <Canvas
         dpr={[1, 2]}
         gl={{
@@ -32,10 +20,10 @@ function Main() {
           outputColorSpace: SRGBColorSpace,
         }}
         shadows={'soft'}
+        camera={{ fov: 75, near: 0.1, far: 1000, position: [70, 4, 95] }}
       >
-        <axesHelper position={[0, 5, 0]} />
-        <Suspense>
-          <Physics debug gravity={[0, -15.81, 0]}>
+        <Suspense fallback={<Loader />}>
+          <Physics gravity={[0, -15.81, 0]}>
             <Scene />
           </Physics>
         </Suspense>
