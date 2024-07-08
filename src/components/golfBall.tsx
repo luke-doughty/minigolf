@@ -1,12 +1,23 @@
-import { MeshLineGeometry, Sphere, Trail } from '@react-three/drei'
+import { Cylinder, MeshLineGeometry, Sphere, Torus, Trail } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
-import { Group, Object3DEventMap, Vector3 } from 'three'
+import {
+  BufferGeometry,
+  Camera,
+  Group,
+  Material,
+  Mesh,
+  NormalBufferAttributes,
+  Object3D,
+  Object3DEventMap,
+  Vector3,
+} from 'three'
 import { ToneMapping, EffectComposer } from '@react-three/postprocessing'
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
 import { useControls } from 'leva'
+import * as THREE from 'three'
 
 export const GolfBall: FC<RigidBodyProps> = () => {
   const startPositionRef = useRef<Vector3 | null>(null)
@@ -22,37 +33,46 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   const [isDragging, setIsDragging] = useState(false)
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
-  const trailRef = useRef<MeshLineGeometry>(null!)
+  const boundaryRef = useRef<
+    Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>
+  >(null!)
   const cameraOffset = new Vector3(0, 12, -18)
 
-  useFrame(({ pointer, raycaster, events, camera, scene }) => {
+  useFrame(({ pointer, raycaster, camera, scene }) => {
     const ballPosition = vec3(golfBallRigidRef.current.translation())
+    boundaryRef.current.position.copy(ballPosition)
+
     const newCameraPosition = ballPosition.clone().add(cameraOffset)
-    trailRef.current.position.copy(ballPosition)
-
-    camera.position.lerp(newCameraPosition, 0.015)
-
+    camera.position.lerp(newCameraPosition, isDragging ? 0.2 : 0.015)
     camera.lookAt(ballPosition)
 
     if (isDragging) {
+      camera.lookAt(ballPosition)
       raycaster.setFromCamera(pointer, camera)
-      const floorPointer = scene.getObjectByName('floor')
-      if (floorPointer) {
-        const intersect = raycaster.intersectObject(floorPointer)
-        endPositionRef.current = intersect[0].point
-        setDragPositions({
-          start: dragPositions.start,
-          end: intersect[0].point.setY(1.5),
-        })
+
+      const discBoundary = scene.getObjectByName('boundary')
+      if (discBoundary) {
+        const intersects = raycaster.intersectObject(boundaryRef.current)
+        if (intersects.length > 0) {
+          const intersectPoint = intersects[0].point
+          endPositionRef.current = intersectPoint
+          setDragPositions((prev) => ({
+            ...prev,
+            end: intersectPoint.clone().setY(1.5),
+          }))
+        }
       }
     } else {
-      setDragPositions({ start: ballPosition, end: ballPosition })
+      setDragPositions((prev) => ({
+        ...prev,
+        start: ballPosition.clone(),
+        end: ballPosition.clone(),
+      }))
     }
   })
 
   useEffect(() => {
     const handlePointerUp = (event: MouseEvent) => {
-      console.log('released')
       if (isDragging) {
         setIsDragging(false)
         if (startPositionRef.current && endPositionRef.current) {
@@ -61,10 +81,13 @@ export const GolfBall: FC<RigidBodyProps> = () => {
           impulseVector.multiplyScalar(Math.exp(2.5))
           golfBallRigidRef.current.applyImpulse(impulseVector, true)
         }
+        // console.log('Pointer up, dragging stopped')
       }
     }
 
-    const handlePointerMove = (event: MouseEvent) => {}
+    const handlePointerMove = (event: MouseEvent) => {
+      // // console.log('Pointer move:', event)
+    }
 
     window.addEventListener('pointerup', handlePointerUp)
     window.addEventListener('pointermove', handlePointerMove)
@@ -77,13 +100,17 @@ export const GolfBall: FC<RigidBodyProps> = () => {
 
   const startPosition = () => {
     const startPos = vec3(golfBallRigidRef.current.translation())
-    startPositionRef.current = startPos.setY(1.5)
-    setDragPositions({ start: startPos, end: dragPositions.end })
+    startPositionRef.current = startPos.clone().setY(1.5)
+    endPositionRef.current = startPos.clone().setY(1.5)
+    setDragPositions({
+      start: startPos.clone().setY(startPos.y + 1.5),
+      end: startPos.clone().setY(startPos.y + 1.5),
+    })
   }
 
   const handlePointerDown = () => {
-    startPosition()
     if (!golfBallRigidRef.current.isMoving()) {
+      startPosition()
       setIsDragging(true)
     }
   }
@@ -92,7 +119,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
     <>
       <RigidBody
         name='golf-ball'
-        position={[0, 1, 0]}
+        position={[0, 1, 5]}
         colliders='ball'
         restitution={1.2}
         ref={golfBallRigidRef}
@@ -101,23 +128,26 @@ export const GolfBall: FC<RigidBodyProps> = () => {
         linearDamping={0.6}
         angularDamping={0.6}
       >
-        <Trail
-          ref={trailRef}
-          width={5} // The width of the trail
-          length={5.5} // The length of the trail
-          color={'white'} // The color of the trail
-          attenuation={(t) => t * t} // Attenuation function for the trail
-        >
+        <Trail width={15} length={3.5} color={'white'} attenuation={(t) => t * t * t}>
           <GolfBallModel castShadow onPointerDown={handlePointerDown} />
         </Trail>
       </RigidBody>
+
+      <Cylinder
+        name={'boundary'}
+        ref={boundaryRef}
+        scale={[14, 0.00001, 14]}
+        visible={false}
+        position={[0, 2, 0]}
+        args={[, , , 64]}
+      />
 
       {isDragging && (
         <PowerMeter
           isVisible={isDragging}
           maximumLineLength={10}
           startPoint={dragPositions.start}
-          endPoint={dragPositions.end}
+          endPoint={endPositionRef.current}
         />
       )}
     </>

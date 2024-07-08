@@ -20,7 +20,6 @@ export const PowerMeter: FC<PowerMeterProps> = ({
   const [endPointCalculated, setEndPointCalculated] = useState<Vector3>(null!)
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
-    // MOVE THIS UP TO THE BALL AS IMPULSE IS MEASURED OFF THIS
     if (startPoint && endPoint) {
       const distance = startPoint.distanceTo(endPoint)
       if (distance > maximumLineLength) {
@@ -83,7 +82,7 @@ export const PowerMeter: FC<PowerMeterProps> = ({
         name='power-meter'
         points={[startPoint.setY(1.5), endPointCalculated ?? endPoint.setY(1.5)]}
         color={getColorValueForGivenLength()}
-        lineWidth={25}
+        lineWidth={14}
       />
     </>
   )

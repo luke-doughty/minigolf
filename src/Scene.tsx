@@ -7,11 +7,11 @@ import {
   Text,
   Text3D,
 } from '@react-three/drei'
-import { Object3DNode, useFrame, useThree } from '@react-three/fiber'
+import { Object3DNode, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
-import { useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import {
   BoxGeometry,
   Fog,
@@ -23,6 +23,7 @@ import {
   Object3D,
   Object3DEventMap,
   Raycaster,
+  TextureLoader,
 } from 'three'
 import { GolfBall } from './components/golfBall'
 import { Plane } from './components/Plane'
@@ -37,6 +38,7 @@ import { SignPostPointRight } from './components/SignPostPointRight'
 import { FloatingIsland } from './components/Island'
 import { LargeClouds } from './components/LargeClouds'
 import { SmallClouds } from './components/SmallClouds'
+import * as THREE from 'three'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -45,12 +47,16 @@ declare module '@react-three/fiber' {
   }
 }
 
-function Scene() {
+interface SceneProps {
+  startGame: boolean
+}
+
+export const Scene: FC<SceneProps> = ({ startGame }) => {
   const largeCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const smallCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const skyCloudsRef = useRef<Group<Object3DEventMap>>(null!)
 
-  useFrame(({ raycaster, clock }) => {
+  useFrame(({ clock }) => {
     if (largeCloudsRef.current) {
       largeCloudsRef.current.position.set(
         Math.sin(clock.getElapsedTime()),
@@ -73,8 +79,14 @@ function Scene() {
       )
     }
   })
+  const colorMap = useLoader(TextureLoader, 'sky2.jpg')
+
   return (
     <>
+      <mesh position={[0, -60, 0]}>
+        <sphereGeometry args={[300, 32, 32]} />
+        <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
+      </mesh>
       <directionalLight
         position={[70, 100, 400]}
         intensity={2.5}
@@ -105,7 +117,10 @@ function Scene() {
         scale={[20, 20, 20]}
         intensity={2.2}
       />
-      <OrbitControls />
+      <OrbitControls
+        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
+        enablePan={false}
+      />
       <RigidBody colliders={'trimesh'} type='fixed' name='floor'>
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
@@ -124,11 +139,10 @@ function Scene() {
       <group ref={skyCloudsRef}>
         <SmallClouds scale={[28, 20, 20]} position={[20, 18, 70]} />
       </group>
-      {performance && <Perf position='top-left' />}
 
       <CourseOneWalls />
 
-      <GolfBall />
+      {startGame && <GolfBall />}
 
       <SignPostPointRight
         scale={[6, 8, 6]}
@@ -138,5 +152,3 @@ function Scene() {
     </>
   )
 }
-
-export { Scene }
