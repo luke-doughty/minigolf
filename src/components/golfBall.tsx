@@ -1,4 +1,4 @@
-import { Cylinder, Trail } from '@react-three/drei'
+import { Cylinder, OrbitControls, Trail } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
@@ -6,6 +6,7 @@ import {
   BufferGeometry,
   Material,
   Mesh,
+  MOUSE,
   NormalBufferAttributes,
   Object3DEventMap,
   Vector3,
@@ -13,7 +14,9 @@ import {
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
 
-export const GolfBall: FC<RigidBodyProps> = () => {
+interface GolfBallProps extends RigidBodyProps {}
+
+export const GolfBall: FC<GolfBallProps> = () => {
   const startPositionRef = useRef<Vector3 | null>(null)
   const endPositionRef = useRef<Vector3 | null>(null)
   const [dragPositions, setDragPositions] = useState<{
@@ -23,6 +26,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
     start: null,
     end: null,
   })
+  const [isRotating, setIsRotating] = useState<boolean>(false)
 
   const [isDragging, setIsDragging] = useState(false)
 
@@ -30,14 +34,21 @@ export const GolfBall: FC<RigidBodyProps> = () => {
   const boundaryRef = useRef<
     Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>
   >(null!)
-  const cameraOffset = new Vector3(0, 12, -18)
+
+  const [cameraOffset, setCameraOffset] = useState<Vector3>(new Vector3(0, 12, -18))
+  // const cameraOffset = new Vector3(0, 12, -18)
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
     const ballPosition = vec3(golfBallRigidRef.current.translation())
     boundaryRef.current.position.copy(ballPosition)
 
-    const newCameraPosition = ballPosition.clone().add(cameraOffset)
-    camera.position.lerp(newCameraPosition, isDragging ? 0.2 : 0.015)
+    if (!isRotating) {
+      const newCameraPosition = ballPosition.clone().add(cameraOffset)
+      camera.position.lerp(newCameraPosition, isDragging ? 0.2 : 0.015)
+    } else {
+      const newCameraOffset = camera.position.clone().sub(ballPosition)
+      setCameraOffset(newCameraOffset)
+    }
     camera.lookAt(ballPosition)
 
     if (isDragging) {
@@ -109,8 +120,23 @@ export const GolfBall: FC<RigidBodyProps> = () => {
     }
   }
 
+  const handleResetBall = () => {
+    if (golfBallRigidRef.current) {
+      golfBallRigidRef.current.resetForces(true)
+      golfBallRigidRef.current.resetTorques(true)
+      golfBallRigidRef.current.setTranslation({ x: 0, y: 1, z: 5 }, true)
+    }
+  }
+
   return (
     <>
+      <OrbitControls
+        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
+        enablePan={false}
+        enableZoom={false}
+        onStart={(e) => setIsRotating(true)}
+        onEnd={(e) => setIsRotating(false)}
+      />
       <RigidBody
         name='golf-ball'
         position={[0, 1, 5]}
@@ -121,8 +147,17 @@ export const GolfBall: FC<RigidBodyProps> = () => {
         friction={2}
         linearDamping={0.6}
         angularDamping={0.6}
+        // onIntersectionEnter={()}
+        onCollisionEnter={({ manifold, other }) => {
+          if (
+            other.rigidBodyObject?.name === 'level-bottom' &&
+            parseInt(manifold.solverContactPoint(0).y.toFixed(0), 10) === -70
+          ) {
+            handleResetBall()
+          }
+        }}
       >
-        <Trail width={15} length={3.5} color={'white'} attenuation={(t) => t * t * t}>
+        <Trail width={5} length={3.5} color={'white'} attenuation={(t) => t * t * t}>
           <GolfBallModel castShadow onPointerDown={handlePointerDown} />
         </Trail>
       </RigidBody>

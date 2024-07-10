@@ -1,8 +1,10 @@
 import {
+  Box,
   Environment,
   Lightformer,
   OrbitControls,
   RandomizedLight,
+  Plane,
   Sphere,
   Text,
   Text3D,
@@ -16,6 +18,7 @@ import {
   BoxGeometry,
   Fog,
   Group,
+  LineBasicMaterial,
   Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
@@ -26,7 +29,6 @@ import {
   TextureLoader,
 } from 'three'
 import { GolfBall } from './components/golfBall'
-import { Plane } from './components/Plane'
 import { extend } from '@react-three/fiber'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
@@ -117,13 +119,7 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
         scale={[20, 20, 20]}
         intensity={2.2}
       />
-      <OrbitControls
-        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
-        enablePan={false}
-        enableZoom={false}
-      />
 
-      {/* uncomment when testing done */}
       <RigidBody colliders={'trimesh'} type='fixed' name='floor'>
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
@@ -143,12 +139,16 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
         <SmallClouds scale={[28, 20, 20]} position={[20, 18, 70]} />
       </group>
 
-      {/* <RigidBody type='fixed'>
-        <mesh scale={[50, 500, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
-          <planeGeometry />
-          <meshStandardMaterial color={'black'} />
-        </mesh>
-      </RigidBody> */}
+      <RigidBody colliders={'cuboid'} type='fixed' name='level-bottom'>
+        <Plane
+          scale={[500, 500, 20]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[0, -70, 0]}
+        >
+          <meshStandardMaterial transparent={true} opacity={0} />
+        </Plane>
+      </RigidBody>
+
       <CourseOneWalls />
 
       {startGame && <GolfBall />}
