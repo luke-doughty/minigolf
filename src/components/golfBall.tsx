@@ -1,23 +1,17 @@
-import { Cylinder, MeshLineGeometry, Sphere, Torus, Trail } from '@react-three/drei'
+import { Cylinder, Trail } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
   BufferGeometry,
-  Camera,
-  Group,
   Material,
   Mesh,
   NormalBufferAttributes,
-  Object3D,
   Object3DEventMap,
   Vector3,
 } from 'three'
-import { ToneMapping, EffectComposer } from '@react-three/postprocessing'
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
-import { useControls } from 'leva'
-import * as THREE from 'three'
 
 export const GolfBall: FC<RigidBodyProps> = () => {
   const startPositionRef = useRef<Vector3 | null>(null)
@@ -58,7 +52,7 @@ export const GolfBall: FC<RigidBodyProps> = () => {
           endPositionRef.current = intersectPoint
           setDragPositions((prev) => ({
             ...prev,
-            end: intersectPoint.clone().setY(1.5),
+            end: intersectPoint.clone().setY(intersectPoint.y),
           }))
         }
       }
@@ -100,11 +94,11 @@ export const GolfBall: FC<RigidBodyProps> = () => {
 
   const startPosition = () => {
     const startPos = vec3(golfBallRigidRef.current.translation())
-    startPositionRef.current = startPos.clone().setY(1.5)
-    endPositionRef.current = startPos.clone().setY(1.5)
+    startPositionRef.current = startPos.clone().setY(startPos.y)
+    endPositionRef.current = startPos.clone().setY(startPos.y)
     setDragPositions({
-      start: startPos.clone().setY(startPos.y + 1.5),
-      end: startPos.clone().setY(startPos.y + 1.5),
+      start: startPos.clone().setY(startPos.y),
+      end: startPos.clone().setY(startPos.y),
     })
   }
 
@@ -142,12 +136,12 @@ export const GolfBall: FC<RigidBodyProps> = () => {
         args={[, , , 64]}
       />
 
-      {isDragging && (
+      {isDragging && dragPositions.start && dragPositions.end && (
         <PowerMeter
           isVisible={isDragging}
           maximumLineLength={10}
           startPoint={dragPositions.start}
-          endPoint={endPositionRef.current}
+          endPoint={dragPositions.end}
         />
       )}
     </>

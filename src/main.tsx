@@ -1,14 +1,11 @@
 import { Canvas } from '@react-three/fiber'
-import { Leva } from 'leva'
-import React, { Suspense, useState } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Physics } from '@react-three/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Scene } from './Scene'
 import './styles/main.css'
-import { Experience } from './sceneTwo'
-import { Loader } from '@react-three/drei'
-import { ChakraProvider, Stat } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import { StartMenu } from './StartMenu'
 
 function Main() {

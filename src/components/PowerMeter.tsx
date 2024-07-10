@@ -24,13 +24,10 @@ export const PowerMeter: FC<PowerMeterProps> = ({
       const distance = startPoint.distanceTo(endPoint)
       if (distance > maximumLineLength) {
         setEndPointCalculated(
-          new Vector3()
-            .subVectors(endPoint, startPoint)
-            .setY(1.5)
-            .clampLength(0, maximumLineLength)
+          new Vector3().subVectors(endPoint, startPoint).clampLength(0, maximumLineLength)
         )
       } else {
-        setEndPointCalculated(endPoint.setY(1.5))
+        setEndPointCalculated(endPoint)
       }
     }
 
@@ -80,7 +77,7 @@ export const PowerMeter: FC<PowerMeterProps> = ({
     <>
       <Line
         name='power-meter'
-        points={[startPoint.setY(1.5), endPointCalculated ?? endPoint.setY(1.5)]}
+        points={[startPoint, endPointCalculated ?? endPoint]}
         color={getColorValueForGivenLength()}
         lineWidth={14}
       />

@@ -120,7 +120,10 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
       <OrbitControls
         mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
         enablePan={false}
+        enableZoom={false}
       />
+
+      {/* uncomment when testing done */}
       <RigidBody colliders={'trimesh'} type='fixed' name='floor'>
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
@@ -140,6 +143,12 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
         <SmallClouds scale={[28, 20, 20]} position={[20, 18, 70]} />
       </group>
 
+      {/* <RigidBody type='fixed'>
+        <mesh scale={[50, 500, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+          <planeGeometry />
+          <meshStandardMaterial color={'black'} />
+        </mesh>
+      </RigidBody> */}
       <CourseOneWalls />
 
       {startGame && <GolfBall />}

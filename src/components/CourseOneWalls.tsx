@@ -9,13 +9,13 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
   return (
     <RigidBody type='fixed'>
       <group>
-        <Box castShadow position={[0, 1, -3]} scale={[9, 1, 1]}>
+        <Box castShadow position={[0, 1, -3]} scale={[9, 4, 1]}>
           <meshStandardMaterial color={'black'} />
         </Box>
-        <Box castShadow position={[-4, 1, 7]} scale={[1, 1, 21]}>
+        <Box castShadow position={[-4, 1, 7]} scale={[1, 4, 21]}>
           <meshStandardMaterial color={'black'} />
         </Box>
-        <Box castShadow position={[4, 1, 6.5]} scale={[1, 1, 18.5]}>
+        <Box castShadow position={[4, 1, 6.5]} scale={[1, 4, 18.5]}>
           <meshStandardMaterial color={'black'} />
         </Box>
       </group>
@@ -23,7 +23,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
         <Box
           castShadow
           position={[3, -15.5, 68]}
-          scale={[20, 1, 1]}
+          scale={[20, 4, 1]}
           rotation={[0, 0.15, 0.04]}
         >
           <meshStandardMaterial color={'black'} />
@@ -31,7 +31,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
         <Box
           castShadow
           position={[12, -14.2, 58]}
-          scale={[1, 1, 18.2]}
+          scale={[1, 4, 18.2]}
           rotation={[0.1, 0.1, 0]}
         >
           <meshStandardMaterial color={'black'} />
@@ -39,7 +39,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
         <Box
           castShadow
           position={[-8, -15, 61]}
-          scale={[1, 1, 18.2]}
+          scale={[1, 4, 18.2]}
           rotation={[0.1, 0.1, 0]}
         >
           <meshStandardMaterial color={'black'} />
