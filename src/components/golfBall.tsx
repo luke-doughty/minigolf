@@ -130,13 +130,22 @@ export const GolfBall: FC<GolfBallProps> = () => {
 
   return (
     <>
-      <OrbitControls
-        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
-        enablePan={false}
-        enableZoom={false}
-        onStart={(e) => setIsRotating(true)}
-        onEnd={(e) => setIsRotating(false)}
-      />
+      {golfBallRigidRef.current &&
+        golfBallRigidRef.current.translation() &&
+        dragPositions.start && (
+          <OrbitControls
+            mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE }}
+            target={dragPositions.start}
+            enablePan={false}
+            enableRotate={!isDragging}
+            maxPolarAngle={(Math.PI / 64) * 28}
+            maxDistance={20}
+            dampingFactor={0.6}
+            enableZoom={false}
+            onStart={(e) => setIsRotating(true)}
+            onEnd={(e) => setIsRotating(false)}
+          />
+        )}
       <RigidBody
         name='golf-ball'
         position={[0, 1, 5]}
