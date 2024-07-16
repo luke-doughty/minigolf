@@ -28,8 +28,9 @@ interface TextByTicker {
 export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
   const [textTicker, setTextTicker] = useState<number>(0)
 
-  const textByTicker: TextByTicker = {
-    0: (
+  const textByTicker = new Map<number, JSX.Element>([
+    [
+      0,
       <>
         <Text size={'4xl'} margin={2}>
           Hello there! I'm Luke, an enthusiastic web developer and mediocre minigolf
@@ -39,9 +40,10 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
           Thanks for stopping by my interactive portfolio. Let's dive in, Here's how to
           play
         </Text>
-      </>
-    ),
-    1: (
+      </>,
+    ],
+    [
+      1,
       <UnorderedList margin={2}>
         <ListItem margin={2}>
           Aim: Click on the ball and drag in the opposite direction of where you want the
@@ -54,14 +56,15 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
           Release: Let go to take your shot and watch the ball roll towards the hole.
         </ListItem>
         <ListItem margin={2}>
-          Press and hold right click, then move the mouse to spin the camera
+          Press and hold right click, then move the mouse to spin the camera.
         </ListItem>
         <Text size={'2xl'} margin={2} as='i'>
-          Dont worry! You can find these controls again in the bottom right!
+          Don't worry! You can find these controls again in the bottom right!
         </Text>
-      </UnorderedList>
-    ),
-    2: (
+      </UnorderedList>,
+    ],
+    [
+      2,
       <>
         <Text size={'4xl'} margin={2}>
           Enjoy the game and feel free to reach out if you have any questions or would
@@ -70,9 +73,9 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
         <Text size={'4xl'} margin={2}>
           Happy golfing!
         </Text>
-      </>
-    ),
-  }
+      </>,
+    ],
+  ])
 
   return (
     <ScaleFade initialScale={0.02} in={isOpen}>
@@ -94,7 +97,7 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
             </ScaleFade>
           </ModalHeader>
           <ScaleFade delay={0.25} initialScale={0.00002} in={isOpen}>
-            <ModalBody>{textByTicker[textTicker]}</ModalBody>
+            <ModalBody>{textByTicker.get(0)}</ModalBody>
           </ScaleFade>
           <ModalFooter>
             <Button colorScheme='red' mr={3} onClick={onClose}>
