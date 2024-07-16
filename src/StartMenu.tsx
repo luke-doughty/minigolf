@@ -85,19 +85,17 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
         closeOnOverlayClick={false}
         isCentered
         motionPreset='slideInBottom'
+        size={'md'}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
             <ScaleFade delay={0.1} initialScale={0.00002} in={isOpen}>
-              <Heading lineHeight={'tall'} justifyContent={'flex'} display={'flex'}>
-                {' '}
-                Fore!
-              </Heading>
+              <Heading lineHeight={'tall'}> Fore!</Heading>
             </ScaleFade>
           </ModalHeader>
           <ScaleFade delay={0.25} initialScale={0.00002} in={isOpen}>
-            <ModalBody>{textByTicker.get(0)}</ModalBody>
+            <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
           </ScaleFade>
           <ModalFooter>
             <Button colorScheme='red' mr={3} onClick={onClose}>
