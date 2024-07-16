@@ -41,6 +41,7 @@ import { FloatingIsland } from './components/Island'
 import { LargeClouds } from './components/LargeClouds'
 import { SmallClouds } from './components/SmallClouds'
 import * as THREE from 'three'
+import { FlagPost } from './components/FlagPost'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -94,24 +95,24 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
         intensity={2.5}
         castShadow
         shadow-mapSize={[1024 * 2, 1024 * 2]}
-        shadow-camera-near={0.5} // Set the near plane of the shadow camera
-        shadow-camera-far={50} // Set the far plane of the shadow camera
-        shadow-camera-left={-50} // Extend the left boundary of the shadow camera frustum
-        shadow-camera-right={50} // Extend the right boundary of the shadow camera frustum
-        shadow-camera-top={50} // Extend the top boundary of the shadow camera frustum
-        shadow-camera-bottom={-50} // Extend the bottom boundary of the shadow camera frustum
+        shadow-camera-near={0.5}
+        shadow-camera-far={50}
+        shadow-camera-left={-50}
+        shadow-camera-right={50}
+        shadow-camera-top={50}
+        shadow-camera-bottom={-50}
       />
       <directionalLight
         position={[5, 15, -5]}
         intensity={2.5}
         castShadow
         shadow-mapSize={[1024 * 2, 1024 * 2]}
-        shadow-camera-near={0.5} // Set the near plane of the shadow camera
-        shadow-camera-far={50} // Set the far plane of the shadow camera
-        shadow-camera-left={-50} // Extend the left boundary of the shadow camera frustum
-        shadow-camera-right={50} // Extend the right boundary of the shadow camera frustum
-        shadow-camera-top={50} // Extend the top boundary of the shadow camera frustum
-        shadow-camera-bottom={-50} // Extend the bottom boundary of the shadow camera frustum
+        shadow-camera-near={0.5}
+        shadow-camera-far={50}
+        shadow-camera-left={-50}
+        shadow-camera-right={50}
+        shadow-camera-top={50}
+        shadow-camera-bottom={-50}
       />
       <ambientLight
         shadow={'blue'}
@@ -123,6 +124,8 @@ export const Scene: FC<SceneProps> = ({ startGame }) => {
       <RigidBody colliders={'trimesh'} type='fixed' name='floor'>
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
+
+      <FlagPost />
 
       <group ref={largeCloudsRef}>
         <LargeClouds
