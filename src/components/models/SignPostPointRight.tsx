@@ -52,10 +52,10 @@ export function SignPostPointRight(props: JSX.IntrinsicElements['group']) {
       />
       <Text3D
         font={'/Lobster_Regular.json'}
-        scale={[0.065, 0.065, 0.065]}
-        position={[0.18, 0.83, 0.255]}
+        scale={[0.065, 0.065, 0.095]}
+        position={[0.14, 0.83, 0.255]}
         castShadow
-        rotation={[0, (Math.PI / 64) * 34, (Math.PI / 64) * 4.5]}
+        rotation={[0, (Math.PI / 64) * 33.5, (Math.PI / 64) * 4.5]}
         curveSegments={24}
         bevelSegments={1}
         bevelEnabled

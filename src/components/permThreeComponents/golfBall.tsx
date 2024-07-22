@@ -14,9 +14,26 @@ import {
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
 
-interface GolfBallProps extends RigidBodyProps {}
+/**
+ * Props for the GolfBall component.
+ *
+ * @typedef {Object} GolfBallProps
+ * @extends RigidBodyProps
+ * @property {(() => void)} onHit - Function passed into component for what should happen when the ball is hit.
+ */
+interface GolfBallProps extends RigidBodyProps {
+  onHit: () => void
+}
 
-export const GolfBall: FC<GolfBallProps> = () => {
+/**
+ * GolfBall component.
+ *
+ * This returns a GolfBall Model that is interactable with mouse controls.
+ *
+ * @param {GolfBallProps} Props - The properties for the GolfBall component.
+ * @returns {JSX.Element} The rendered GolfBall component.
+ */
+export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
   const startPositionRef = useRef<Vector3 | null>(null)
   const endPositionRef = useRef<Vector3 | null>(null)
   const [dragPositions, setDragPositions] = useState<{
@@ -36,7 +53,6 @@ export const GolfBall: FC<GolfBallProps> = () => {
   >(null!)
 
   const [cameraOffset, setCameraOffset] = useState<Vector3>(new Vector3(0, 12, -18))
-  // const cameraOffset = new Vector3(0, 12, -18)
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
     const ballPosition = vec3(golfBallRigidRef.current.translation())
@@ -85,21 +101,15 @@ export const GolfBall: FC<GolfBallProps> = () => {
           impulseVector.subVectors(startPositionRef.current, endPositionRef.current)
           impulseVector.multiplyScalar(Math.exp(2.5))
           golfBallRigidRef.current.applyImpulse(impulseVector, true)
+          onHit()
         }
-        // console.log('Pointer up, dragging stopped')
       }
     }
 
-    const handlePointerMove = (event: MouseEvent) => {
-      // // console.log('Pointer move:', event)
-    }
-
     window.addEventListener('pointerup', handlePointerUp)
-    window.addEventListener('pointermove', handlePointerMove)
 
     return () => {
       window.removeEventListener('pointerup', handlePointerUp)
-      window.removeEventListener('pointermove', handlePointerMove)
     }
   }, [isDragging])
 
@@ -126,6 +136,7 @@ export const GolfBall: FC<GolfBallProps> = () => {
       golfBallRigidRef.current.resetTorques(true)
       golfBallRigidRef.current.setTranslation({ x: 0, y: 1, z: 5 }, true)
     }
+    onHit()
   }
 
   return (
@@ -153,10 +164,9 @@ export const GolfBall: FC<GolfBallProps> = () => {
         restitution={1.2}
         ref={golfBallRigidRef}
         mass={20}
-        friction={2}
+        friction={10}
         linearDamping={0.6}
         angularDamping={0.6}
-        // onIntersectionEnter={()}
         onCollisionEnter={({ manifold, other }) => {
           if (
             other.rigidBodyObject?.name === 'level-bottom' &&

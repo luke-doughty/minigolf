@@ -6,17 +6,30 @@ import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Scene } from './Scene'
 import './styles/main.css'
 import { ChakraProvider } from '@chakra-ui/react'
-import { StartMenu } from './StartMenu'
+import { StartMenu } from './components/permComponents/StartMenu'
 import { Loader, useProgress } from '@react-three/drei'
+import { SpeedDial } from './components/permComponents/SpeedDial/SpeedDialInfo'
+import { ScoreCard } from './components/permComponents/scoreCard/ScoreCard'
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
+  const [showControlsButton, setShowControlsButton] = useState<boolean>(false)
+  const [scoreTotal, setScoreTotal] = useState<number>(0)
+  const [holeTotal, setHoleTotal] = useState<number>(0)
+  const [holePar, setHolePar] = useState<number>(0)
+
   const { loaded } = useProgress()
 
   return (
-    <div className='main'>
+    <div className='main' style={{ position: 'relative' }}>
       {loaded && (
-        <StartMenu isOpen={isStartMenuOpen} onClose={() => setIsStartMenuOpen(false)} />
+        <StartMenu
+          isOpen={isStartMenuOpen}
+          onClose={() => {
+            setIsStartMenuOpen(false)
+            setShowControlsButton(true)
+          }}
+        />
       )}
 
       <Canvas
@@ -31,10 +44,28 @@ function Main() {
       >
         <Suspense fallback={null}>
           <Physics gravity={[0, -15.81, 0]}>
-            <Scene startGame={!isStartMenuOpen} />
+            <Scene
+              startGame={!isStartMenuOpen}
+              onHit={() => {
+                setScoreTotal((total) => total + 1)
+                setHoleTotal((total) => total + 1)
+              }}
+            />
           </Physics>
         </Suspense>
       </Canvas>
+      <SpeedDial
+        showControlsButton={showControlsButton}
+        onClickControls={() => setIsStartMenuOpen(true)}
+        showGithubLinkButton={false}
+        showLinkedInButton={false}
+        showCVButton={false}
+        onClickGitHub={() => console.log('waiting for implementation')}
+        onClickLinkedIn={() => console.log('waiting for implementation')}
+        onClickCV={() => console.log('waiting for implementation')}
+      />
+      <ScoreCard shotTotal={scoreTotal} holeTotal={holeTotal} holePar={holePar} />
+
       <Loader />
     </div>
   )
@@ -43,7 +74,6 @@ function Main() {
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
-      {/* <StartMenu /> */}
       <Main />
     </ChakraProvider>
   </React.StrictMode>

@@ -3,13 +3,31 @@ import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps } from '@react-three/rapier'
 import { FC, useRef, useState } from 'react'
 import { Euler, Mesh, SphereGeometry, Vector2, Vector3 } from 'three'
-
+/**
+ * PowerMeter Props
+ *
+ * @typedef {Object} PowerMeterProps
+ * @extends RigidBodyProps
+ * @property {Vector3} isVisible - Whether to render the Power Meter Line.
+ * @property {Vector3} startPoint - Start Point of the line (Should be ball position).
+ * @property {Vector3} endPoint - End Point of the line (Should be mouse position).
+ * @property {Vector3} maximumLineLength - The maximum length of the power meter.
+ */
 interface PowerMeterProps {
   isVisible: boolean
   startPoint: Vector3
   endPoint: Vector3
   maximumLineLength: number
 }
+
+/**
+ * PowerMeter component.
+ *
+ * This returns a PowerMeter Model that is rendered from the ball too a mouse position.
+ *
+ * @param {PowerMeterProps} Props - The properties for the PowerMeter component.
+ * @returns {JSX.Element} The rendered PowerMeter component.
+ */
 
 export const PowerMeter: FC<PowerMeterProps> = ({
   isVisible,

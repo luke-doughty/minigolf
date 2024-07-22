@@ -12,6 +12,7 @@ import {
   UnorderedList,
   Text,
 } from '@chakra-ui/react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
 
 interface StartMenuProps {
@@ -24,6 +25,9 @@ interface TextByTicker {
   1: JSX.Element
   2: JSX.Element
 }
+
+// @ts-ignore
+const MotionModalContent = motion(ModalContent)
 
 export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
   const [textTicker, setTextTicker] = useState<number>(0)
@@ -78,7 +82,7 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
   ])
 
   return (
-    <ScaleFade initialScale={0.02} in={isOpen}>
+    <AnimatePresence>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -88,15 +92,18 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
         size={'md'}
       >
         <ModalOverlay />
-        <ModalContent>
+        <MotionModalContent
+          initial={{ scale: 1, x: '48vw', y: '48vh' }}
+          exit={{ scale: 0.1, x: '48vw', y: '48vh', opacity: 0 }}
+          animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
           <ModalHeader>
-            <ScaleFade delay={0.1} initialScale={0.00002} in={isOpen}>
-              <Heading lineHeight={'tall'}> Fore!</Heading>
-            </ScaleFade>
+            <Heading lineHeight={'tall'}> Fore!</Heading>
           </ModalHeader>
-          <ScaleFade delay={0.25} initialScale={0.00002} in={isOpen}>
-            <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
-          </ScaleFade>
+
+          <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
+
           <ModalFooter>
             <Button colorScheme='red' mr={3} onClick={onClose}>
               Skip!
@@ -115,8 +122,8 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
               Next!
             </Button>
           </ModalFooter>
-        </ModalContent>
+        </MotionModalContent>
       </Modal>
-    </ScaleFade>
+    </AnimatePresence>
   )
 }
