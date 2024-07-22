@@ -169,7 +169,7 @@ const layoutCourseOneMap = () => {
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
       <FlagPost
-        initialPos={new Vector3(7, -15, 50)}
+        initialPos={new Vector3(10.1, -14, 46.4)}
         rotation={[0, (Math.PI / 64) * 24, 0]}
       />
 
@@ -186,7 +186,6 @@ const layoutCourseOneMap = () => {
         rotation={[0, (Math.PI / 64) * 72, 0]}
       />
 
-      
       {/* left grass */}
       {grassArrayLeft.map((_, index) => (
         <Grass

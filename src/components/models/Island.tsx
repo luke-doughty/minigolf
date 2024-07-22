@@ -9,12 +9,12 @@ import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
-    Cube_1: THREE.Mesh
-    Cube_2: THREE.Mesh
+    Cube001: THREE.Mesh
+    Cube001_1: THREE.Mesh
   }
   materials: {
     ['Material.001']: THREE.MeshStandardMaterial
-    Material: THREE.MeshStandardMaterial
+    ['Material.002']: THREE.MeshStandardMaterial
   }
 }
 
@@ -26,14 +26,14 @@ export function FloatingIsland(props: JSX.IntrinsicElements['group']) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Cube_1.geometry}
+          geometry={nodes.Cube001.geometry}
           material={materials['Material.001']}
         />
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Cube_2.geometry}
-          material={materials.Material}
+          geometry={nodes.Cube001_1.geometry}
+          material={materials['Material.002']}
         />
       </group>
     </group>
