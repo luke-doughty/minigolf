@@ -55,7 +55,7 @@ function Main() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [45, 4, 140] }}
       >
         <Suspense fallback={null}>
-          <Physics gravity={[0, -18.81, 0]} debug>
+          <Physics gravity={[0, -18.81, 0]}>
             <Scene
               startGame={!isStartMenuOpen}
               onHit={() => {
@@ -64,7 +64,6 @@ function Main() {
               }}
               holeTracker={currenthole}
               progressNextHole={() => {
-                console.log('here')
                 const nextHole = currenthole + 1
                 if (nextHole < 4) {
                   setCurrentHole((curr) => curr + 1)

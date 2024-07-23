@@ -54,7 +54,7 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [initialHit, setInitialHit] = useState<boolean>(true)
 
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
-    [1, [10, -10, 45]],
+    [1, [0, 1, 0]],
     [2, [-8, 1, 2]],
     [3, [5, 5, 5]],
   ])

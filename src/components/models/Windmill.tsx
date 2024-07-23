@@ -39,14 +39,12 @@ export function Windmill(props: JSX.IntrinsicElements['group']) {
 
   const { nodes, materials, animations } = useGLTF('/windmill.glb') as GLTFResult
   const { actions, names } = useAnimations(animations, group)
-  console.log(names)
 
   const rigidBodyRef = useRef<RapierRigidBody>(null!)
   const rigidBodyRotatingRef = useRef<RapierRigidBody>(null!)
 
   useEffect(() => {
     actions[names[0]]?.reset().play()
-    console.log(actions[names[0]]?.getRoot())
   }, [])
 
   // something weird here
