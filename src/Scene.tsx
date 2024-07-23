@@ -198,16 +198,16 @@ const layoutNonTouchableEnvironement = (
           position={[-2, -30, 20]}
           rotation={[0, 0, Math.PI / 256]}
         />
-        <FloatingIslandRound scale={[30, 30, 30]} position={[-70, -26, 2]} />
+        <FloatingIslandRound scale={[30, 30, 30]} position={[-60, -26.5, -50]} />
         <BoosterRamp
-          position={[-28, 0.5, 2]}
+          position={[-25, 0.5, -18]}
           scale={[6, 15, 13]}
-          rotation={[0, Math.PI / 2, 0]}
+          rotation={[0, (Math.PI / 64) * 17.8, 0]}
         />
         <Windmill
-          position={[-50, 4, 2]}
+          position={[-63, 2, -48]}
           scale={[5, 5, 5]}
-          rotation={[0, -Math.PI / 2, 0]}
+          rotation={[0, (Math.PI / 64) * -46, 0]}
         />
       </RigidBody>
 
@@ -297,7 +297,7 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-62, 3, 1.5)}
+        initialPos={new Vector3(-63, 2, -48)}
         rotation={[0, (Math.PI / 64) * 54, 0]}
         onPotBall={onPotBall}
         holeNumber={2}

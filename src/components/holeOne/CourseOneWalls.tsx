@@ -14,17 +14,17 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
       // restitution={0.2}
     >
       <group>
-        <RoundedBox radius={0.02} castShadow position={[0, 1, -3]} scale={[8, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[0, 1, -1]} scale={[8, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[-3.5, 1, 7]} scale={[1, 2, 21]}>
+        <RoundedBox radius={0.02} castShadow position={[-3.5, 1, 8]} scale={[1, 2, 18]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
         <RoundedBox
           radius={0.02}
           castShadow
-          position={[3.5, 1, 6.5]}
-          scale={[1, 2, 18.5]}
+          position={[3.5, 1, 7.5]}
+          scale={[1, 2, 16.5]}
         >
           <meshStandardMaterial color={'black'} />
         </RoundedBox>

@@ -31,21 +31,25 @@ export const CourseTwoWalls: FC<CourseWallsProps> = () => {
   }, [])
 
   return (
-    <RigidBody type='fixed' name={'course-two-walls'}>
+    <RigidBody
+      type='fixed'
+      name={'course-two-walls'}
+      rotation={[0, (Math.PI / 64) * -14, 0]}
+    >
       <group>
-        <RoundedBox radius={0.02} castShadow position={[-15, 1, 5.5]} scale={[19, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[-18, 1, 5.5]} scale={[19, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[-5.5, 1, 2]} scale={[1, 2, 8]}>
+        <RoundedBox radius={0.02} castShadow position={[-8.5, 1, 2]} scale={[1, 2, 8]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[-15, 1, -1.5]} scale={[19, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[-18, 1, -1.5]} scale={[19, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
       </group>
       <mesh
         geometry={holeSideGeometry}
-        position={[-65, 5, 1.5]}
+        position={[-68, 5, 1.5]}
         rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
       >
         <meshStandardMaterial color={'black'} />
