@@ -297,8 +297,8 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(5, 1, 10.4)}
-        rotation={[0, (Math.PI / 64) * 24, 0]}
+        initialPos={new Vector3(-62, 3, 1.5)}
+        rotation={[0, (Math.PI / 64) * 54, 0]}
         onPotBall={onPotBall}
         holeNumber={2}
       />
