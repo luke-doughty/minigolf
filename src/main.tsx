@@ -18,7 +18,13 @@ function Main() {
   const [showControlsModal, setShowControlsModal] = useState<boolean>(false)
   const [scoreTotal, setScoreTotal] = useState<number>(0)
   const [holeTotal, setHoleTotal] = useState<number>(0)
-  const [holePar, setHolePar] = useState<number>(0)
+  const [currenthole, setCurrentHole] = useState<number>(1)
+  const holeToHolePar = new Map<number, number>([
+    [1, 2],
+    [2, 6],
+    [3, 8],
+  ])
+  const [holePar, setHolePar] = useState<number>(holeToHolePar.get(1)!)
 
   const { loaded } = useProgress()
 
@@ -49,12 +55,21 @@ function Main() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [45, 4, 140] }}
       >
         <Suspense fallback={null}>
-          <Physics gravity={[0, -15.81, 0]} debug>
+          <Physics gravity={[0, -18.81, 0]} debug>
             <Scene
               startGame={!isStartMenuOpen}
               onHit={() => {
                 setScoreTotal((total) => total + 1)
                 setHoleTotal((total) => total + 1)
+              }}
+              holeTracker={currenthole}
+              progressNextHole={() => {
+                console.log('here')
+                const nextHole = currenthole + 1
+                if (nextHole < 4) {
+                  setCurrentHole((curr) => curr + 1)
+                  setHolePar(holeToHolePar.get(nextHole)!)
+                }
               }}
             />
           </Physics>
@@ -70,7 +85,12 @@ function Main() {
         onClickLinkedIn={() => console.log('waiting for implementation')}
         onClickCV={() => console.log('waiting for implementation')}
       />
-      <ScoreCard shotTotal={scoreTotal} holeTotal={holeTotal} holePar={holePar} />
+      <ScoreCard
+        shotTotal={scoreTotal}
+        holeTotal={holeTotal}
+        holePar={holePar}
+        holeNumber={currenthole}
+      />
 
       <Loader />
     </div>

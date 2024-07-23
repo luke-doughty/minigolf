@@ -15,6 +15,10 @@ import * as THREE from 'three'
 import { FlagPost } from './components/permThreeComponents/FlagPost'
 import { SquareTree } from './components/models/SquareTree'
 import { Grass } from './components/models/Grass'
+import { CourseTwoWalls } from './components/holeTwo/CourseTwoWalls'
+import { Windmill } from './components/models/Windmill'
+import { FloatingIslandRound } from './components/models/FloatingIslandRound'
+import { BoosterRamp } from './BoosterRamp'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -33,6 +37,8 @@ declare module '@react-three/fiber' {
 interface SceneProps {
   startGame: boolean
   onHit: () => void
+  holeTracker: number
+  progressNextHole: () => void
 }
 
 /**
@@ -43,7 +49,12 @@ interface SceneProps {
  * @param {GolfBallProps} Props - The properties for the Scene component.
  * @returns {JSX.Element} The rendered Scene component.
  */
-export const Scene: FC<SceneProps> = ({ startGame, onHit }) => {
+export const Scene: FC<SceneProps> = ({
+  startGame,
+  onHit,
+  holeTracker,
+  progressNextHole,
+}) => {
   const largeCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const smallCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const skyCloudsRef = useRef<Group<Object3DEventMap>>(null!)
@@ -84,11 +95,19 @@ export const Scene: FC<SceneProps> = ({ startGame, onHit }) => {
 
   return (
     <>
-      {startGame && <GolfBall onHit={onHit} />}
+      {startGame && (
+        <GolfBall
+          onHit={onHit}
+          holeNumber={holeTracker}
+          onPotBallChangeInfo={progressNextHole}
+        />
+      )}
 
       {layoutNonTouchableEnvironement(largeCloudsRef, smallCloudsRef, skyCloudsRef)}
 
-      {layoutCourseOneMap()}
+      {holeTracker >= 1 && layoutCourseOneMap(progressNextHole)}
+
+      {layoutCourseTwoMap(progressNextHole, holeTracker >= 2)}
     </>
   )
 }
@@ -109,6 +128,12 @@ const layoutNonTouchableEnvironement = (
   skyCloudsRef: Ref<Group<Object3DEventMap>>
 ): JSX.Element => {
   const colorMap = useLoader(TextureLoader, 'sky2.jpg')
+
+  const grassCount = Math.floor(Math.random() * 30) + 20 // Random number between 20 and 50
+
+  const grassArrayLeft = Array.from({ length: grassCount })
+  const grassArrayRight = Array.from({ length: grassCount })
+  const grassArrayBehind = Array.from({ length: grassCount })
 
   return (
     <>
@@ -160,26 +185,7 @@ const layoutNonTouchableEnvironement = (
           <meshStandardMaterial transparent={true} opacity={0} />
         </Plane>
       </RigidBody>
-    </>
-  )
-}
 
-/**
- * Layout for Course One
- *
- * This returns all models relevant to Course One
- *
- * @returns {JSX.Element} The Course One models.
- */
-const layoutCourseOneMap = () => {
-  const grassCount = Math.floor(Math.random() * 30) + 20 // Random number between 20 and 50
-
-  const grassArrayLeft = Array.from({ length: grassCount })
-  const grassArrayRight = Array.from({ length: grassCount })
-  const grassArrayBehind = Array.from({ length: grassCount })
-
-  return (
-    <>
       <RigidBody
         colliders={'trimesh'}
         type='fixed'
@@ -187,20 +193,24 @@ const layoutCourseOneMap = () => {
         // friction={30}
         // restitution={0.6}
       >
-        <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
+        <FloatingIsland
+          scale={[30, 30, 30]}
+          position={[-2, -30, 20]}
+          rotation={[0, 0, Math.PI / 256]}
+        />
+        <FloatingIslandRound scale={[30, 30, 30]} position={[-70, -26, 2]} />
+        <BoosterRamp
+          position={[-28, 0.5, 2]}
+          scale={[6, 15, 13]}
+          rotation={[0, Math.PI / 2, 0]}
+        />
+        <Windmill
+          position={[-50, 4, 2]}
+          scale={[5, 5, 5]}
+          rotation={[0, -Math.PI / 2, 0]}
+        />
       </RigidBody>
-      <FlagPost
-        initialPos={new Vector3(10.1, -14, 46.4)}
-        rotation={[0, (Math.PI / 64) * 24, 0]}
-      />
 
-      <CourseOneWalls />
-
-      <SignPostPointRight
-        scale={[7, 9, 7]}
-        position={[8, -1, 2]}
-        rotation={[0.4, (Math.PI / 32) * 22, 0]}
-      />
       <SquareTree
         scale={[6.5, 8.5, 6.5]}
         position={[18, 0, 6]}
@@ -220,8 +230,6 @@ const layoutCourseOneMap = () => {
         />
       ))}
 
-      {/* right grass */}
-
       {grassArrayRight.map((_, index) => (
         <Grass
           scale={[0.01, 0.01, 0.01]}
@@ -234,6 +242,7 @@ const layoutCourseOneMap = () => {
         />
       ))}
 
+      {/* behind grass */}
       {grassArrayBehind.map((_, index) => (
         <Grass
           scale={[0.01, 0.01, 0.01]}
@@ -245,6 +254,56 @@ const layoutCourseOneMap = () => {
           ]}
         />
       ))}
+    </>
+  )
+}
+
+/**
+ * Layout for Course One
+ *
+ * This returns all models relevant to Course One
+ *
+ * @returns {JSX.Element} The Course One models.
+ */
+const layoutCourseOneMap = (onPotBall: () => void) => {
+  return (
+    <>
+      <FlagPost
+        initialPos={new Vector3(10.1, -14, 46.4)}
+        rotation={[0, (Math.PI / 64) * 24, 0]}
+        onPotBall={onPotBall}
+        holeNumber={1}
+      />
+
+      <CourseOneWalls />
+
+      <SignPostPointRight
+        scale={[7, 9, 7]}
+        position={[8, -1, 2]}
+        rotation={[0.4, (Math.PI / 32) * 22, 0]}
+      />
+    </>
+  )
+}
+
+/**
+ * Layout for Course One
+ *
+ * This returns all models relevant to Course One
+ *
+ * @returns {JSX.Element} The Course One models.
+ */
+const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
+  return (
+    <>
+      <FlagPost
+        initialPos={new Vector3(5, 1, 10.4)}
+        rotation={[0, (Math.PI / 64) * 24, 0]}
+        onPotBall={onPotBall}
+        holeNumber={2}
+      />
+
+      <CourseTwoWalls visible={visible} />
     </>
   )
 }

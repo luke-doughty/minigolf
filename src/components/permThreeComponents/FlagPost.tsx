@@ -8,7 +8,7 @@ import { GLTF } from 'three-stdlib'
 import { useFrame } from '@react-three/fiber'
 import { Vector3 } from 'three'
 import { RigidBody, RigidBodyProps } from '@react-three/rapier'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useState } from 'react'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,6 +31,7 @@ type GLTFResult = GLTF & {
 interface FlagPostProps extends RigidBodyProps {
   initialPos: Vector3
   onPotBall: () => void
+  holeNumber: number
 }
 
 /**
@@ -41,11 +42,18 @@ interface FlagPostProps extends RigidBodyProps {
  * @param {FlagPostProps} Props - The properties for the FlagPost component.
  * @returns {JSX.Element} The rendered FlagPost component.
  */
-export const FlagPost: FC<FlagPostProps> = ({ initialPos, onPotBall, ...props }) => {
+export const FlagPost: FC<FlagPostProps> = ({
+  initialPos,
+  onPotBall,
+  holeNumber,
+  ...props
+}) => {
   useFrame(({ scene }) => {
     const golfBall = scene.getObjectByName('golf-ball')
-    const flagPostBoundary = scene.getObjectByName('flag-post-raise-boundary')
-    const wholeFlag = scene.getObjectByName('total-flag')
+    const flagPostBoundary = scene.getObjectByName(
+      'flag-post-raise-boundary-' + holeNumber
+    )
+    const wholeFlag = scene.getObjectByName('total-flag-' + holeNumber)
 
     if (golfBall?.position.x && flagPostBoundary && wholeFlag) {
       const golfBallPos = golfBall.position
@@ -104,8 +112,17 @@ export const FlagPost: FC<FlagPostProps> = ({ initialPos, onPotBall, ...props })
   const { nodes, materials } = useGLTF('/HoleFlagPole.glb') as GLTFResult
   return (
     <>
-      <group {...props} dispose={null} name='total-flag' position={initialPos}>
-        <Sphere scale={[3, 3, 3]} name='flag-post-raise-boundary' visible={false} />
+      <group
+        {...props}
+        dispose={null}
+        name={'total-flag-' + holeNumber}
+        position={initialPos}
+      >
+        <Sphere
+          scale={[3, 3, 3]}
+          name={'flag-post-raise-boundary-' + holeNumber}
+          visible={false}
+        />
         <mesh
           castShadow
           receiveShadow
@@ -125,7 +142,7 @@ export const FlagPost: FC<FlagPostProps> = ({ initialPos, onPotBall, ...props })
       </group>
       <mesh
         geometry={holeSideGeometry}
-        name={'hole-side'}
+        name={'hole-side-' + holeNumber}
         {...props}
         position={holeWallPos}
         rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
@@ -133,16 +150,7 @@ export const FlagPost: FC<FlagPostProps> = ({ initialPos, onPotBall, ...props })
         <meshStandardMaterial color='grey' />
       </mesh>
 
-      <RigidBody
-        colliders={'trimesh'}
-        type='fixed'
-        name={'hole-base'}
-        onCollisionEnter={({ other }) => {
-          if (other.rigidBodyObject?.name === 'golf-ball') {
-            console.log('HOLE!')
-          }
-        }}
-      >
+      <RigidBody colliders={'trimesh'} type='fixed' name={'hole-base-' + holeNumber}>
         <Cylinder position={holeBasePos} args={[1.2, 1.2, 0.2, 8]}>
           <meshStandardMaterial color={'grey'} />
         </Cylinder>

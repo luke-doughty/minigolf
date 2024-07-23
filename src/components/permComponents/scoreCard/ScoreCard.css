@@ -3,51 +3,74 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 .score-card-background {
-    position: absolute;
-    opacity: 93%;
-    top: 10px;
-    right: 20px;
+  position: absolute;
+  opacity: 93%;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-image: url('wood-texture-background.jpg');
+  background-size: contain;
+  background-color: #cccccc;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+  width: 25vw;
+  height: 15vh;
+  transform: skew(7deg);
+}
+
+.score-card-hole-number {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-left: 3px;
+  font-family: 'Lobster', sans-serif;
+  font-weight: 10;
+  font-size:x-large;
+  font-style: normal;
+}
+
+.score-card-stats {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     background-image: url('wood-texture-background.jpg');
-    background-size:contain;
+    background-size: contain;
     background-color: #cccccc;
-    border-radius: 5px;
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.5) ;
-    width: 22vw;
+    border-radius: 3px;
+    width: 20vw;
     height: 14vh;
     transform: skew(7deg);
   }
-
+  
 
 .score-card-inner-text {
-    background-color: #f8f5f5b5;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.5) inset;
-    width: 80%;
-    height: 20px;
-    transform: skew(2deg);
+  background-color: #f8f5f5b5;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5) inset;
+  width: 80%;
+  height: 20px;
+  transform: skew(2deg);
 }
 
 .score-card-inner-text-title-total {
-    transform: skew(-5deg);
-    margin-left: 5px;
-    font-family: "Lobster", sans-serif;
-    font-weight: 10;
-    font-style: normal;
+  transform: skew(-5deg);
+  margin-left: 5px;
+  font-family: 'Lobster', sans-serif;
+  font-weight: 10;
+  font-style: normal;
 }
 
 .score-card-inner-text-total-score {
-    transform: skew(-5deg);
-    margin-right: 10px;
-    font-family: "Lobster", sans-serif;
-    font-weight: 10;
-    font-style: normal;
+  transform: skew(-5deg);
+  margin-right: 10px;
+  font-family: 'Lobster', sans-serif;
+  font-weight: 10;
+  font-style: normal;
 }
-
-      
-  

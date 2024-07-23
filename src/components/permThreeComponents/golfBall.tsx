@@ -1,5 +1,5 @@
 import { Cylinder, OrbitControls, Trail } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
@@ -23,6 +23,8 @@ import { PowerMeter } from './PowerMeter'
  */
 interface GolfBallProps extends RigidBodyProps {
   onHit: () => void
+  holeNumber: number
+  onPotBallChangeInfo: () => void
 }
 
 /**
@@ -33,7 +35,11 @@ interface GolfBallProps extends RigidBodyProps {
  * @param {GolfBallProps} Props - The properties for the GolfBall component.
  * @returns {JSX.Element} The rendered GolfBall component.
  */
-export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
+export const GolfBall: FC<GolfBallProps> = ({
+  onHit,
+  holeNumber,
+  onPotBallChangeInfo,
+}) => {
   const startPositionRef = useRef<Vector3 | null>(null)
   const endPositionRef = useRef<Vector3 | null>(null)
   const [dragPositions, setDragPositions] = useState<{
@@ -44,8 +50,14 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
     end: null,
   })
   const [isRotating, setIsRotating] = useState<boolean>(false)
+  const [isDragging, setIsDragging] = useState<boolean>(false)
+  const [initialHit, setInitialHit] = useState<boolean>(true)
 
-  const [isDragging, setIsDragging] = useState(false)
+  const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
+    [1, [10, -10, 45]],
+    [2, [-8, 1, 2]],
+    [3, [5, 5, 5]],
+  ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
   const boundaryRef = useRef<
@@ -144,6 +156,22 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
     onHit()
   }
 
+  const onPotBall = () => {
+    if (golfBallRigidRef.current) {
+      golfBallRigidRef.current.resetForces(true)
+      golfBallRigidRef.current.resetTorques(true)
+      golfBallRigidRef.current.sleep()
+      onPotBallChangeInfo()
+      const coords = holeStartPositions.get(holeNumber + 1)
+      if (coords) {
+        golfBallRigidRef.current.setTranslation(
+          new Vector3(coords[0], coords[1], coords[2]),
+          true
+        )
+      }
+    }
+  }
+
   return (
     <>
       {golfBallRigidRef.current &&
@@ -164,7 +192,8 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
         )}
       <RigidBody
         name='golf-ball'
-        position={[0, 1, 5]}
+        position={holeStartPositions.get(1)}
+        // position={[10, -10, 43]}
         colliders='ball'
         ref={golfBallRigidRef}
         // mass={50}
@@ -172,13 +201,17 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
         // linearDamping={0.3}
         // angularDamping={0.3}
         onCollisionEnter={({ manifold, other }) => {
-          console.log(other.rigidBodyObject?.name)
-          console.log(other)
           if (
             other.rigidBodyObject?.name === 'level-bottom' &&
             parseInt(manifold.solverContactPoint(0).y.toFixed(0), 10) === -70
           ) {
             handleResetBall()
+          }
+        }}
+        onContactForce={({ other }) => {
+          if (other.rigidBodyObject?.name === 'hole-base-' + holeNumber) {
+            setInitialHit(false)
+            onPotBall()
           }
         }}
       >
