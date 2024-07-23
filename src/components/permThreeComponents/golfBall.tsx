@@ -131,10 +131,15 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
   }
 
   const handleResetBall = () => {
-    if (golfBallRigidRef.current) {
+    if (
+      golfBallRigidRef.current &&
+      startPositionRef.current &&
+      startPositionRef.current.y
+    ) {
       golfBallRigidRef.current.resetForces(true)
       golfBallRigidRef.current.resetTorques(true)
-      golfBallRigidRef.current.setTranslation({ x: 0, y: 1, z: 5 }, true)
+      golfBallRigidRef.current.sleep()
+      golfBallRigidRef.current.setTranslation(startPositionRef.current!, true)
     }
     onHit()
   }
@@ -161,13 +166,14 @@ export const GolfBall: FC<GolfBallProps> = ({ onHit }) => {
         name='golf-ball'
         position={[0, 1, 5]}
         colliders='ball'
-        restitution={1.2}
         ref={golfBallRigidRef}
-        mass={20}
-        friction={10}
-        linearDamping={0.6}
-        angularDamping={0.6}
+        // mass={50}
+        // friction={30}
+        // linearDamping={0.3}
+        // angularDamping={0.3}
         onCollisionEnter={({ manifold, other }) => {
+          console.log(other.rigidBodyObject?.name)
+          console.log(other)
           if (
             other.rigidBodyObject?.name === 'level-bottom' &&
             parseInt(manifold.solverContactPoint(0).y.toFixed(0), 10) === -70

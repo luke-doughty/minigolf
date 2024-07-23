@@ -10,10 +10,12 @@ import { StartMenu } from './components/permComponents/StartMenu'
 import { Loader, useProgress } from '@react-three/drei'
 import { SpeedDial } from './components/permComponents/SpeedDial/SpeedDialInfo'
 import { ScoreCard } from './components/permComponents/scoreCard/ScoreCard'
+import { ControlsModal } from './components/permComponents/SpeedDial/ControlsModal'
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
   const [showControlsButton, setShowControlsButton] = useState<boolean>(false)
+  const [showControlsModal, setShowControlsModal] = useState<boolean>(false)
   const [scoreTotal, setScoreTotal] = useState<number>(0)
   const [holeTotal, setHoleTotal] = useState<number>(0)
   const [holePar, setHolePar] = useState<number>(0)
@@ -31,6 +33,10 @@ function Main() {
           }}
         />
       )}
+      <ControlsModal
+        isOpen={showControlsModal}
+        onClose={() => setShowControlsModal(false)}
+      />
 
       <Canvas
         dpr={[1, 2]}
@@ -43,7 +49,7 @@ function Main() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [45, 4, 140] }}
       >
         <Suspense fallback={null}>
-          <Physics gravity={[0, -15.81, 0]}>
+          <Physics gravity={[0, -15.81, 0]} debug>
             <Scene
               startGame={!isStartMenuOpen}
               onHit={() => {
@@ -56,7 +62,7 @@ function Main() {
       </Canvas>
       <SpeedDial
         showControlsButton={showControlsButton}
-        onClickControls={() => setIsStartMenuOpen(true)}
+        onClickControls={() => setShowControlsModal(true)}
         showGithubLinkButton={false}
         showLinkedInButton={false}
         showCVButton={false}

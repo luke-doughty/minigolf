@@ -51,16 +51,21 @@ export const Scene: FC<SceneProps> = ({ startGame, onHit }) => {
   useFrame(({ clock }) => {
     if (largeCloudsRef.current) {
       largeCloudsRef.current.position.set(
-        Math.sin(clock.getElapsedTime()),
-        -Math.cos(clock.getElapsedTime()),
-        -Math.sin(clock.getElapsedTime()) ^ -5
+        5 * Math.sin(clock.getElapsedTime() / 20),
+        -Math.cos(clock.getElapsedTime() / 20),
+        -10 * Math.sin(clock.getElapsedTime() / 25)
       )
     }
     if (smallCloudsRef.current) {
       smallCloudsRef.current.position.set(
-        -2 * Math.cos(clock.getElapsedTime()),
-        0.8 * Math.sin(clock.getElapsedTime()),
-        -Math.cos(clock.getElapsedTime()) ^ 5
+        -10 * Math.cos(clock.getElapsedTime() / 20),
+        -2.2 * Math.cos(clock.getElapsedTime() / 28),
+        10 + Math.sin(clock.getElapsedTime()) / 30
+      )
+      smallCloudsRef.current.rotation.set(
+        -0.08 * Math.sin(clock.getElapsedTime() / 5),
+        -0.28 * Math.sin(clock.getElapsedTime() / 55),
+        -0.18 * Math.cos(clock.getElapsedTime() / 20)
       )
     }
     if (skyCloudsRef.current) {
@@ -68,6 +73,11 @@ export const Scene: FC<SceneProps> = ({ startGame, onHit }) => {
         -0.8 * Math.sin(clock.getElapsedTime()),
         -0.002 * Math.sin(clock.getElapsedTime()),
         1.5 * Math.cos(clock.getElapsedTime())
+      )
+      skyCloudsRef.current.rotation.set(
+        -0.08 * Math.sin(clock.getElapsedTime() / 10),
+        0,
+        -0.08 * Math.sin(clock.getElapsedTime() / 20)
       )
     }
   })
@@ -107,12 +117,12 @@ const layoutNonTouchableEnvironement = (
         <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
       </mesh>
       <directionalLight
-        position={[20, 15, -10]}
+        position={[20, 25, -12]}
         intensity={2.5}
         castShadow
-        shadow-mapSize={[1024 * 2, 1024 * 2]}
+        shadow-mapSize={[1024 * 6, 1024 * 6]}
         shadow-camera-near={0.5}
-        shadow-camera-far={66}
+        shadow-camera-far={20000}
         shadow-camera-left={-66}
         shadow-camera-right={66}
         shadow-camera-top={66}
@@ -127,15 +137,19 @@ const layoutNonTouchableEnvironement = (
       <group ref={largeCloudsRef}>
         <LargeClouds
           scale={[20, 20, 20]}
-          position={[-15, 12, 60]}
+          position={[-28, 18, 48]}
           rotation={[Math.PI / 64, (Math.PI / 64) * 22, 0]}
         />
       </group>
       <group ref={smallCloudsRef}>
-        <SmallClouds scale={[28, 20, 20]} position={[20, -28, 70]} />
+        <SmallClouds
+          scale={[28, 20, 20]}
+          position={[18, -18, 68]}
+          rotation={[0, (Math.PI / 64) * 24, 0]}
+        />
       </group>
       <group ref={skyCloudsRef}>
-        <SmallClouds scale={[28, 20, 20]} position={[20, 18, 70]} />
+        <SmallClouds scale={[28, 20, 20]} position={[24, 16, 40]} />
       </group>
       <RigidBody colliders={'cuboid'} type='fixed' name='level-bottom'>
         <Plane
@@ -162,10 +176,17 @@ const layoutCourseOneMap = () => {
 
   const grassArrayLeft = Array.from({ length: grassCount })
   const grassArrayRight = Array.from({ length: grassCount })
+  const grassArrayBehind = Array.from({ length: grassCount })
 
   return (
     <>
-      <RigidBody colliders={'trimesh'} type='fixed' name='floor' friction={30}>
+      <RigidBody
+        colliders={'trimesh'}
+        type='fixed'
+        name='floor'
+        // friction={30}
+        // restitution={0.6}
+      >
         <FloatingIsland scale={[30, 30, 30]} position={[-2, -30, 20]} />
       </RigidBody>
       <FlagPost
@@ -176,7 +197,7 @@ const layoutCourseOneMap = () => {
       <CourseOneWalls />
 
       <SignPostPointRight
-        scale={[6, 8, 6]}
+        scale={[7, 9, 7]}
         position={[8, -1, 2]}
         rotation={[0.4, (Math.PI / 32) * 22, 0]}
       />
@@ -209,6 +230,18 @@ const layoutCourseOneMap = () => {
             Math.floor(Math.random() * -14) - 8,
             0.4,
             Math.floor(Math.random() * 28) - 10,
+          ]}
+        />
+      ))}
+
+      {grassArrayBehind.map((_, index) => (
+        <Grass
+          scale={[0.01, 0.01, 0.01]}
+          rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
+          position={[
+            Math.floor(Math.random() * 40) - 25,
+            0.4,
+            Math.floor(Math.random() * 10) - 15,
           ]}
         />
       ))}

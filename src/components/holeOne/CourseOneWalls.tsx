@@ -7,21 +7,26 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
   // const golfBallRef = useRef<RapierRigidBody>(null!)
 
   return (
-    <RigidBody type='fixed' friction={200}>
+    <RigidBody
+      type='fixed'
+      // friction={20}
+      name={'course-one-walls'}
+      // restitution={0.2}
+    >
       <group>
-        <RoundedBox radius={0.1} castShadow position={[0, 1, -3]} scale={[9, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[0, 1, -3]} scale={[9, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.1} castShadow position={[-4, 1, 7]} scale={[1, 2, 21]}>
+        <RoundedBox radius={0.02} castShadow position={[-4, 1, 7]} scale={[1, 2, 21]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.1} castShadow position={[4, 1, 6.5]} scale={[1, 2, 18.5]}>
+        <RoundedBox radius={0.02} castShadow position={[4, 1, 6.5]} scale={[1, 2, 18.5]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
       </group>
       <group>
         <RoundedBox
-          radius={0.1}
+          radius={0.02}
           castShadow
           position={[3, -16, 69.5]}
           scale={[26, 2, 1]}
@@ -30,7 +35,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
         <RoundedBox
-          radius={0.1}
+          radius={0.02}
           castShadow
           position={[14.5, -14.55, 59]}
           scale={[1, 2, 18]}
@@ -39,7 +44,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
         <RoundedBox
-          radius={0.1}
+          radius={0.02}
           castShadow
           position={[-11.4, -15.1, 58.8]}
           scale={[1, 2, 26.2]}
@@ -48,7 +53,7 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
         <RoundedBox
-          radius={0.1}
+          radius={0.02}
           castShadow
           position={[-4.8, -13.5, 44.8]}
           scale={[18, 2, 1]}
