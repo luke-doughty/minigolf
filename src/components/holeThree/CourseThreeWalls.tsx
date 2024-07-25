@@ -20,10 +20,10 @@ export const CourseThreeWalls: FC<CourseWallsProps> = () => {
     }
 
     const arcShape = new THREE.Shape()
-    arcShape.absarc(0, 0, 20, 0, Math.PI * 2, false)
+    arcShape.absarc(0, 0, 38, 0, Math.PI * 2, false)
 
     const holePath = new THREE.Path()
-    holePath.absarc(0, 0, 19, 0, Math.PI * 2, true)
+    holePath.absarc(0, 0, 37, 0, Math.PI * 2, true)
 
     arcShape.holes.push(holePath)
 
@@ -35,22 +35,22 @@ export const CourseThreeWalls: FC<CourseWallsProps> = () => {
       type='fixed'
       colliders='trimesh'
       name={'course-three-walls'}
-      rotation={[0, (Math.PI / 64) * -14, 0]}
+      rotation={[0, (Math.PI / 64) * 7.5, 0]}
     >
       <group>
-        <RoundedBox radius={0.02} castShadow position={[-18, 1, 5.5]} scale={[19, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[16, 1, 0]} scale={[15, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[-8.5, 1, 2]} scale={[1, 2, 8]}>
+        <RoundedBox radius={0.02} castShadow position={[8.5, 1, -3]} scale={[1, 2, 7]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[-18, 1, -1.5]} scale={[19, 2, 1]}>
+        <RoundedBox radius={0.02} castShadow position={[16, 1, -6]} scale={[16, 2, 1]}>
           <meshStandardMaterial color={'black'} />
         </RoundedBox>
       </group>
       <mesh
         geometry={holeSideGeometry}
-        position={[-71.5, 4.5, -1]}
+        position={[129, 1, -6]}
         rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
       >
         <meshStandardMaterial color={'black'} />
