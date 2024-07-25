@@ -56,7 +56,7 @@ export const GolfBall: FC<GolfBallProps> = ({
   const isProd = true
 
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
-    [1, [0, 2, 4]],
+    [1, [100, 10, -45]],
     [2, [-8, 1, 2]],
     [3, [15, 2, -8.5]],
   ])

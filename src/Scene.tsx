@@ -17,11 +17,12 @@ import { SquareTree } from './components/models/SquareTree'
 import { Grass } from './components/models/Grass'
 import { CourseTwoWalls } from './components/holeTwo/CourseTwoWalls'
 import { Windmill } from './components/models/Windmill'
-import { FloatingIslandRound } from './components/models/FloatingIslandRound'
+import { FloatingIslandRoundSecond } from './components/models/FloatingIslandRoundSecond'
 import { BoosterRamp } from './BoosterRamp'
 import { Train } from './components/models/TrainLoader'
 import { CourseThreeWalls } from './components/holeThree/CourseThreeWalls'
 import { RopeBridge } from './components/models/RopeBridge'
+import { FloatingIslandRoundThird } from './components/models/FloatingIslandRoundThird'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -204,8 +205,12 @@ const layoutNonTouchableEnvironement = (
           position={[-2, -30, 20]}
           rotation={[0, 0, Math.PI / 256]}
         />
-        <FloatingIslandRound scale={[30, 30, 30]} position={[-60, -26.5, -50]} />
-        <FloatingIslandRound scale={[45, 30, 45]} position={[122, -30, -52]} />
+        <FloatingIslandRoundSecond
+          scale={[26, 30, 26]}
+          position={[-61, -26.5, -48]}
+          rotation={[0, (Math.PI / 64) * 17, 0]}
+        />
+        <FloatingIslandRoundThird scale={[45, 30, 45]} position={[122, -30, -52]} />
         <BoosterRamp
           position={[-25, 0.5, -18]}
           scale={[6, 15, 13]}
@@ -313,7 +318,7 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-57, 3, -46.5)}
+        initialPos={new Vector3(-56.5, 3, -44)}
         rotation={[0, (Math.PI / 64) * 54, 0]}
         onPotBall={onPotBall}
         holeNumber={2}
