@@ -48,7 +48,7 @@ export function Windmill(props: JSX.IntrinsicElements['group']) {
   }, [])
 
   // something weird here
-
+  // TODO: get rid of hole at top, make at bottom, just go through the windmill
   // useFrame(() => {
   //   if (group.current && rigidBodyRotatingRef.current && animatedGroupRef) {
   //     const { quaternion } = animatedGroupRef.current

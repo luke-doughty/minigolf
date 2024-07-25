@@ -9,7 +9,7 @@ type NewType = GroupProps
 
 interface CourseWallsProps extends GroupProps {}
 
-export const CourseTwoWalls: FC<CourseWallsProps> = () => {
+export const CourseThreeWalls: FC<CourseWallsProps> = () => {
   const holeSideGeometry = useMemo(() => {
     const extrudeSettings = {
       steps: 2,
@@ -34,7 +34,7 @@ export const CourseTwoWalls: FC<CourseWallsProps> = () => {
     <RigidBody
       type='fixed'
       colliders='trimesh'
-      name={'course-two-walls'}
+      name={'course-three-walls'}
       rotation={[0, (Math.PI / 64) * -14, 0]}
     >
       <group>

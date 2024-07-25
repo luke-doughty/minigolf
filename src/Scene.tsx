@@ -19,6 +19,9 @@ import { CourseTwoWalls } from './components/holeTwo/CourseTwoWalls'
 import { Windmill } from './components/models/Windmill'
 import { FloatingIslandRound } from './components/models/FloatingIslandRound'
 import { BoosterRamp } from './BoosterRamp'
+import { Train } from './components/models/TrainLoader'
+import { CourseThreeWalls } from './components/holeThree/CourseThreeWalls'
+import { RopeBridge } from './components/models/RopeBridge'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -58,6 +61,7 @@ export const Scene: FC<SceneProps> = ({
   const largeCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const smallCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const skyCloudsRef = useRef<Group<Object3DEventMap>>(null!)
+  const trainRef = useRef<Group<Object3DEventMap>>(null!)
 
   useFrame(({ clock }) => {
     if (largeCloudsRef.current) {
@@ -105,9 +109,11 @@ export const Scene: FC<SceneProps> = ({
 
       {layoutNonTouchableEnvironement(largeCloudsRef, smallCloudsRef, skyCloudsRef)}
 
-      {holeTracker >= 1 && layoutCourseOneMap(progressNextHole)}
+      {layoutCourseOneMap(progressNextHole)}
 
       {layoutCourseTwoMap(progressNextHole, holeTracker >= 2)}
+
+      {layoutCourseThreeMap(progressNextHole, holeTracker >= 3)}
     </>
   )
 }
@@ -129,7 +135,7 @@ const layoutNonTouchableEnvironement = (
 ): JSX.Element => {
   const colorMap = useLoader(TextureLoader, 'sky2.jpg')
 
-  const grassCount = Math.floor(Math.random() * 30) + 20 // Random number between 20 and 50
+  const grassCount = Math.floor(Math.random() * 20) + 10 // Random number between 10 and 30
 
   const grassArrayLeft = Array.from({ length: grassCount })
   const grassArrayRight = Array.from({ length: grassCount })
@@ -137,8 +143,8 @@ const layoutNonTouchableEnvironement = (
 
   return (
     <>
-      <mesh position={[0, -60, 0]}>
-        <sphereGeometry args={[300, 32, 32]} />
+      <mesh position={[0, -80, 0]}>
+        <sphereGeometry args={[500, 32, 32]} />
         <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
       </mesh>
       <directionalLight
@@ -178,7 +184,7 @@ const layoutNonTouchableEnvironement = (
       </group>
       <RigidBody colliders={'cuboid'} type='fixed' name='level-bottom'>
         <Plane
-          scale={[500, 500, 20]}
+          scale={[1000, 1000, 20]}
           rotation={[-Math.PI / 2, 0, 0]}
           position={[0, -70, 0]}
         >
@@ -199,24 +205,32 @@ const layoutNonTouchableEnvironement = (
           rotation={[0, 0, Math.PI / 256]}
         />
         <FloatingIslandRound scale={[30, 30, 30]} position={[-60, -26.5, -50]} />
+        <FloatingIslandRound scale={[45, 30, 45]} position={[122, -30, -52]} />
         <BoosterRamp
           position={[-25, 0.5, -18]}
           scale={[6, 15, 13]}
           rotation={[0, (Math.PI / 64) * 17.8, 0]}
         />
         <Windmill
-          position={[-63, 2, -48]}
+          position={[-49, -3, -40]}
           scale={[5, 5, 5]}
           rotation={[0, (Math.PI / 64) * -46, 0]}
         />
+        <RopeBridge
+          position={[54, -11, -25]}
+          scale={[0.000014, 0.000014, 0.000014]}
+          rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
+        />
       </RigidBody>
 
+      {/* square tree doesnt really fit vibe */}
       <SquareTree
-        scale={[6.5, 8.5, 6.5]}
+        scale={[6.5, 6.5, 6.5]}
         position={[18, 0, 6]}
         rotation={[0, (Math.PI / 64) * 72, 0]}
       />
 
+      {/* TODO: scale back grass  */}
       {/* left grass */}
       {grassArrayLeft.map((_, index) => (
         <Grass
@@ -225,7 +239,7 @@ const layoutNonTouchableEnvironement = (
           position={[
             Math.floor(Math.random() * 16) + 6,
             0.4,
-            Math.floor(Math.random() * 20) - 10,
+            Math.floor(Math.random() * 12),
           ]}
         />
       ))}
@@ -235,9 +249,9 @@ const layoutNonTouchableEnvironement = (
           scale={[0.01, 0.01, 0.01]}
           rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
           position={[
-            Math.floor(Math.random() * -14) - 8,
+            Math.floor(Math.random() * -15) - 8,
             0.4,
-            Math.floor(Math.random() * 28) - 10,
+            Math.floor(Math.random() * 16),
           ]}
         />
       ))}
@@ -248,12 +262,14 @@ const layoutNonTouchableEnvironement = (
           scale={[0.01, 0.01, 0.01]}
           rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
           position={[
-            Math.floor(Math.random() * 40) - 25,
+            Math.floor(Math.random() * 17) - 5,
             0.4,
             Math.floor(Math.random() * 10) - 15,
           ]}
         />
       ))}
+
+      <Train initialPos={new Vector3(122, 1.4, -53)} />
     </>
   )
 }
@@ -287,23 +303,45 @@ const layoutCourseOneMap = (onPotBall: () => void) => {
 }
 
 /**
- * Layout for Course One
+ * Layout for Course Two
  *
- * This returns all models relevant to Course One
+ * This returns all models relevant to Course Two
  *
- * @returns {JSX.Element} The Course One models.
+ * @returns {JSX.Element} The Course Two models.
  */
 const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-63, 2, -48)}
+        initialPos={new Vector3(-57, 3, -46.5)}
         rotation={[0, (Math.PI / 64) * 54, 0]}
         onPotBall={onPotBall}
         holeNumber={2}
       />
 
       <CourseTwoWalls visible={visible} />
+    </>
+  )
+}
+
+/**
+ * Layout for Course Three
+ *
+ * This returns all models relevant to Course Three
+ *
+ * @returns {JSX.Element} The Course Three models.
+ */
+const layoutCourseThreeMap = (onPotBall: () => void, visible: boolean) => {
+  return (
+    <>
+      <FlagPost
+        initialPos={new Vector3(124, -0.5, -55)}
+        rotation={[0, (Math.PI / 64) * 54, 0]}
+        onPotBall={onPotBall}
+        holeNumber={3}
+      />
+
+      <CourseThreeWalls visible={visible} />
     </>
   )
 }

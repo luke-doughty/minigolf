@@ -53,10 +53,12 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [initialHit, setInitialHit] = useState<boolean>(true)
 
+  const isProd = true
+
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
-    [1, [0, 1, 2]],
+    [1, [0, 2, 4]],
     [2, [-8, 1, 2]],
-    [3, [5, 5, 5]],
+    [3, [15, 2, -8.5]],
   ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
@@ -67,40 +69,42 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [cameraOffset, setCameraOffset] = useState<Vector3>(new Vector3(0, 12, -18))
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
-    const ballPosition = vec3(golfBallRigidRef.current.translation())
-    boundaryRef.current.position.copy(ballPosition)
+    if (isProd) {
+      const ballPosition = vec3(golfBallRigidRef.current.translation())
+      boundaryRef.current.position.copy(ballPosition)
 
-    if (!isRotating) {
-      const newCameraPosition = ballPosition.clone().add(cameraOffset)
-      camera.position.lerp(newCameraPosition, isDragging ? 0.2 : 0.015)
-    } else {
-      const newCameraOffset = camera.position.clone().sub(ballPosition)
-      setCameraOffset(newCameraOffset)
-    }
-    camera.lookAt(ballPosition)
-
-    if (isDragging) {
-      camera.lookAt(ballPosition)
-      raycaster.setFromCamera(pointer, camera)
-
-      const discBoundary = scene.getObjectByName('boundary')
-      if (discBoundary) {
-        const intersects = raycaster.intersectObject(boundaryRef.current)
-        if (intersects.length > 0) {
-          const intersectPoint = intersects[0].point
-          endPositionRef.current = intersectPoint
-          setDragPositions((prev) => ({
-            ...prev,
-            end: intersectPoint.clone().setY(intersectPoint.y),
-          }))
-        }
+      if (!isRotating) {
+        const newCameraPosition = ballPosition.clone().add(cameraOffset)
+        camera.position.lerp(newCameraPosition, isDragging ? 0.2 : 0.015)
+      } else {
+        const newCameraOffset = camera.position.clone().sub(ballPosition)
+        setCameraOffset(newCameraOffset)
       }
-    } else {
-      setDragPositions((prev) => ({
-        ...prev,
-        start: ballPosition.clone(),
-        end: ballPosition.clone(),
-      }))
+      camera.lookAt(ballPosition)
+
+      if (isDragging) {
+        camera.lookAt(ballPosition)
+        raycaster.setFromCamera(pointer, camera)
+
+        const discBoundary = scene.getObjectByName('boundary')
+        if (discBoundary) {
+          const intersects = raycaster.intersectObject(boundaryRef.current)
+          if (intersects.length > 0) {
+            const intersectPoint = intersects[0].point
+            endPositionRef.current = intersectPoint
+            setDragPositions((prev) => ({
+              ...prev,
+              end: intersectPoint.clone().setY(intersectPoint.y),
+            }))
+          }
+        }
+      } else {
+        setDragPositions((prev) => ({
+          ...prev,
+          start: ballPosition.clone(),
+          end: ballPosition.clone(),
+        }))
+      }
     }
   })
 
@@ -185,7 +189,7 @@ export const GolfBall: FC<GolfBallProps> = ({
             maxPolarAngle={(Math.PI / 64) * 28}
             maxDistance={20}
             dampingFactor={0.6}
-            enableZoom={false}
+            enableZoom={true}
             onStart={(e) => setIsRotating(true)}
             onEnd={(e) => setIsRotating(false)}
           />
