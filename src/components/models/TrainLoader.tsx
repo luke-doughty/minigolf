@@ -46,7 +46,7 @@ export const Train: FC<TrainProps> = ({
 }: TrainProps): JSX.Element => {
   const trainRigidRef = useRef<RapierRigidBody>(null!)
 
-  const radius = 34
+  const radius = 32
   const speed = 1 / 1.5 // controls the speed of movement along the circle
 
   useFrame(({ clock }) => {

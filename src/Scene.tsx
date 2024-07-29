@@ -23,6 +23,7 @@ import { Train } from './components/models/TrainLoader'
 import { CourseThreeWalls } from './components/holeThree/CourseThreeWalls'
 import { RopeBridge } from './components/models/RopeBridge'
 import { FloatingIslandRoundThird } from './components/models/FloatingIslandRoundThird'
+import { WindmillBlades } from './components/models/WindmillBlades'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -136,7 +137,7 @@ const layoutNonTouchableEnvironement = (
 ): JSX.Element => {
   const colorMap = useLoader(TextureLoader, 'sky2.jpg')
 
-  const grassCount = Math.floor(Math.random() * 20) + 10 // Random number between 10 and 30
+  const grassCount = Math.floor(Math.random() * 20) + 5 // Random number between 10 and 30
 
   const grassArrayLeft = Array.from({ length: grassCount })
   const grassArrayRight = Array.from({ length: grassCount })
@@ -222,8 +223,8 @@ const layoutNonTouchableEnvironement = (
           rotation={[0, (Math.PI / 64) * -46, 0]}
         />
         <RopeBridge
-          position={[54, -11, -25]}
-          scale={[0.000014, 0.000014, 0.000014]}
+          position={[53.2, -14.7, -24.5]}
+          scale={[0.0000133, 0.000018, 0.000018]}
           rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
         />
       </RigidBody>
@@ -239,6 +240,7 @@ const layoutNonTouchableEnvironement = (
       {/* left grass */}
       {grassArrayLeft.map((_, index) => (
         <Grass
+          key={'grass_left_' + index}
           scale={[0.01, 0.01, 0.01]}
           rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
           position={[
@@ -251,6 +253,7 @@ const layoutNonTouchableEnvironement = (
 
       {grassArrayRight.map((_, index) => (
         <Grass
+          key={'grass_right_' + index}
           scale={[0.01, 0.01, 0.01]}
           rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
           position={[
@@ -264,17 +267,19 @@ const layoutNonTouchableEnvironement = (
       {/* behind grass */}
       {grassArrayBehind.map((_, index) => (
         <Grass
+          key={'grass_behind_' + index}
           scale={[0.01, 0.01, 0.01]}
           rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
           position={[
-            Math.floor(Math.random() * 17) - 5,
+            Math.floor(Math.random() * 10.5) - 5,
             0.4,
-            Math.floor(Math.random() * 10) - 15,
+            Math.floor(Math.random() * 11) - 15,
           ]}
         />
       ))}
 
-      <Train initialPos={new Vector3(122, 1.4, -53)} />
+      <Train initialPos={new Vector3(119, 1.5, -51.8)} />
+      <WindmillBlades />
     </>
   )
 }
@@ -340,7 +345,8 @@ const layoutCourseThreeMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(124, -0.5, -55)}
+        initialPos={new Vector3(122, -0.5, -51.8)}
+        scale={[1.25, 1.25, 1.25]}
         rotation={[0, (Math.PI / 64) * 54, 0]}
         onPotBall={onPotBall}
         holeNumber={3}

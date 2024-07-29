@@ -13,6 +13,13 @@ interface SpeedDialProps {
   showCVButton: boolean
   onClickCV: () => void
 }
+export enum ButtonTypes {
+  None = 'NONE',
+  Controls = 'CONTROLS',
+  GitHub = 'GITHUB',
+  LinkedIn = 'LINKEDIN',
+  CV = 'CV',
+}
 
 export const SpeedDial: FC<SpeedDialProps> = ({
   showControlsButton,
@@ -24,14 +31,6 @@ export const SpeedDial: FC<SpeedDialProps> = ({
   showCVButton,
   onClickCV,
 }) => {
-  enum ButtonTypes {
-    None = 'NONE',
-    Controls = 'CONTROLS',
-    GitHub = 'GITHUB',
-    LinkedIn = 'LINKEDIN',
-    CV = 'CV',
-  }
-
   const [isHovered, setIsHovered] = useState<ButtonTypes>(ButtonTypes.None)
   return (
     <div

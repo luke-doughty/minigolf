@@ -11,11 +11,25 @@ import { Loader, useProgress } from '@react-three/drei'
 import { SpeedDial } from './components/permComponents/SpeedDial/SpeedDialInfo'
 import { ScoreCard } from './components/permComponents/scoreCard/ScoreCard'
 import { ControlsModal } from './components/permComponents/SpeedDial/ControlsModal'
+import { LinksModal } from './components/permComponents/SpeedDial/LinksModal'
+import { ProfessionalExperienceModal } from './components/permComponents/SpeedDial/ProfessionalExperienceModal'
+import { FinishModal } from './components/permComponents/SpeedDial/FinishModal'
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
   const [showControlsButton, setShowControlsButton] = useState<boolean>(false)
   const [showControlsModal, setShowControlsModal] = useState<boolean>(false)
+
+  const [showLinksModal, setShowLinksModal] = useState<boolean>(false)
+  const [showLinksButtons, setShowLinksButtons] = useState<boolean>(false)
+
+  const [showProfessionalExperienceModal, setShowProfessionalExperienceModal] =
+    useState<boolean>(false)
+  const [showProfessionalExperienceButton, setShowProfessionalExperienceButton] =
+    useState<boolean>(false)
+
+  const [showFinishModal, setShowFinishModal] = useState<boolean>(false)
+
   const [scoreTotal, setScoreTotal] = useState<number>(0)
   const [holeTotal, setHoleTotal] = useState<number>(0)
   const [currenthole, setCurrentHole] = useState<number>(1)
@@ -43,6 +57,21 @@ function Main() {
         isOpen={showControlsModal}
         onClose={() => setShowControlsModal(false)}
       />
+      <LinksModal
+        isOpen={showLinksModal}
+        onClose={() => {
+          setShowLinksModal(false)
+          setShowLinksButtons(true)
+        }}
+      />
+      <ProfessionalExperienceModal
+        isOpen={showProfessionalExperienceModal}
+        onClose={() => {
+          setShowProfessionalExperienceModal(false)
+          setShowProfessionalExperienceButton(true)
+        }}
+      />
+      <FinishModal isOpen={showFinishModal} onClose={() => setShowFinishModal(false)} />
 
       <Canvas
         dpr={[1, 2]}
@@ -68,6 +97,14 @@ function Main() {
                 if (nextHole < 4) {
                   setCurrentHole((curr) => curr + 1)
                   setHolePar(holeToHolePar.get(nextHole)!)
+                  if (nextHole === 2) {
+                    setShowLinksModal(true)
+                  }
+                  if (nextHole === 3) {
+                    setShowProfessionalExperienceModal(true)
+                  }
+                } else {
+                  setShowFinishModal(true)
                 }
               }}
             />
@@ -77,9 +114,9 @@ function Main() {
       <SpeedDial
         showControlsButton={showControlsButton}
         onClickControls={() => setShowControlsModal(true)}
-        showGithubLinkButton={false}
-        showLinkedInButton={false}
-        showCVButton={false}
+        showGithubLinkButton={showLinksButtons}
+        showLinkedInButton={showLinksButtons}
+        showCVButton={showProfessionalExperienceButton}
         onClickGitHub={() => console.log('waiting for implementation')}
         onClickLinkedIn={() => console.log('waiting for implementation')}
         onClickCV={() => console.log('waiting for implementation')}

@@ -56,9 +56,9 @@ export const GolfBall: FC<GolfBallProps> = ({
   const isProd = true
 
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
-    [1, [100, 10, -45]],
-    [2, [-8, 1, 2]],
-    [3, [15, 2, -8.5]],
+    [1, [0, 2, 4]],
+    [2, [-10, 1, -6]],
+    [3, [10, 1, -7]],
   ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
@@ -197,13 +197,10 @@ export const GolfBall: FC<GolfBallProps> = ({
       <RigidBody
         name='golf-ball'
         position={holeStartPositions.get(1)}
-        // position={[10, -10, 43]}
         colliders='ball'
         ref={golfBallRigidRef}
-        // mass={50}
-        // friction={30}
-        // linearDamping={0.3}
-        // angularDamping={0.3}
+        linearDamping={0.3}
+        angularDamping={0.3}
         onCollisionEnter={({ manifold, other }) => {
           if (
             other.rigidBodyObject?.name === 'level-bottom' &&

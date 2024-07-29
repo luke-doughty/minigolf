@@ -51,7 +51,7 @@ export const CourseThreeWalls: FC<CourseWallsProps> = () => {
       <mesh
         geometry={holeSideGeometry}
         position={[129, 1, -6]}
-        rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
+        rotation={[Math.PI / 2, 0, (Math.PI / 64) * 3.5]}
       >
         <meshStandardMaterial color={'black'} />
       </mesh>
