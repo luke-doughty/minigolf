@@ -39,6 +39,9 @@ export const textByTicker = new Map<number, JSX.Element>([
       <Text size={'4xl'} margin={2}>
         Thanks for stopping by my interactive portfolio. Let's dive in, Here's how to play
       </Text>
+      <Text size={'4xl'} margin={2} as='i'>
+        This is stil in progress!
+      </Text>
     </>,
   ],
   [
