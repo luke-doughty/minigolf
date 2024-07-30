@@ -11,7 +11,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-image: url('wood-texture-background.jpg');
+  background-image: url('/img/wood-texture-background.jpg');
   background-size: contain;
   background-color: #cccccc;
   border-radius: 5px;
@@ -38,7 +38,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-image: url('wood-texture-background.jpg');
+    background-image: url('/img/wood-texture-background.jpg');
     background-size: contain;
     background-color: #cccccc;
     border-radius: 3px;
