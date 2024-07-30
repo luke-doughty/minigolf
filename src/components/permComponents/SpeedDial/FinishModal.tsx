@@ -81,7 +81,7 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       <Modal
-        isOpen={true}
+        isOpen={isOpen}
         onClose={onClose}
         closeOnOverlayClick={true}
         isCentered
