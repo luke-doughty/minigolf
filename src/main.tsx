@@ -14,6 +14,7 @@ import { ControlsModal } from './components/permComponents/SpeedDial/ControlsMod
 import { LinksModal } from './components/permComponents/SpeedDial/LinksModal'
 import { ProfessionalExperienceModal } from './components/permComponents/SpeedDial/ProfessionalExperienceModal'
 import { FinishModal } from './components/permComponents/SpeedDial/FinishModal'
+import { Analytics } from '@vercel/analytics/react'
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
@@ -141,6 +142,7 @@ function Main() {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <Analytics />
     <ChakraProvider>
       <Main />
     </ChakraProvider>
