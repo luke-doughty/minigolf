@@ -54,7 +54,7 @@ export const SpeedDial: FC<SpeedDialProps> = ({
       {showGithubLinkButton && (
         <AnimatedHoverButton
           buttonType={isHovered}
-          icon={<IconCV />}
+          icon={<IconGithub />}
           onMouseEnter={() => setIsHovered(ButtonTypes.CV)}
           onMouseLeave={() => setIsHovered(ButtonTypes.None)}
           onClick={onClickGitHub}
@@ -63,7 +63,7 @@ export const SpeedDial: FC<SpeedDialProps> = ({
       {showLinkedInButton && (
         <AnimatedHoverButton
           buttonType={isHovered}
-          icon={<IconGithub />}
+          icon={<IconLinkedinCircled />}
           onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
           onMouseLeave={() => setIsHovered(ButtonTypes.None)}
           onClick={onClickLinkedIn}
@@ -72,7 +72,7 @@ export const SpeedDial: FC<SpeedDialProps> = ({
       {showCVButton && (
         <AnimatedHoverButton
           buttonType={isHovered}
-          icon={<IconLinkedinCircled />}
+          icon={<IconCV />}
           onMouseEnter={() => setIsHovered(ButtonTypes.LinkedIn)}
           onMouseLeave={() => setIsHovered(ButtonTypes.None)}
           onClick={onClickCV}

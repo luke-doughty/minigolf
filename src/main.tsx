@@ -25,8 +25,7 @@ function Main() {
 
   const [showProfessionalExperienceModal, setShowProfessionalExperienceModal] =
     useState<boolean>(false)
-  const [showProfessionalExperienceButton, setShowProfessionalExperienceButton] =
-    useState<boolean>(false)
+  const [showCVButton, setshowCVButton] = useState<boolean>(false)
 
   const [showFinishModal, setShowFinishModal] = useState<boolean>(false)
 
@@ -68,7 +67,7 @@ function Main() {
         isOpen={showProfessionalExperienceModal}
         onClose={() => {
           setShowProfessionalExperienceModal(false)
-          setShowProfessionalExperienceButton(true)
+          setshowCVButton(true)
         }}
       />
       <FinishModal isOpen={showFinishModal} onClose={() => setShowFinishModal(false)} />
@@ -84,7 +83,7 @@ function Main() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [75, 20, -45] }}
       >
         <Suspense fallback={null}>
-          <Physics gravity={[0, -18.81, 0]}>
+          <Physics gravity={[0, -18.81, 0]} debug>
             <Scene
               startGame={!isStartMenuOpen}
               onHit={() => {
@@ -103,6 +102,7 @@ function Main() {
                   if (nextHole === 3) {
                     setShowProfessionalExperienceModal(true)
                   }
+                  setHoleTotal(0)
                 } else {
                   setShowFinishModal(true)
                 }
@@ -116,10 +116,16 @@ function Main() {
         onClickControls={() => setShowControlsModal(true)}
         showGithubLinkButton={showLinksButtons}
         showLinkedInButton={showLinksButtons}
-        showCVButton={showProfessionalExperienceButton}
-        onClickGitHub={() => console.log('waiting for implementation')}
-        onClickLinkedIn={() => console.log('waiting for implementation')}
-        onClickCV={() => console.log('waiting for implementation')}
+        showCVButton={showCVButton}
+        onClickGitHub={() => {
+          window.open('https://github.com/luke-doughty', 'myWindow')
+        }}
+        onClickLinkedIn={() => {
+          window.open('https://www.linkedin.com/in/luke-doughty/', 'myWindow')
+        }}
+        onClickCV={() => {
+          window.open('/Luke_Doughty_CV.pdf', '_blank')
+        }}
       />
       <ScoreCard
         shotTotal={scoreTotal}

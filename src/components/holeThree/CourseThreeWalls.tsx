@@ -1,4 +1,4 @@
-import { RoundedBox } from '@react-three/drei'
+import { Box, RoundedBox } from '@react-three/drei'
 import * as THREE from 'three'
 
 import { GroupProps } from '@react-three/fiber'
@@ -23,7 +23,7 @@ export const CourseThreeWalls: FC<CourseWallsProps> = () => {
     arcShape.absarc(0, 0, 38, 0, Math.PI * 2, false)
 
     const holePath = new THREE.Path()
-    holePath.absarc(0, 0, 37, 0, Math.PI * 2, true)
+    holePath.absarc(0, 0, 37.2, 0, Math.PI * 2, true)
 
     arcShape.holes.push(holePath)
 
@@ -38,15 +38,15 @@ export const CourseThreeWalls: FC<CourseWallsProps> = () => {
       rotation={[0, (Math.PI / 64) * 7.5, 0]}
     >
       <group>
-        <RoundedBox radius={0.02} castShadow position={[16, 1, 0]} scale={[15, 2, 1]}>
+        <Box castShadow position={[16, 1, 0]} scale={[15, 2, 0.75]}>
           <meshStandardMaterial color={'black'} />
-        </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[8.5, 1, -3]} scale={[1, 2, 7]}>
+        </Box>
+        <Box castShadow position={[8.5, 1, -3]} scale={[0.75, 2, 6.8]}>
           <meshStandardMaterial color={'black'} />
-        </RoundedBox>
-        <RoundedBox radius={0.02} castShadow position={[16, 1, -6]} scale={[16, 2, 1]}>
+        </Box>
+        <Box castShadow position={[16, 1, -6]} scale={[16, 2, 0.75]}>
           <meshStandardMaterial color={'black'} />
-        </RoundedBox>
+        </Box>
       </group>
       <mesh
         geometry={holeSideGeometry}

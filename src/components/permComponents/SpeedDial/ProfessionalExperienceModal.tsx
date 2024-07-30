@@ -57,17 +57,19 @@ export const ProfessionalExperienceModal: FC<ProfessionalExperienceModalProps> =
 
           <ModalBody>
             {' '}
-            Congrats on finishing the second hole! <br />
+            Seems like you're getting the hang of it! <br />
             If you're interested in working together, checkout my CV below
-            <AnimatedHoverButton
-              buttonType={'test'}
-              icon={<IconCV />}
-              onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
-              onMouseLeave={() => setIsHovered(ButtonTypes.None)}
-              onClick={() => {
-                window.open('/Luke_Doughty_CV.pdf', '_blank')
-              }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <AnimatedHoverButton
+                buttonType={'test'}
+                icon={<IconCV />}
+                onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
+                onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+                onClick={() => {
+                  window.open('/Luke_Doughty_CV.pdf', '_blank')
+                }}
+              />
+            </div>
           </ModalBody>
 
           <ModalFooter>

@@ -3,24 +3,18 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   InputGroup,
-  InputLeftElement,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Textarea,
-  VStack,
+  useToast,
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, useState } from 'react'
-import { IconCV, IconGithub, IconLinkedinCircled } from '../SvgIcons'
-import { AnimatedHoverButton } from './MotionButton'
-import { ButtonTypes } from './SpeedDialInfo'
+import { FC } from 'react'
+import './FinishModal.css'
 
 interface FinishModalProps {
   isOpen: boolean
@@ -37,17 +31,62 @@ interface TextByTicker {
 const MotionModalContent = motion(ModalContent)
 
 export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
-  const [isHovered, setIsHovered] = useState<ButtonTypes>(ButtonTypes.None)
+  const toast = useToast()
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    try {
+      const response = await fetch('https://formspree.io/f/xdkngany', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        toast({
+          title: 'Message Recieved!',
+          status: 'success',
+          position: 'top',
+          duration: 4000,
+          isClosable: true,
+        })
+        form.reset()
+      } else {
+        toast({
+          title: 'Message Failed!',
+          status: 'error',
+          position: 'top',
+          duration: 4000,
+          isClosable: true,
+        })
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast({
+        title: 'Message Failed!',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <AnimatePresence>
       <Modal
-        isOpen={isOpen}
+        isOpen={true}
         onClose={onClose}
         closeOnOverlayClick={true}
         isCentered
         motionPreset='slideInBottom'
-        size={'md'}
+        size={'xl'}
       >
         <ModalOverlay />
         <MotionModalContent
@@ -56,31 +95,52 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
           animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <ModalHeader>
-            <Heading lineHeight={'tall'}> Finished! </Heading>
-          </ModalHeader>
-
           <ModalBody>
-            {' '}
-            You Finished! <br />
-            <Box bg='white' borderRadius='lg'>
-              <Box m={8} color='#0B0E3F'>
-                <VStack spacing={5}>
+            <div style={{ display: 'flex' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '30px',
+                    fontWeight: 500,
+                    paddingTop: 30,
+                    paddingBottom: 30,
+                  }}
+                >
+                  Finished!
+                </div>
+                <div className='typewriter-1'> I hope you enjoyed this portfolio</div>
+                <div className='typewriter-2'>Let's keep in touch!</div>
+              </div>
+              <Box
+                bg='white'
+                borderRadius='lg'
+                style={{
+                  display: 'flex',
+                }}
+              >
+                <form
+                  onSubmit={handleSubmit}
+                  style={{ paddingTop: 20, paddingBottom: 20 }}
+                >
                   <FormControl id='name'>
                     <FormLabel>Your Name</FormLabel>
                     <InputGroup borderColor='#E0E1E7'>
-                      <InputLeftElement pointerEvents='none'></InputLeftElement>
-                      <Input type='text' size='md' />
+                      <Input type='text' name='name' size='md' required />
                     </InputGroup>
                   </FormControl>
-                  <FormControl id='name'>
+                  <FormControl id='mail'>
                     <FormLabel>Mail</FormLabel>
                     <InputGroup borderColor='#E0E1E7'>
-                      <InputLeftElement pointerEvents='none'></InputLeftElement>
-                      <Input type='text' size='md' />
+                      <Input type='email' name='email' size='md' required />
                     </InputGroup>
                   </FormControl>
-                  <FormControl id='name'>
+                  <FormControl id='message'>
                     <FormLabel>Message</FormLabel>
                     <Textarea
                       borderColor='gray.300'
@@ -88,16 +148,28 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
                         borderRadius: 'gray.300',
                       }}
                       placeholder='message'
+                      name='message'
+                      required
                     />
                   </FormControl>
-                  <FormControl id='name' float='right'>
-                    <Button variant='solid' bg='#0D74FF' color='white' _hover={{}}>
+                  <FormControl
+                    id='submit'
+                    float='right'
+                    style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
+                  >
+                    <Button
+                      type='submit'
+                      variant='solid'
+                      bg='#0D74FF'
+                      color='white'
+                      _hover={{}}
+                    >
                       Send Message
                     </Button>
                   </FormControl>
-                </VStack>
+                </form>
               </Box>
-            </Box>
+            </div>
           </ModalBody>
         </MotionModalContent>
       </Modal>

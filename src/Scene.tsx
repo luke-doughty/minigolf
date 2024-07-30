@@ -18,7 +18,7 @@ import { Grass } from './components/models/Grass'
 import { CourseTwoWalls } from './components/holeTwo/CourseTwoWalls'
 import { Windmill } from './components/models/Windmill'
 import { FloatingIslandRoundSecond } from './components/models/FloatingIslandRoundSecond'
-import { BoosterRamp } from './BoosterRamp'
+import { Ramp } from './components/models/Ramp'
 import { Train } from './components/models/TrainLoader'
 import { CourseThreeWalls } from './components/holeThree/CourseThreeWalls'
 import { RopeBridge } from './components/models/RopeBridge'
@@ -194,32 +194,26 @@ const layoutNonTouchableEnvironement = (
         </Plane>
       </RigidBody>
 
-      <RigidBody
-        colliders={'trimesh'}
-        type='fixed'
-        name='floor'
-        // friction={30}
-        // restitution={0.6}
-      >
+      <RigidBody colliders={'trimesh'} type='fixed' name='floor'>
         <FloatingIsland
           scale={[30, 30, 30]}
           position={[-2, -30, 20]}
           rotation={[0, 0, Math.PI / 256]}
         />
         <FloatingIslandRoundSecond
-          scale={[26, 30, 26]}
-          position={[-61, -26.5, -48]}
+          scale={[23, 30, 23]}
+          position={[-64, -26.5, -48]}
           rotation={[0, (Math.PI / 64) * 17, 0]}
         />
         <FloatingIslandRoundThird scale={[45, 30, 45]} position={[122, -30, -52]} />
-        <BoosterRamp
-          position={[-25, 0.5, -18]}
-          scale={[6, 15, 13]}
-          rotation={[0, (Math.PI / 64) * 17.8, 0]}
+        <Ramp
+          position={[-25, 0.2, -18]}
+          scale={[3, 2.4, 2.7]}
+          rotation={[0, (Math.PI / 64) * 50, 0]}
         />
         <Windmill
-          position={[-49, -3, -40]}
-          scale={[5, 5, 5]}
+          position={[-54, -3, -39.5]}
+          scale={[4.5, 4.5, 4.5]}
           rotation={[0, (Math.PI / 64) * -46, 0]}
         />
         <RopeBridge
@@ -323,8 +317,9 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-56.5, 3, -44)}
+        initialPos={new Vector3(-60.2, 3, -44.6)}
         rotation={[0, (Math.PI / 64) * 54, 0]}
+        scale={[1.15, 1.15, 1.15]}
         onPotBall={onPotBall}
         holeNumber={2}
       />

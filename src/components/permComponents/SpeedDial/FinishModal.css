@@ -1,0 +1,32 @@
+.typewriter-1 {
+    overflow: hidden; 
+    border-right: .15em solid rgb(200, 200, 200);;
+    align-items: center;
+    white-space: nowrap;
+    letter-spacing: .15em; 
+    animation: 
+      typing 3.5s steps(32, end),
+      blink-caret .75s step-end ;
+}  
+.typewriter-2 {
+    overflow: hidden; 
+    border-right: .15em solid rgb(200, 200, 200);; /* The typwriter cursor */
+    align-items: center;
+    white-space: nowrap; /* Keeps the content on a single line */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation-delay: 4ms;
+    animation: 
+      typing 3.5s steps(32, end),
+      blink-caret .75s step-end ;
+}  
+
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: rgb(200, 200, 200); }
+  }

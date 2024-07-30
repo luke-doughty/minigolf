@@ -31,8 +31,8 @@ export const AnimatedHoverButton: React.FC<AnimatedHoverButtonProps> = ({
         transition={{ duration: 0.75 }}
         bg={
           isHovered === buttonType
-            ? 'rgba(255, 255, 255, 0.6)'
-            : 'rgba(255, 255, 255, 0.28)'
+            ? 'rgba(255, 255, 255, 0.8)'
+            : 'rgba(255, 255, 255, 0.58)'
         }
         boxShadow={isHovered === buttonType ? '2px 2px 2px rgba(0,0,0,0.1)' : ''}
         onMouseEnter={() => {

@@ -9,25 +9,28 @@ import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
-    Obstacle_Booster_02: THREE.Mesh
+    Bridge_Small: THREE.Mesh
   }
   materials: {
-    ['Obstacles_Booster_01.png']: THREE.MeshStandardMaterial
+    Wood: THREE.MeshStandardMaterial
   }
 }
 
-export function BoosterRamp(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Booster Ramp.glb') as GLTFResult
+export function Ramp(props: JSX.IntrinsicElements['group']) {
+  const { nodes, materials } = useGLTF('/Ramp.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Obstacle_Booster_02.geometry}
-        material={materials['Obstacles_Booster_01.png']}
+        geometry={nodes.Bridge_Small.geometry}
+        material={materials.Wood}
+        position={[-0.236, 1.707, 0]}
+        rotation={[Math.PI / 2, 0.581, 0]}
+        scale={100}
       />
     </group>
   )
 }
 
-useGLTF.preload('/Booster Ramp.glb')
+useGLTF.preload('/Ramp.glb')

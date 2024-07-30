@@ -59,6 +59,7 @@ export const GolfBall: FC<GolfBallProps> = ({
     [1, [0, 2, 4]],
     [2, [-10, 1, -6]],
     [3, [10, 1, -7]],
+    // [1, [-70, 5, -46]],
   ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
@@ -201,6 +202,7 @@ export const GolfBall: FC<GolfBallProps> = ({
         ref={golfBallRigidRef}
         linearDamping={0.3}
         angularDamping={0.3}
+        restitution={0.9}
         onCollisionEnter={({ manifold, other }) => {
           if (
             other.rigidBodyObject?.name === 'level-bottom' &&
