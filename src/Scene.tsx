@@ -202,24 +202,25 @@ const layoutNonTouchableEnvironement = (
         />
         <FloatingIslandRoundSecond
           scale={[23, 30, 23]}
-          position={[-64, -26.5, -48]}
+          position={[-62, -26.5, -48]}
           rotation={[0, (Math.PI / 64) * 17, 0]}
         />
         <FloatingIslandRoundThird scale={[45, 30, 45]} position={[122, -30, -52]} />
-        <Ramp
-          position={[-25, 0.2, -18]}
-          scale={[3, 2.4, 2.7]}
-          rotation={[0, (Math.PI / 64) * 50, 0]}
-        />
+
         <Windmill
-          position={[-54, -3, -39.5]}
+          position={[-52, -3, -39.5]}
           scale={[4.5, 4.5, 4.5]}
           rotation={[0, (Math.PI / 64) * -46, 0]}
         />
         <RopeBridge
-          position={[53.2, -14.7, -24.5]}
+          position={[50, -14.7, -24]}
           scale={[0.0000133, 0.000018, 0.000018]}
           rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
+        />
+        <Ramp
+          position={[-25, 3.8, -18]}
+          scale={[3, 2.4, 2.7]}
+          rotation={[(Math.PI / 64) * 36, (Math.PI / 64) * -5, (Math.PI / 64) * 14.4]}
         />
       </RigidBody>
 
@@ -317,7 +318,7 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-60.2, 3, -44.6)}
+        initialPos={new Vector3(-58.2, 3, -44.6)}
         rotation={[0, (Math.PI / 64) * 54, 0]}
         scale={[1.15, 1.15, 1.15]}
         onPotBall={onPotBall}

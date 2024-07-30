@@ -25,8 +25,6 @@ export function Ramp(props: JSX.IntrinsicElements['group']) {
         receiveShadow
         geometry={nodes.Bridge_Small.geometry}
         material={materials.Wood}
-        position={[-0.236, 1.707, 0]}
-        rotation={[Math.PI / 2, 0.581, 0]}
         scale={100}
       />
     </group>

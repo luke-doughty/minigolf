@@ -50,7 +50,7 @@ export function WindmillBlades(props: JSX.IntrinsicElements['group']) {
       type={'kinematicPosition'}
       colliders={'trimesh'}
       scale={[4, 4, 4]}
-      position={[-49.5, 17.9, -36.2]}
+      position={[-48, 17.9, -36.2]}
     >
       <group {...props} dispose={null}>
         <group name='Scene'>

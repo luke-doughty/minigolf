@@ -50,7 +50,7 @@ export const CourseTwoWalls: FC<CourseWallsProps> = () => {
       </group>
       <mesh
         geometry={holeSideGeometry}
-        position={[-78, 4.5, 3]}
+        position={[-77, 4.5, 2]}
         rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
       >
         <meshStandardMaterial color={'black'} />

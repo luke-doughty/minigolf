@@ -59,7 +59,6 @@ export const GolfBall: FC<GolfBallProps> = ({
     [1, [0, 2, 4]],
     [2, [-10, 1, -6]],
     [3, [10, 1, -7]],
-    // [1, [-70, 5, -46]],
   ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)
