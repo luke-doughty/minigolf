@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
-import { textByTicker } from '../StartMenu'
+import { textByTicker } from '../startMenu/StartMenu'
 
 interface ControlsModalProps {
   isOpen: boolean

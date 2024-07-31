@@ -12,7 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --persian-orange: #d2874cff;
+  --mantis: #81c36bff;
+  --alice-blue: #e0e8eeff;
+  --sky-blue: #61cde8ff;
+  --aero: #1fbbdcff;
 }
+
 
 html,
 body {

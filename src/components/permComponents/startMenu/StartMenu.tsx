@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
+import '../modalBorders.css'
 
 interface StartMenuProps {
   isOpen: boolean
@@ -95,31 +96,32 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
           exit={{ scale: 0.1, x: '48vw', y: '48vh', opacity: 0 }}
           animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
+          className={'chakra-modal__content container'}
         >
-          <ModalHeader>
-            <Heading lineHeight={'tall'}> Fore!</Heading>
-          </ModalHeader>
-
-          <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={onClose}>
-              Skip!
-            </Button>
-            <Button
-              colorScheme='blue'
-              mr={3}
-              onClick={() => {
-                if (textTicker === 2) {
-                  onClose()
-                } else {
-                  setTextTicker((tick) => tick + 1)
-                }
-              }}
-            >
-              Next!
-            </Button>
-          </ModalFooter>
+          <div className='inner-container'>
+            <ModalHeader>
+              <Heading lineHeight={'tall'}> Fore!</Heading>
+            </ModalHeader>
+            <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
+            <ModalFooter>
+              <Button colorScheme='red' mr={3} onClick={onClose}>
+                Skip!
+              </Button>
+              <Button
+                colorScheme='blue'
+                mr={3}
+                onClick={() => {
+                  if (textTicker === 2) {
+                    onClose()
+                  } else {
+                    setTextTicker((tick) => tick + 1)
+                  }
+                }}
+              >
+                Next!
+              </Button>
+            </ModalFooter>
+          </div>
         </MotionModalContent>
       </Modal>
     </AnimatePresence>

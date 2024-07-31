@@ -47,48 +47,51 @@ export const LinksModal: FC<LinksModalProps> = ({ isOpen, onClose }) => {
           exit={{ scale: 0.1, x: '48vw', y: '42vh', opacity: 0 }}
           animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
+          className={'chakra-modal__content container'}
         >
-          <ModalHeader>
-            <Heading lineHeight={'tall'}> Hole 1 Complete! </Heading>
-          </ModalHeader>
+          <div className='inner-container'>
+            <ModalHeader>
+              <Heading lineHeight={'tall'}> Hole 1 Complete! </Heading>
+            </ModalHeader>
 
-          <ModalBody>
-            {' '}
-            Nice job finishing the first hole! <br />
-            If you're interested, checkout my LinkedIn and GitHub
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <AnimatedHoverButton
-                buttonType={'test'}
-                icon={<IconGithub />}
-                onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
-                onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+            <ModalBody>
+              {' '}
+              Nice job finishing the first hole! <br />
+              If you're interested, checkout my LinkedIn and GitHub
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <AnimatedHoverButton
+                  buttonType={'test'}
+                  icon={<IconGithub />}
+                  onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
+                  onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+                  onClick={() => {
+                    window.open('https://github.com/luke-doughty', 'myWindow')
+                  }}
+                />
+                <AnimatedHoverButton
+                  buttonType={'test'}
+                  icon={<IconLinkedinCircled />}
+                  onMouseEnter={() => setIsHovered(ButtonTypes.LinkedIn)}
+                  onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+                  onClick={() =>
+                    window.open('https://www.linkedin.com/in/luke-doughty/', 'myWindow')
+                  }
+                />
+              </div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme='blue'
+                mr={3}
                 onClick={() => {
-                  window.open('https://github.com/luke-doughty', 'myWindow')
+                  onClose()
                 }}
-              />
-              <AnimatedHoverButton
-                buttonType={'test'}
-                icon={<IconLinkedinCircled />}
-                onMouseEnter={() => setIsHovered(ButtonTypes.LinkedIn)}
-                onMouseLeave={() => setIsHovered(ButtonTypes.None)}
-                onClick={() =>
-                  window.open('https://www.linkedin.com/in/luke-doughty/', 'myWindow')
-                }
-              />
-            </div>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme='blue'
-              mr={3}
-              onClick={() => {
-                onClose()
-              }}
-            >
-              Close
-            </Button>
-          </ModalFooter>
+              >
+                Close
+              </Button>
+            </ModalFooter>
+          </div>
         </MotionModalContent>
       </Modal>
     </AnimatePresence>

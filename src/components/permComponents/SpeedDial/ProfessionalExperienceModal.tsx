@@ -50,39 +50,42 @@ export const ProfessionalExperienceModal: FC<ProfessionalExperienceModalProps> =
           exit={{ scale: 0.1, x: '48vw', y: '48vh', opacity: 0 }}
           animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
+          className={'chakra-modal__content container'}
         >
-          <ModalHeader>
-            <Heading lineHeight={'tall'}> Hole 2 Complete! </Heading>
-          </ModalHeader>
+          <div className='inner-container'>
+            <ModalHeader>
+              <Heading lineHeight={'tall'}> Hole 2 Complete! </Heading>
+            </ModalHeader>
 
-          <ModalBody>
-            {' '}
-            Seems like you're getting the hang of it! <br />
-            If you're interested in working together, checkout my CV below
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <AnimatedHoverButton
-                buttonType={'test'}
-                icon={<IconCV />}
-                onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
-                onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+            <ModalBody>
+              {' '}
+              Seems like you're getting the hang of it! <br />
+              If you're interested in working together, checkout my CV below
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <AnimatedHoverButton
+                  buttonType={'test'}
+                  icon={<IconCV />}
+                  onMouseEnter={() => setIsHovered(ButtonTypes.GitHub)}
+                  onMouseLeave={() => setIsHovered(ButtonTypes.None)}
+                  onClick={() => {
+                    window.open('/Luke_Doughty_CV.pdf', '_blank')
+                  }}
+                />
+              </div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme='blue'
+                mr={3}
                 onClick={() => {
-                  window.open('/Luke_Doughty_CV.pdf', '_blank')
+                  onClose()
                 }}
-              />
-            </div>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme='blue'
-              mr={3}
-              onClick={() => {
-                onClose()
-              }}
-            >
-              Close
-            </Button>
-          </ModalFooter>
+              >
+                Close
+              </Button>
+            </ModalFooter>
+          </div>
         </MotionModalContent>
       </Modal>
     </AnimatePresence>

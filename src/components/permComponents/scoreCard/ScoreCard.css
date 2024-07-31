@@ -12,12 +12,12 @@
   justify-content: space-around;
   align-items: center;
   background-image: url('/img/wood-texture-background.jpg');
-  background-size: contain;
+  background-size:auto;
   background-color: #cccccc;
   border-radius: 5px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
   width: 25vw;
-  height: 15vh;
+  height: 25vh;
   transform: skew(7deg);
 }
 
@@ -38,24 +38,20 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-image: url('/img/wood-texture-background.jpg');
-    background-size: contain;
-    background-color: #cccccc;
-    border-radius: 3px;
     width: 20vw;
-    height: 14vh;
-    transform: skew(7deg);
+    height: 25vh;
+    transform: skew(2deg);
   }
   
 
 .score-card-inner-text {
-  background-color: #f8f5f5b5;
+  background-color: aliceblue;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5) inset;
   width: 80%;
-  height: 20px;
+  height: 30px;
   transform: skew(2deg);
 }
 

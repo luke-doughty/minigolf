@@ -15,6 +15,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
 import './FinishModal.css'
+import '../modalBorders.css'
 
 interface FinishModalProps {
   isOpen: boolean
@@ -94,83 +95,86 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
           exit={{ scale: 0.1, x: '48vw', y: '48vh', opacity: 0 }}
           animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
+          className={'chakra-modal__content container'}
         >
-          <ModalBody>
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                }}
-              >
+          <div className='inner-container'>
+            <ModalBody>
+              <div style={{ display: 'flex' }}>
                 <div
                   style={{
-                    fontSize: '30px',
-                    fontWeight: 500,
-                    paddingTop: 30,
-                    paddingBottom: 30,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
                   }}
                 >
-                  Finished!
-                </div>
-                <div className='typewriter-1'> I hope you enjoyed this portfolio</div>
-                <div className='typewriter-2'>Let's keep in touch!</div>
-              </div>
-              <Box
-                bg='white'
-                borderRadius='lg'
-                style={{
-                  display: 'flex',
-                }}
-              >
-                <form
-                  onSubmit={handleSubmit}
-                  style={{ paddingTop: 20, paddingBottom: 20 }}
-                >
-                  <FormControl id='name'>
-                    <FormLabel>Your Name</FormLabel>
-                    <InputGroup borderColor='#E0E1E7'>
-                      <Input type='text' name='name' size='md' required />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id='mail'>
-                    <FormLabel>Mail</FormLabel>
-                    <InputGroup borderColor='#E0E1E7'>
-                      <Input type='email' name='email' size='md' required />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id='message'>
-                    <FormLabel>Message</FormLabel>
-                    <Textarea
-                      borderColor='gray.300'
-                      _hover={{
-                        borderRadius: 'gray.300',
-                      }}
-                      placeholder='message'
-                      name='message'
-                      required
-                    />
-                  </FormControl>
-                  <FormControl
-                    id='submit'
-                    float='right'
-                    style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
+                  <div
+                    style={{
+                      fontSize: '30px',
+                      fontWeight: 500,
+                      paddingTop: 30,
+                      paddingBottom: 30,
+                    }}
                   >
-                    <Button
-                      type='submit'
-                      variant='solid'
-                      bg='#0D74FF'
-                      color='white'
-                      _hover={{}}
+                    Finished!
+                  </div>
+                  <div className='typewriter-1'> I hope you enjoyed this portfolio</div>
+                  <div className='typewriter-2'>Let's keep in touch!</div>
+                </div>
+                <Box
+                  bg='white'
+                  borderRadius='lg'
+                  style={{
+                    display: 'flex',
+                  }}
+                >
+                  <form
+                    onSubmit={handleSubmit}
+                    style={{ paddingTop: 20, paddingBottom: 20 }}
+                  >
+                    <FormControl id='name'>
+                      <FormLabel>Your Name</FormLabel>
+                      <InputGroup borderColor='#E0E1E7'>
+                        <Input type='text' name='name' size='md' required />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl id='mail'>
+                      <FormLabel>Mail</FormLabel>
+                      <InputGroup borderColor='#E0E1E7'>
+                        <Input type='email' name='email' size='md' required />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl id='message'>
+                      <FormLabel>Message</FormLabel>
+                      <Textarea
+                        borderColor='gray.300'
+                        _hover={{
+                          borderRadius: 'gray.300',
+                        }}
+                        placeholder='message'
+                        name='message'
+                        required
+                      />
+                    </FormControl>
+                    <FormControl
+                      id='submit'
+                      float='right'
+                      style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
                     >
-                      Send Message
-                    </Button>
-                  </FormControl>
-                </form>
-              </Box>
-            </div>
-          </ModalBody>
+                      <Button
+                        type='submit'
+                        variant='solid'
+                        bg='#0D74FF'
+                        color='white'
+                        _hover={{}}
+                      >
+                        Send Message
+                      </Button>
+                    </FormControl>
+                  </form>
+                </Box>
+              </div>
+            </ModalBody>
+          </div>
         </MotionModalContent>
       </Modal>
     </AnimatePresence>
