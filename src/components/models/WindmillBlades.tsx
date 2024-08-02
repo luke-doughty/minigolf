@@ -27,7 +27,7 @@ type GLTFResult = GLTF & {
 
 export function WindmillBlades(props: JSX.IntrinsicElements['group']) {
   const windmillBladesRotation = useRef<RapierRigidBody>(null!)
-  const { nodes, materials } = useGLTF('/Windmill_blades.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/WindmillBlades.glb') as GLTFResult
 
   const speed = 1 / 2
   useFrame(({ clock }) => {

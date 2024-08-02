@@ -8,12 +8,12 @@ import './styles/main.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import { StartMenu } from './components/permComponents/startMenu/StartMenu'
 import { Loader, useProgress } from '@react-three/drei'
-import { SpeedDial } from './components/permComponents/SpeedDial/SpeedDialInfo'
+import { SpeedDial } from './components/permComponents/speedDial/SpeedDialInfo'
 import { ScoreCard } from './components/permComponents/scoreCard/ScoreCard'
-import { ControlsModal } from './components/permComponents/SpeedDial/ControlsModal'
-import { LinksModal } from './components/permComponents/SpeedDial/LinksModal'
-import { ProfessionalExperienceModal } from './components/permComponents/SpeedDial/ProfessionalExperienceModal'
-import { FinishModal } from './components/permComponents/SpeedDial/FinishModal'
+import { ControlsModal } from './components/permComponents/controlsModal/ControlsModal'
+import { LinksModal } from './components/permComponents/linksModal/LinksModal'
+import { ProfessionalExperienceModal } from './components/permComponents/cvModal/ProfessionalExperienceModal'
+import { FinishModal } from './components/permComponents/finishMenu/FinishModal'
 import { Analytics } from '@vercel/analytics/react'
 
 function Main() {
@@ -39,8 +39,15 @@ function Main() {
     [3, 8],
   ])
   const [holePar, setHolePar] = useState<number>(holeToHolePar.get(1)!)
+  const [backingTrack, setBackingTrak] = useState<HTMLAudioElement>(
+    new Audio('/audio/AmbientRollingBackingTrack.mp3')
+  )
 
   const { loaded } = useProgress()
+  backingTrack.loop = true
+  backingTrack.playbackRate = 1.05
+  backingTrack.volume = 0.35
+  backingTrack.play()
 
   return (
     <div className='main' style={{ position: 'relative' }}>
@@ -125,7 +132,7 @@ function Main() {
           window.open('https://www.linkedin.com/in/luke-doughty/', 'myWindow')
         }}
         onClickCV={() => {
-          window.open('/Luke_Doughty_CV.pdf', '_blank')
+          window.open('/LukeDoughtyCV.pdf', '_blank')
         }}
       />
       <ScoreCard

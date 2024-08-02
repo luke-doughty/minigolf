@@ -19,7 +19,7 @@ type GLTFResult = GLTF & {
 }
 
 export function FloatingIsland(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Floating Island.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/FloatingIsland.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>

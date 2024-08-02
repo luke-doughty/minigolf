@@ -27,7 +27,7 @@ type GLTFResult = GLTF & {
 type ActionName = 'Cube.001|Cube.001Action'
 
 export function Windmill(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Windmill_base.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/WindmillBase.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <group name='Scene'>

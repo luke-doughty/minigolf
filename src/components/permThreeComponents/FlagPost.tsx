@@ -83,6 +83,7 @@ export const FlagPost: FC<FlagPostProps> = ({
     }
   })
 
+
   const holeSideGeometry = useMemo(() => {
     const extrudeSettings = {
       amount: 4,
@@ -109,7 +110,7 @@ export const FlagPost: FC<FlagPostProps> = ({
   const holeWallPos = new Vector3().addVectors(initialPos, holeWallOffsetFromPole)
   const holeBasePos = new Vector3().addVectors(initialPos, holeBaseOffsetFromPole)
 
-  const { nodes, materials } = useGLTF('/HoleFlagPole.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/HoleFlagPole.glb') as GLTFResult
   return (
     <>
       <group

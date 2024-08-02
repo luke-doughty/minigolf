@@ -23,7 +23,7 @@ type GLTFResult = GLTF & {
 }
 
 export function RopeBridge(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/rope bridge.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/RopeBridge.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

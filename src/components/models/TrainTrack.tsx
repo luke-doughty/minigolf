@@ -17,7 +17,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Circle Catwalk.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/CircleCatwalk.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

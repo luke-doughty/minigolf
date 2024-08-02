@@ -1,5 +1,5 @@
 import { Cylinder, OrbitControls, Trail } from '@react-three/drei'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
@@ -51,7 +51,9 @@ export const GolfBall: FC<GolfBallProps> = ({
   })
   const [isRotating, setIsRotating] = useState<boolean>(false)
   const [isDragging, setIsDragging] = useState<boolean>(false)
-  const [initialHit, setInitialHit] = useState<boolean>(true)
+
+  const hitBallSoundEffect = new Audio('/audio/GolfBallShot.mp3')
+  const ballPotSoundEffect = new Audio('/audio/PotBall.mp3')
 
   const isProd = true
 
@@ -117,6 +119,8 @@ export const GolfBall: FC<GolfBallProps> = ({
           impulseVector.subVectors(startPositionRef.current, endPositionRef.current)
           impulseVector.multiplyScalar(Math.exp(2.5))
           golfBallRigidRef.current.applyImpulse(impulseVector, true)
+          hitBallSoundEffect.currentTime = 0
+          hitBallSoundEffect.play()
           onHit()
         }
       }
@@ -212,8 +216,9 @@ export const GolfBall: FC<GolfBallProps> = ({
         }}
         onContactForce={({ other }) => {
           if (other.rigidBodyObject?.name === 'hole-base-' + holeNumber) {
-            setInitialHit(false)
             onPotBall()
+            ballPotSoundEffect.currentTime = 0
+            ballPotSoundEffect.play()
           }
         }}
       >

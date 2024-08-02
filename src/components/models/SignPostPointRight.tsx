@@ -31,7 +31,7 @@ type GLTFResult = GLTF & {
 }
 
 export function SignPostPointRight(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/signpost.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/Signpost.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -51,7 +51,7 @@ export function SignPostPointRight(props: JSX.IntrinsicElements['group']) {
         rotation={[0.124, 0.038, -0.01]}
       />
       <Text3D
-        font={'/Lobster_Regular.json'}
+        font={'/LobsterRegular.json'}
         scale={[0.065, 0.065, 0.095]}
         position={[0.14, 0.83, 0.255]}
         castShadow
@@ -70,4 +70,4 @@ export function SignPostPointRight(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/signpost.glb')
+useGLTF.preload('/models/Signpost.glb')

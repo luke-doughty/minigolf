@@ -8,13 +8,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  ScaleFade,
   UnorderedList,
   Text,
+  Tooltip,
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
-import '../modalBorders.css'
+import '../ModalStyling.css'
 
 interface StartMenuProps {
   isOpen: boolean
@@ -35,13 +35,10 @@ export const textByTicker = new Map<number, JSX.Element>([
     0,
     <>
       <Text size={'4xl'} margin={2}>
-        Hello there! I'm Luke, an enthusiastic web developer and mediocre minigolf player.
-      </Text>
-      <Text size={'4xl'} margin={2}>
-        Thanks for stopping by my interactive portfolio. Let's dive in, Here's how to play
-      </Text>
-      <Text size={'4xl'} margin={2} as='i'>
-        This is stil in progress!
+        Thanks for stopping by my interactive portfolio! <br /> <br />
+        I'm Luke, an enthusiastic full-stack developer and mediocre minigolf player <br />
+        <br />
+        Lets dive in
       </Text>
     </>,
   ],
@@ -103,13 +100,31 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
         >
           <div className='inner-container'>
             <ModalHeader>
-              <Heading lineHeight={'tall'}> Fore!</Heading>
+              <Heading className='chakra-heading modal-title' lineHeight={'tall'}>
+                {' '}
+                Fore!
+              </Heading>
             </ModalHeader>
-            <ModalBody>{textByTicker.get(textTicker)}</ModalBody>
+            <ModalBody className='chakra-text modal-body'>
+              {textByTicker.get(textTicker)}
+            </ModalBody>
             <ModalFooter>
-              <Button colorScheme='red' mr={3} onClick={onClose}>
-                Skip!
-              </Button>
+              <Tooltip
+                label={'I know how to play already!'}
+                hasArrow
+                placement='top'
+                borderRadius={'5px'}
+                fontFamily={'Lilita One'}
+              >
+                <Button
+                  colorScheme='red'
+                  mr={3}
+                  onClick={onClose}
+                  className='chakra-button close-button'
+                >
+                  Skip Intro
+                </Button>
+              </Tooltip>
               <Button
                 colorScheme='blue'
                 mr={3}
@@ -120,8 +135,9 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
                     setTextTicker((tick) => tick + 1)
                   }
                 }}
+                className='chakra-button next-button'
               >
-                Next!
+                Next
               </Button>
             </ModalFooter>
           </div>

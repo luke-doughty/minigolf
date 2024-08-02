@@ -291,7 +291,7 @@ type GLTFResult = GLTF & {
 }
 
 export function LargeClouds(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Cumulus Clouds 2.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/CumulusClouds2.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

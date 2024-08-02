@@ -3,7 +3,7 @@ import { Object3DNode, useFrame, useLoader } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { FC, Ref, useRef } from 'react'
 import { Group, Object3DEventMap, TextureLoader, Vector3 } from 'three'
-import { GolfBall } from './components/permThreeComponents/golfBall'
+import { GolfBall } from './components/permThreeComponents/GolfBall'
 import { extend } from '@react-three/fiber'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { CourseOneWalls } from './components/holeOne/CourseOneWalls'
@@ -135,13 +135,18 @@ const layoutNonTouchableEnvironement = (
   smallCloudsRef: Ref<Group<Object3DEventMap>>,
   skyCloudsRef: Ref<Group<Object3DEventMap>>
 ): JSX.Element => {
-  const colorMap = useLoader(TextureLoader, 'sky2.jpg')
+  const colorMap = useLoader(TextureLoader, '/img/Sky2.jpg')
 
   const grassCount = Math.floor(Math.random() * 20) + 5 // Random number between 10 and 30
 
   const grassArrayLeft = Array.from({ length: grassCount })
   const grassArrayRight = Array.from({ length: grassCount })
   const grassArrayBehind = Array.from({ length: grassCount })
+  const backingTrack = new Audio('/audio/AmbientRollingBackingTrack.mp3')
+  backingTrack.loop = true
+  backingTrack.playbackRate = 1.05
+  backingTrack.volume = 0.35
+  backingTrack.play()
 
   return (
     <>
@@ -218,9 +223,9 @@ const layoutNonTouchableEnvironement = (
           rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
         />
         <Ramp
-          position={[-25, 3.8, -18]}
+          position={[-25, 4.6, -18]}
           scale={[3, 2.4, 2.7]}
-          rotation={[(Math.PI / 64) * 36, (Math.PI / 64) * -5, (Math.PI / 64) * 14.4]}
+          rotation={[(Math.PI / 64) * 33, (Math.PI / 64) * -1.5, (Math.PI / 64) * 14]}
         />
       </RigidBody>
 

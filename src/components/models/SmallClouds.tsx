@@ -17,7 +17,7 @@ type GLTFResult = GLTF & {
 }
 
 export function SmallClouds(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Clouds.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/Clouds.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

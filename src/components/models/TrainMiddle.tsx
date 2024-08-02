@@ -25,7 +25,7 @@ type GLTFResult = GLTF & {
 }
 
 export function TrainMiddle(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Railway carriage.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/RailwayCarriage.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

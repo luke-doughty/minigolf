@@ -67,7 +67,7 @@ export const Train: FC<TrainProps> = ({
       trainRigidRef.current.setRotation(quaternion, true)
     }
   })
-  const { nodes, materials } = useGLTF('/Railway car.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/RailwayCar.glb') as GLTFResult
   return (
     <RigidBody type='kinematicPosition' colliders={'cuboid'} ref={trainRigidRef}>
       <group scale={[0.029, 0.029, 0.029]}>

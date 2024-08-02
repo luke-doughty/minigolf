@@ -42,7 +42,7 @@ type GLTFResult = GLTF & {
 }
 
 export function SquareTree(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/model.gltf') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/Model.gltf') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh

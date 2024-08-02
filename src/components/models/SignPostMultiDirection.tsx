@@ -31,7 +31,7 @@ type GLTFResult = GLTF & {
 }
 
 export function SignPostMultiDirection(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/signpost.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models/SignPost.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh
