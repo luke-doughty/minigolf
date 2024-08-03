@@ -142,11 +142,6 @@ const layoutNonTouchableEnvironement = (
   const grassArrayLeft = Array.from({ length: grassCount })
   const grassArrayRight = Array.from({ length: grassCount })
   const grassArrayBehind = Array.from({ length: grassCount })
-  const backingTrack = new Audio('/audio/AmbientRollingBackingTrack.mp3')
-  backingTrack.loop = true
-  backingTrack.playbackRate = 1.05
-  backingTrack.volume = 0.35
-  backingTrack.play()
 
   return (
     <>

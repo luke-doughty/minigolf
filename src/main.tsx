@@ -44,10 +44,16 @@ function Main() {
   )
 
   const { loaded } = useProgress()
-  backingTrack.loop = true
-  backingTrack.playbackRate = 1.05
-  backingTrack.volume = 0.35
-  backingTrack.play()
+
+  const handleStartGame = () => {
+    setIsStartMenuOpen(false)
+    setShowControlsButton(true)
+    backingTrack.loop = true
+    backingTrack.playbackRate = 1.05
+    backingTrack.volume = 0.35
+    backingTrack.play()
+    console.log('here')
+  }
 
   return (
     <div className='main' style={{ position: 'relative' }}>
@@ -55,8 +61,7 @@ function Main() {
         <StartMenu
           isOpen={isStartMenuOpen}
           onClose={() => {
-            setIsStartMenuOpen(false)
-            setShowControlsButton(true)
+            handleStartGame()
           }}
         />
       )}
