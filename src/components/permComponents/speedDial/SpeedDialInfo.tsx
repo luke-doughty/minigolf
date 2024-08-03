@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
 import { IconControls, IconCV, IconGithub, IconLinkedinCircled } from '../SvgIcons'
 import { AnimatedHoverButton } from './MotionButton'
