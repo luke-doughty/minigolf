@@ -82,3 +82,179 @@ export function IconControls(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function IconVolume(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 16 16'
+      {...props}
+    >
+      <g fill='none'>
+        <g clipPath='url(#gravityUiVolumeFill0)'>
+          <path
+            fill='currentColor'
+            fillRule='evenodd'
+            d='M2 5h2l2.482-2.482A1.768 1.768 0 0 1 9.5 3.768v8.464a1.768 1.768 0 0 1-3.018 1.25L4 11H2a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2m12.162 8.103c-.265.319-.743.316-1.036.024c-.292-.293-.288-.766-.031-1.09A6.47 6.47 0 0 0 14.5 8a6.47 6.47 0 0 0-1.405-4.037c-.257-.324-.261-.797.031-1.09c.293-.292.771-.294 1.036.024A7.97 7.97 0 0 1 16 8c0 1.94-.69 3.718-1.838 5.103m-2.138-2.135c-.246.333-.726.33-1.019.037s-.284-.764-.06-1.113A3.5 3.5 0 0 0 11.5 8c0-.697-.204-1.347-.555-1.892c-.224-.348-.233-.82.06-1.113s.773-.296 1.02.037C12.637 5.862 13 6.89 13 8a4.98 4.98 0 0 1-.976 2.968'
+            clipRule='evenodd'
+          ></path>
+        </g>
+        <defs>
+          <clipPath id='gravityUiVolumeFill0'>
+            <path fill='currentColor' d='M0 0h16v16H0z'></path>
+          </clipPath>
+        </defs>
+      </g>
+    </svg>
+  )
+}
+
+export function IconVolumeMute(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 14 14'
+      {...props}
+    >
+      <path
+        fill='currentColor'
+        fillRule='evenodd'
+        d='M9 3.005A1.454 1.454 0 0 0 6.716 1.78l-.003.002L2.842 4.5H1.5C.68 4.5 0 5.18 0 6v2c0 .82.68 1.5 1.5 1.5h1.339l3.78 2.716l.007.005c.97.672 2.348-.024 2.374-1.21zm4.78 2.09a.75.75 0 0 1 0 1.06L12.936 7l.844.845a.75.75 0 0 1-1.06 1.06l-.845-.844l-.845.844a.75.75 0 1 1-1.06-1.06L10.814 7l-.844-.845a.75.75 0 0 1 1.06-1.06l.845.844l.845-.844a.75.75 0 0 1 1.06 0'
+        clipRule='evenodd'
+      ></path>
+    </svg>
+  )
+}
+export function IconLeftClick(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <g
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={1.5}
+        color='currentColor'
+      >
+        <path d='M13.5 6V2M12 7.5c0-.466 0-.699.076-.883a1 1 0 0 1 .541-.54C12.801 6 13.034 6 13.5 6s.699 0 .883.076a1 1 0 0 1 .54.541c.077.184.077.417.077.883v2c0 .466 0 .699-.076.883a1 1 0 0 1-.541.54c-.184.077-.417.077-.883.077s-.699 0-.883-.076a1 1 0 0 1-.54-.541C12 10.199 12 9.966 12 9.5z'></path>
+        <path d='M13.5 22c6 0 7.5-4.51 7.5-10S19.5 2 13.5 2S6 6.51 6 12s1.5 10 7.5 10M5 2C3.945 3.132 3.235 4.501 3 6'></path>
+      </g>
+    </svg>
+  )
+}
+
+export function IconGolfShot(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 512 512'
+      {...props}
+    >
+      <path fill='currentColor' d='M161.846 320h192l4.923-32h-192z'></path>
+      <path
+        fill='currentColor'
+        d='M467.122 16L450.7 128h-29.525L439.49 16h-32.425l-35.321 216H155.819a48.05 48.05 0 0 0-47.152 39.019l-9.354 49.106A88 88 0 1 0 188.673 432H314.05a144 144 0 0 0 142.589-123.889L499.464 16ZM104 464a56 56 0 1 1 56-56a56.063 56.063 0 0 1-56 56m320.963-160.433A111.27 111.27 0 0 1 400 359.585A113.6 113.6 0 0 1 371.477 384a111.2 111.2 0 0 1-57.427 16H191.633a87.3 87.3 0 0 0-5.657-24h159.255l4.923-32H164.333q-2.626-2.476-5.451-4.735a87.9 87.9 0 0 0-27.783-14.99L139.532 280l.571-2.994A16.015 16.015 0 0 1 155.819 264h243.117l17.006-104h30.068Z'
+      ></path>
+    </svg>
+  )
+}
+
+export function IconRightClick(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <g
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={1.5}
+        color='currentColor'
+      >
+        <path d='M10.5 6V2m0 20c6 0 7.5-4.51 7.5-10S16.5 2 10.5 2S3 6.51 3 12s1.5 10 7.5 10'></path>
+        <path d='M12 7.5c0-.466 0-.699-.076-.883a1 1 0 0 0-.541-.54C11.199 6 10.966 6 10.5 6s-.699 0-.883.076a1 1 0 0 0-.54.541C9 6.801 9 7.034 9 7.5v2c0 .466 0 .699.076.883a1 1 0 0 0 .541.54c.184.077.417.077.883.077s.699 0 .883-.076a1 1 0 0 0 .54-.541C12 10.199 12 9.966 12 9.5zM19 2c1.055 1.132 1.765 2.501 2 4'></path>
+      </g>
+    </svg>
+  )
+}
+
+export function IconRotate(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <g
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={2}
+      >
+        <path d='M16.466 7.5C15.643 4.237 13.952 2 12 2C9.239 2 7 6.477 7 12s2.239 10 5 10q.514-.002 1-.2m2.194-8.093l3.814 1.86l-1.86 3.814'></path>
+        <path d='M19 15.57c-1.804.885-4.274 1.43-7 1.43c-5.523 0-10-2.239-10-5s4.477-5 10-5c4.838 0 8.873 1.718 9.8 4'></path>
+      </g>
+    </svg>
+  )
+}
+
+export function IconScroll(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <g
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={1.5}
+        color='currentColor'
+      >
+        <path d='M12 22c6 0 7.5-4.51 7.5-10S18 2 12 2S4.5 6.51 4.5 12S6 22 12 22m-.012-15.161v4.92'></path>
+        <path d='M9.996 7.859c.984-1.02 1.584-1.92 2.04-1.856c.384-.003.744.596 1.968 1.856m0 3.281c-.984 1.02-1.584 1.92-2.04 1.856c-.384.003-.744-.595-1.968-1.855'></path>
+      </g>
+    </svg>
+  )
+}
+
+export function IconZoom(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='1em'
+      height='1em'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <path
+        fill='currentColor'
+        d='m18.031 16.617l4.283 4.282l-1.415 1.415l-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9s9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617m-2.006-.742A6.98 6.98 0 0 0 18 11c0-3.867-3.133-7-7-7s-7 3.133-7 7s3.133 7 7 7a6.98 6.98 0 0 0 4.875-1.975zM10 10V7h2v3h3v2h-3v3h-2v-3H7v-2z'
+      ></path>
+    </svg>
+  )
+}

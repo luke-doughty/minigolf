@@ -8,13 +8,23 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  UnorderedList,
   Text,
   Tooltip,
+  ListIcon,
+  List,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useState } from 'react'
 import '../ModalStyling.css'
+import {
+  IconGolfShot,
+  IconLeftClick,
+  IconRightClick,
+  IconRotate,
+  IconScroll,
+  IconZoom,
+} from '../SvgIcons'
 
 interface StartMenuProps {
   isOpen: boolean
@@ -44,24 +54,21 @@ export const textByTicker = new Map<number, JSX.Element>([
   ],
   [
     1,
-    <UnorderedList margin={2}>
-      <ListItem margin={2}>
-        Aim: Click on the ball and drag in the opposite direction of where you want the
-        ball to go.
+    <List spacing={5}>
+      <ListItem>
+        <ListIcon as={IconGolfShot} />
+        Press & Hold the ball, then drag in the away. The further you drag, the more
+        powerful your shot
       </ListItem>
-      <ListItem margin={2}>
-        Power: The farther you drag, the more powerful your shot will be.
+      <ListItem>
+        <ListIcon as={IconRotate} />
+        Press and hold, then move the mouse to spin the camera
       </ListItem>
-      <ListItem margin={2}>
-        Release: Let go to take your shot and watch the ball roll towards the hole.
+      <ListItem>
+        <ListIcon as={IconZoom} />
+        Use scroll to zoom in and out
       </ListItem>
-      <ListItem margin={2}>
-        Press and hold right click, then move the mouse to spin the camera.
-      </ListItem>
-      <Text size={'2xl'} margin={2} as='i'>
-        Don't worry! You can find these controls again in the bottom right!
-      </Text>
-    </UnorderedList>,
+    </List>,
   ],
   [
     2,
@@ -101,12 +108,17 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
           <div className='inner-container'>
             <ModalHeader>
               <Heading className='chakra-heading modal-title' lineHeight={'tall'}>
-                {' '}
                 Fore!
               </Heading>
             </ModalHeader>
             <ModalBody className='chakra-text modal-body'>
               {textByTicker.get(textTicker)}
+              {textTicker === 1 && (
+                <Text size={'2xl'} margin={2} as='i'>
+                  <br />
+                  Don't worry! You can find these controls again in the bottom right!
+                </Text>
+              )}
             </ModalBody>
             <ModalFooter>
               <Tooltip

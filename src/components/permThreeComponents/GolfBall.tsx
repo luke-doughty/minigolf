@@ -55,8 +55,6 @@ export const GolfBall: FC<GolfBallProps> = ({
   const hitBallSoundEffect = new Audio('/audio/GolfBallShot.mp3')
   const ballPotSoundEffect = new Audio('/audio/PotBall.mp3')
 
-  const isProd = true
-
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
     [1, [0, 2, 4]],
     [2, [-10, 1, -6]],
@@ -71,7 +69,7 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [cameraOffset, setCameraOffset] = useState<Vector3>(new Vector3(0, 12, -18))
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
-    if (isProd) {
+    if (golfBallRigidRef.current.translation) {
       const ballPosition = vec3(golfBallRigidRef.current.translation())
       boundaryRef.current.position.copy(ballPosition)
 

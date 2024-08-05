@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Physics } from '@react-three/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
@@ -42,17 +42,22 @@ function Main() {
   const [backingTrack, setBackingTrak] = useState<HTMLAudioElement>(
     new Audio('/audio/AmbientRollingBackingTrack.mp3')
   )
+  const [volume, setVolume] = useState<number>(0) // TODO: currently this re-renders the grass lol
 
   const { loaded } = useProgress()
+
+  useEffect(() => {
+    backingTrack.volume = volume / 100
+    console.log(volume / 100)
+  }, [volume, backingTrack])
 
   const handleStartGame = () => {
     setIsStartMenuOpen(false)
     setShowControlsButton(true)
     backingTrack.loop = true
     backingTrack.playbackRate = 1.05
-    backingTrack.volume = 0.35
+    backingTrack.volume = volume / 100
     backingTrack.play()
-    console.log('here')
   }
 
   return (
@@ -145,6 +150,8 @@ function Main() {
         holeTotal={holeTotal}
         holePar={holePar}
         holeNumber={currenthole}
+        initialVolumne={volume}
+        updateVolume={(volume) => setVolume(volume)}
       />
 
       <Loader />
