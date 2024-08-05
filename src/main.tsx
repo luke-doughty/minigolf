@@ -48,7 +48,6 @@ function Main() {
 
   useEffect(() => {
     backingTrack.volume = volume / 100
-    console.log(volume / 100)
   }, [volume, backingTrack])
 
   const handleStartGame = () => {

@@ -16,7 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import '../ModalStyling.css'
 
 interface FinishModalProps {
@@ -34,37 +34,47 @@ interface TextByTicker {
 const MotionModalContent = motion(ModalContent)
 
 export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
+  const [formToSend, setFormToSend] = useState<HTMLFormElement>()
+
   const toast = useToast()
   const applaud = new Audio('/audio/Clap.mp3')
   if (isOpen) {
     applaud.play()
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleSubmit = async () => {
+    if (formToSend) {
+      const formData = new FormData(formToSend)
 
-    const form = event.currentTarget
-    const formData = new FormData(form)
-
-    try {
-      const response = await fetch('https://formspree.io/f/xdkngany', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-
-      if (response.ok) {
-        toast({
-          title: 'Message Recieved!',
-          status: 'success',
-          position: 'top',
-          duration: 4000,
-          isClosable: true,
+      try {
+        const response = await fetch('https://formspree.io/f/xdkngany', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
         })
-        form.reset()
-      } else {
+
+        if (response.ok) {
+          toast({
+            title: 'Message Recieved!',
+            status: 'success',
+            position: 'top',
+            duration: 4000,
+            isClosable: true,
+          })
+          formToSend.reset()
+        } else {
+          toast({
+            title: 'Message Failed!',
+            status: 'error',
+            position: 'top',
+            duration: 4000,
+            isClosable: true,
+          })
+        }
+      } catch (error) {
+        console.error('Error:', error)
         toast({
           title: 'Message Failed!',
           status: 'error',
@@ -73,15 +83,6 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
           isClosable: true,
         })
       }
-    } catch (error) {
-      console.error('Error:', error)
-      toast({
-        title: 'Message Failed!',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
-      })
     }
   }
 
@@ -116,48 +117,41 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
                   I hope you enjoyed this portfolio <br />
                   Let's keep in touch! <br />
                 </ModalBody>
-                <Box
-                  bg='white'
-                  borderRadius='lg'
-                  style={{
-                    display: 'flex',
-                  }}
+
+                <form
+                  onChange={(form) => setFormToSend(form.currentTarget)}
+                  style={{ paddingTop: 20, paddingBottom: 20 }}
                 >
-                  <form
-                    onSubmit={handleSubmit}
-                    style={{ paddingTop: 20, paddingBottom: 20 }}
-                  >
-                    <FormControl id='name'>
-                      <FormLabel>Your Name</FormLabel>
-                      <InputGroup borderColor='#E0E1E7'>
-                        <Input type='text' name='name' size='md' required />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl id='mail'>
-                      <FormLabel>Mail</FormLabel>
-                      <InputGroup borderColor='#E0E1E7'>
-                        <Input type='email' name='email' size='md' required />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl id='message'>
-                      <FormLabel>Message</FormLabel>
-                      <Textarea
-                        borderColor='gray.300'
-                        _hover={{
-                          borderRadius: 'gray.300',
-                        }}
-                        placeholder='message'
-                        name='message'
-                        required
-                      />
-                    </FormControl>
-                    <FormControl
-                      id='submit'
-                      float='right'
-                      style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
-                    ></FormControl>
-                  </form>
-                </Box>
+                  <FormControl id='name'>
+                    <FormLabel className={'chakra-text modal-body'}>Your Name</FormLabel>
+                    <InputGroup borderColor='#E0E1E7'>
+                      <Input type='text' name='name' size='md' required />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl id='mail'>
+                    <FormLabel className={'chakra-text modal-body'}>Email</FormLabel>
+                    <InputGroup borderColor='#E0E1E7'>
+                      <Input type='email' name='email' size='md' required />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl id='message'>
+                    <FormLabel className={'chakra-text modal-body'}>Message</FormLabel>
+                    <Textarea
+                      borderColor='gray.300'
+                      _hover={{
+                        borderRadius: 'gray.300',
+                      }}
+                      placeholder='message'
+                      name='message'
+                      required
+                    />
+                  </FormControl>
+                  <FormControl
+                    id='submit'
+                    float='right'
+                    style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
+                  ></FormControl>
+                </form>
               </div>
             </ModalBody>
             <ModalFooter>
@@ -166,8 +160,8 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
                 variant='solid'
                 bg='#0D74FF'
                 color='white'
-                _hover={{}}
                 className={'chakra-button next-button'}
+                onClick={handleSubmit}
               >
                 Send Message
               </Button>
