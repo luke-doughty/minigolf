@@ -1,7 +1,7 @@
 import { Plane } from '@react-three/drei'
 import { Object3DNode, useFrame, useLoader } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
-import { FC, Ref, useRef } from 'react'
+import { FC, Ref, useRef, useState } from 'react'
 import { Group, Object3DEventMap, TextureLoader, Vector3 } from 'three'
 import { GolfBall } from './components/permThreeComponents/GolfBall'
 import { extend } from '@react-three/fiber'
@@ -13,7 +13,6 @@ import { LargeClouds } from './components/models/LargeClouds'
 import { SmallClouds } from './components/models/SmallClouds'
 import * as THREE from 'three'
 import { FlagPost } from './components/permThreeComponents/FlagPost'
-import { SquareTree } from './components/models/SquareTree'
 import { Grass } from './components/models/Grass'
 import { CourseTwoWalls } from './components/holeTwo/CourseTwoWalls'
 import { Windmill } from './components/models/Windmill'
@@ -24,6 +23,12 @@ import { CourseThreeWalls } from './components/holeThree/CourseThreeWalls'
 import { RopeBridge } from './components/models/RopeBridge'
 import { FloatingIslandRoundThird } from './components/models/FloatingIslandRoundThird'
 import { WindmillBlades } from './components/models/WindmillBlades'
+import { RoundTreeOne } from './components/models/RoundTreeOne'
+import { RoundTreeTwo } from './components/models/RoundTreeTwo'
+import { RoundTreeThree } from './components/models/RoundTreeThree'
+import { PineTreeOne } from './components/models/PineTreeOne'
+import { PineTreeTwo } from './components/models/PineTreeTwo'
+import { PineTreeThree } from './components/models/PineTreeThree'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -63,7 +68,6 @@ export const Scene: FC<SceneProps> = ({
   const largeCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const smallCloudsRef = useRef<Group<Object3DEventMap>>(null!)
   const skyCloudsRef = useRef<Group<Object3DEventMap>>(null!)
-  const trainRef = useRef<Group<Object3DEventMap>>(null!)
 
   useFrame(({ clock }) => {
     if (largeCloudsRef.current) {
@@ -99,6 +103,8 @@ export const Scene: FC<SceneProps> = ({
     }
   })
 
+  const [grassCount, _] = useState<number>(Math.floor(Math.random() * 20) + 5)
+
   return (
     <>
       {startGame && (
@@ -109,7 +115,12 @@ export const Scene: FC<SceneProps> = ({
         />
       )}
 
-      {layoutNonTouchableEnvironement(largeCloudsRef, smallCloudsRef, skyCloudsRef)}
+      {layoutNonTouchableEnvironement(
+        largeCloudsRef,
+        smallCloudsRef,
+        skyCloudsRef,
+        grassCount
+      )}
 
       {layoutCourseOneMap(progressNextHole)}
 
@@ -133,15 +144,10 @@ export const Scene: FC<SceneProps> = ({
 const layoutNonTouchableEnvironement = (
   largeCloudsRef: Ref<Group<Object3DEventMap>>,
   smallCloudsRef: Ref<Group<Object3DEventMap>>,
-  skyCloudsRef: Ref<Group<Object3DEventMap>>
+  skyCloudsRef: Ref<Group<Object3DEventMap>>,
+  grassCount: number
 ): JSX.Element => {
   const colorMap = useLoader(TextureLoader, '/img/Sky2.jpg')
-
-  const grassCount = Math.floor(Math.random() * 20) + 5 // Random number between 10 and 30
-
-  const grassArrayLeft = Array.from({ length: grassCount })
-  const grassArrayRight = Array.from({ length: grassCount })
-  const grassArrayBehind = Array.from({ length: grassCount })
 
   return (
     <>
@@ -150,22 +156,22 @@ const layoutNonTouchableEnvironement = (
         <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
       </mesh>
       <directionalLight
-        position={[20, 25, -12]}
+        position={[260, 285, -102]}
         intensity={2.5}
         castShadow
         shadow-mapSize={[1024 * 6, 1024 * 6]}
         shadow-camera-near={0.5}
         shadow-camera-far={20000}
-        shadow-camera-left={-66}
-        shadow-camera-right={66}
-        shadow-camera-top={66}
-        shadow-camera-bottom={-66}
+        shadow-camera-left={-366}
+        shadow-camera-right={366}
+        shadow-camera-top={366}
+        shadow-camera-bottom={-366}
       />
       <ambientLight
-        shadow={'blue'}
-        position={[10, 10, 10]}
+        shadow={'white'}
+        position={[0, 40, 0]}
         scale={[20, 20, 20]}
-        intensity={1.8}
+        intensity={1.5}
       />
       <group ref={largeCloudsRef}>
         <LargeClouds
@@ -224,54 +230,111 @@ const layoutNonTouchableEnvironement = (
         />
       </RigidBody>
 
-      {/* square tree doesnt really fit vibe */}
-      <SquareTree
-        scale={[6.5, 6.5, 6.5]}
-        position={[18, 0, 6]}
-        rotation={[0, (Math.PI / 64) * 72, 0]}
+      {/* LHS */}
+      <RoundTreeOne scale={[3.3, 3.3, 3.3]} position={[18, 0, 8]} />
+      <RoundTreeTwo scale={[4.2, 4.2, 4.2]} position={[14, 0, 5]} />
+      <RoundTreeThree
+        scale={[3.7, 3.7, 3.7]}
+        position={[17, 0, 15]}
+        rotation={[0, (Math.PI / 64) * 23, 0]}
+      />
+      <Grass
+        scale={[0.012, 0.012, 0.012]}
+        rotation={[0, (Math.PI / 64) * 54, 0]}
+        position={[20, 0.4, 5]}
+      />
+      <Grass
+        scale={[0.011, 0.011, 0.011]}
+        rotation={[0, (Math.PI / 64) * 12, 0]}
+        position={[18, 0.4, 7]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        rotation={[0, (Math.PI / 64) * 32, 0]}
+        position={[24, 0.4, 2]}
+      />
+      <Grass
+        scale={[0.0115, 0.0115, 0.0115]}
+        rotation={[0, (Math.PI / 64) * 41, 0]}
+        position={[19, 0.4, 0]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        rotation={[0, (Math.PI / 64) * 4, 0]}
+        position={[17, 0.4, 3]}
       />
 
-      {/* TODO: scale back grass  */}
-      {/* left grass */}
-      {grassArrayLeft.map((_, index) => (
-        <Grass
-          key={'grass_left_' + index}
-          scale={[0.01, 0.01, 0.01]}
-          rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
-          position={[
-            Math.floor(Math.random() * 16) + 6,
-            0.4,
-            Math.floor(Math.random() * 12),
-          ]}
-        />
-      ))}
+      {/* Behind */}
+      <PineTreeOne scale={[2.7, 2.7, 2.7]} position={[-9.2, 0.4, -9]} />
+      <PineTreeTwo scale={[2.7, 2.7, 2.7]} position={[-7.2, -3.2, -6]} />
+      <PineTreeThree scale={[3.2, 3.2, 3.2]} position={[-3.5, 0, -8]} />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[-4, 0.4, -10]}
+        rotation={[0, (Math.PI / 64) * 12, 0]}
+      />
+      <Grass
+        scale={[0.015, 0.015, 0.015]}
+        position={[1, 0.4, -13]}
+        rotation={[0, (Math.PI / 64) * 41, 0]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[-4.6, 0.4, -12.4]}
+        rotation={[0, (Math.PI / 64) * 31, 0]}
+      />
+      <Grass
+        scale={[0.012, 0.012, 0.012]}
+        position={[4, 0.4, -16]}
+        rotation={[0, (Math.PI / 64) * 24, 0]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[3, 0.4, -10]}
+        rotation={[0, (Math.PI / 64) * 19, 0]}
+      />
+      <Grass
+        scale={[0.012, 0.012, 0.012]}
+        position={[-1, 0.4, -9.7]}
+        rotation={[0, (Math.PI / 64) * 48, 0]}
+      />
 
-      {grassArrayRight.map((_, index) => (
-        <Grass
-          key={'grass_right_' + index}
-          scale={[0.01, 0.01, 0.01]}
-          rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
-          position={[
-            Math.floor(Math.random() * -15) - 8,
-            0.4,
-            Math.floor(Math.random() * 16),
-          ]}
-        />
-      ))}
-
-      {/* behind grass */}
-      {grassArrayBehind.map((_, index) => (
-        <Grass
-          key={'grass_behind_' + index}
-          scale={[0.01, 0.01, 0.01]}
-          rotation={[0, (Math.PI / 64) * (Math.random() * 24), 0]}
-          position={[
-            Math.floor(Math.random() * 10.5) - 5,
-            0.4,
-            Math.floor(Math.random() * 11) - 15,
-          ]}
-        />
-      ))}
+      {/* RHS */}
+      <PineTreeOne scale={[2.7, 2.7, 2.7]} position={[-32, 0.4, 16]} />
+      <PineTreeOne scale={[2.7, 2.7, 2.7]} position={[-26, 0.4, 22]} />
+      <PineTreeTwo scale={[2.7, 2.7, 2.7]} position={[-28, 0.4, 22]} />
+      <RoundTreeOne scale={[3.3, 3.3, 3.3]} position={[-18, 0.4, 14]} />
+      <RoundTreeTwo scale={[4.2, 4.2, 4.2]} position={[-35, 0.4, 16]} />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[-13, 0.4, 16]}
+        rotation={[0, (Math.PI / 64) * 39, 0]}
+      />
+      <Grass
+        scale={[0.015, 0.015, 0.015]}
+        position={[-16, 0.4, 12]}
+        rotation={[0, (Math.PI / 64) * 16, 0]}
+      />
+      <Grass
+        scale={[0.015, 0.015, 0.015]}
+        position={[-18, 0.4, 10]}
+        rotation={[0, (Math.PI / 64) * 63, 0]}
+      />
+      <Grass
+        scale={[0.012, 0.012, 0.012]}
+        position={[-25, 0.4, 8]}
+        rotation={[0, (Math.PI / 64) * 49, 0]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[-22, 0.4, 10]}
+        rotation={[0, (Math.PI / 64) * 50, 0]}
+      />
+      <Grass
+        scale={[0.01, 0.01, 0.01]}
+        position={[-20, 0.4, 16]}
+        rotation={[0, (Math.PI / 64) * 94, 0]}
+      />
 
       <Train initialPos={new Vector3(119, 1.5, -51.8)} />
       <WindmillBlades />
@@ -299,8 +362,8 @@ const layoutCourseOneMap = (onPotBall: () => void) => {
       <CourseOneWalls />
 
       <SignPostPointRight
-        scale={[7, 9, 7]}
-        position={[8, -1, 2]}
+        scale={[6, 8, 6]}
+        position={[6, -1, 8]}
         rotation={[0.4, (Math.PI / 32) * 22, 0]}
       />
     </>

@@ -54,7 +54,10 @@ export const ScoreCard: FC<ScoreCardProps> = ({
           <SliderTrack backgroundColor={'#d6915a'} height={'12px'} borderRadius={5}>
             <SliderFilledTrack backgroundColor={'#cc6514'} />
           </SliderTrack>
-          <SliderThumb boxSize={6} borderRadius={5}>
+          <SliderThumb
+            boxSize={6}
+            borderRadius={5}
+          >
             {initialVolumne === 0 ? <IconVolumeMute /> : <IconVolume />}
           </SliderThumb>
         </Slider>
