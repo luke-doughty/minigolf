@@ -39,30 +39,103 @@ function Main() {
     [3, 8],
   ])
   const [holePar, setHolePar] = useState<number>(holeToHolePar.get(1)!)
-  const [backingTrack, setBackingTrak] = useState<HTMLAudioElement>(
-    new Audio('/audio/AmbientRollingBackingTrack.mp3')
-  )
+
   const [volume, setVolume] = useState<number>(0) // TODO: currently this re-renders the grass lol
 
   const { loaded } = useProgress()
 
-  useEffect(() => {
-    backingTrack.volume = volume / 100
-  }, [volume, backingTrack])
+  const backingTrackRef = React.useRef<HTMLAudioElement | null>(null)
+  const hitBallSoundRef = React.useRef<HTMLAudioElement | null>(null)
 
-  // useEffect(() => {
-  //   fetch('/api/hello')
-  //     .then((response) => response.json())
-  //     .then((data) => console.log(data))
-  // }, [])
+  useEffect(() => {
+    const backingTrack = new Audio('/audio/AmbientRollingBackingTrack.mp3')
+    backingTrackRef.current = backingTrack
+
+    const handleEnded = () => {
+      backingTrack.pause()
+      backingTrack.src = ''
+    }
+
+    backingTrack.addEventListener('ended', handleEnded)
+
+    return () => {
+      backingTrack.removeEventListener('ended', handleEnded)
+      backingTrack.pause()
+      backingTrack.src = ''
+    }
+  }, [])
+
+  useEffect(() => {
+    const golfBallHit = new Audio('/audio/GolfBallShot.mp3')
+    hitBallSoundRef.current = golfBallHit
+
+    const handleEndedHit = () => {
+      golfBallHit.pause()
+      golfBallHit.currentTime = 0
+    }
+
+    golfBallHit.addEventListener('ended', handleEndedHit)
+    return () => {
+      console.log('here?')
+      golfBallHit.removeEventListener('ended', handleEndedHit)
+      golfBallHit.pause()
+      golfBallHit.src = ''
+    }
+  }, [])
+
+  useEffect(() => {
+    const interval = 50 // milliseconds
+    const volumeChangeRate = 0.08
+    let volumeInterval: NodeJS.Timeout | undefined
+
+    if (backingTrackRef.current) {
+      const targetVolume = volume / 100
+
+      volumeInterval = setInterval(() => {
+        if (backingTrackRef.current) {
+          const currentVolume = backingTrackRef.current.volume
+
+          if (Math.abs(currentVolume - targetVolume) <= volumeChangeRate) {
+            backingTrackRef.current.volume = targetVolume
+            clearInterval(volumeInterval)
+          } else if (currentVolume < targetVolume) {
+            backingTrackRef.current.volume = Math.min(
+              currentVolume + volumeChangeRate,
+              targetVolume
+            )
+          } else {
+            backingTrackRef.current.volume = Math.max(
+              currentVolume - volumeChangeRate,
+              targetVolume
+            )
+          }
+        }
+      }, interval)
+    }
+
+    return () => {
+      if (volumeInterval) {
+        clearInterval(volumeInterval)
+      }
+    }
+  }, [volume])
+
+  useEffect(() => {
+    fetch('/api/hello')
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+  }, [])
 
   const handleStartGame = () => {
     setIsStartMenuOpen(false)
     setShowControlsButton(true)
-    backingTrack.loop = true
-    backingTrack.playbackRate = 1.05
-    backingTrack.volume = volume / 100
-    backingTrack.play()
+    if (backingTrackRef.current) {
+      const backingTrack = backingTrackRef.current
+      backingTrack.loop = true
+      backingTrack.playbackRate = 1.05
+      backingTrack.volume = volume / 100
+      backingTrack.play()
+    }
   }
 
   return (
@@ -106,12 +179,13 @@ function Main() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [75, 20, -65] }}
       >
         <Suspense fallback={null}>
-          <Physics gravity={[0, -18.81, 0]}>
+          <Physics gravity={[0, -18.81, 0]} debug>
             <Scene
               startGame={!isStartMenuOpen}
               onHit={() => {
                 setScoreTotal((total) => total + 1)
                 setHoleTotal((total) => total + 1)
+                hitBallSoundRef.current?.play()
               }}
               holeTracker={currenthole}
               progressNextHole={() => {

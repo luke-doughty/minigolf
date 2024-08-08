@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import { GroupProps } from '@react-three/fiber'
 import { RigidBody, RigidBodyProps } from '@react-three/rapier'
 import { FC, useMemo } from 'react'
+import { Fence } from '../models/Fence'
 
 type NewType = GroupProps
 
@@ -31,30 +32,39 @@ export const CourseTwoWalls: FC<CourseWallsProps> = () => {
   }, [])
 
   return (
-    <RigidBody
-      type='fixed'
-      colliders='trimesh'
-      name={'course-two-walls'}
-      rotation={[0, (Math.PI / 64) * -14, 0]}
-    >
-      <group>
-        <Box castShadow position={[-18, 1, 5.5]} scale={[19, 2, 0.75]}>
-          <meshStandardMaterial color={'black'} />
-        </Box>
-        <Box castShadow position={[-8.5, 1, 2]} scale={[0.75, 2, 7.8]}>
-          <meshStandardMaterial color={'black'} />
-        </Box>
-        <Box castShadow position={[-18, 1, -1.5]} scale={[19, 2, 0.75]}>
-          <meshStandardMaterial color={'black'} />
-        </Box>
-      </group>
-      <mesh
-        geometry={holeSideGeometry}
-        position={[-77, 4.5, 2]}
-        rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
+    <>
+      <RigidBody
+        type='fixed'
+        colliders='cuboid'
+        name={'course-two-walls'}
+        rotation={[0, (Math.PI / 64) * -14, 0]}
       >
-        <meshStandardMaterial color={'black'} />
-      </mesh>
-    </RigidBody>
+        <group>
+          <Fence castShadow position={[-12, 0.5, 6]} rotation={[0, Math.PI, 0]} />
+          <Fence castShadow position={[-18.9, 0.5, 6]} rotation={[0, Math.PI, 0]} />
+          <Fence castShadow position={[-25.9, 0.5, 6]} rotation={[0, Math.PI, 0]} />
+
+          <Fence castShadow position={[-8.5, 0.5, 2]} rotation={[0, Math.PI / -2, 0]} />
+
+          <Fence castShadow position={[-12, 0.5, -2]} />
+          <Fence castShadow position={[-18.9, 0.5, -2]} />
+          <Fence castShadow position={[-25.9, 0.5, -2]} />
+        </group>
+      </RigidBody>
+      <RigidBody
+        type='fixed'
+        colliders='trimesh'
+        name={'course-two-walls'}
+        rotation={[0, (Math.PI / 64) * -14, 0]}
+      >
+        <mesh
+          geometry={holeSideGeometry}
+          position={[-77, 4.5, 2]}
+          rotation={[Math.PI / 2, (Math.PI / 64) * 0, 0]}
+        >
+          <meshStandardMaterial color={'black'} />
+        </mesh>
+      </RigidBody>
+    </>
   )
 }

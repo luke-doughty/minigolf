@@ -29,6 +29,7 @@ import { RoundTreeThree } from './components/models/RoundTreeThree'
 import { PineTreeOne } from './components/models/PineTreeOne'
 import { PineTreeTwo } from './components/models/PineTreeTwo'
 import { PineTreeThree } from './components/models/PineTreeThree'
+import { FenceShort } from './components/models/FenceShort'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -124,9 +125,9 @@ export const Scene: FC<SceneProps> = ({
 
       {layoutCourseOneMap(progressNextHole)}
 
-      {layoutCourseTwoMap(progressNextHole, holeTracker >= 2)}
+      {layoutCourseTwoMap(progressNextHole)}
 
-      {layoutCourseThreeMap(progressNextHole, holeTracker >= 3)}
+      {layoutCourseThreeMap(progressNextHole)}
     </>
   )
 }
@@ -224,8 +225,8 @@ const layoutNonTouchableEnvironement = (
           rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
         />
         <Ramp
-          position={[-25, 4.6, -18]}
-          scale={[3, 2.4, 2.7]}
+          position={[-25.5, 4.6, -18]}
+          scale={[3, 2.9, 2.7]}
           rotation={[(Math.PI / 64) * 33, (Math.PI / 64) * -1.5, (Math.PI / 64) * 14]}
         />
       </RigidBody>
@@ -377,7 +378,7 @@ const layoutCourseOneMap = (onPotBall: () => void) => {
  *
  * @returns {JSX.Element} The Course Two models.
  */
-const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
+const layoutCourseTwoMap = (onPotBall: () => void) => {
   return (
     <>
       <FlagPost
@@ -388,7 +389,7 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
         holeNumber={2}
       />
 
-      <CourseTwoWalls visible={visible} />
+      <CourseTwoWalls />
     </>
   )
 }
@@ -400,7 +401,7 @@ const layoutCourseTwoMap = (onPotBall: () => void, visible: boolean) => {
  *
  * @returns {JSX.Element} The Course Three models.
  */
-const layoutCourseThreeMap = (onPotBall: () => void, visible: boolean) => {
+const layoutCourseThreeMap = (onPotBall: () => void) => {
   return (
     <>
       <FlagPost
@@ -411,7 +412,7 @@ const layoutCourseThreeMap = (onPotBall: () => void, visible: boolean) => {
         holeNumber={3}
       />
 
-      <CourseThreeWalls visible={visible} />
+      <CourseThreeWalls />
     </>
   )
 }

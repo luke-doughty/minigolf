@@ -1,6 +1,7 @@
 import { Cylinder, OrbitControls, Trail } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { RapierRigidBody, RigidBody, RigidBodyProps, vec3 } from '@react-three/rapier'
+import React from 'react'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
   BufferGeometry,
@@ -52,8 +53,25 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [isRotating, setIsRotating] = useState<boolean>(false)
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
-  const hitBallSoundEffect = new Audio('/audio/GolfBallShot.mp3')
-  const ballPotSoundEffect = new Audio('/audio/PotBall.mp3')
+  const potBallSoundRef = React.useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    const golfBallPot = new Audio('/audio/PotBall.mp3')
+    potBallSoundRef.current = golfBallPot
+
+    const handleEndedPot = () => {
+      golfBallPot.pause()
+      golfBallPot.src = ''
+    }
+
+    golfBallPot.addEventListener('ended', handleEndedPot)
+
+    return () => {
+      golfBallPot.removeEventListener('ended', handleEndedPot)
+      golfBallPot.pause()
+      golfBallPot.src = ''
+    }
+  }, [])
 
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
     [1, [0, 2, 4]],
@@ -117,8 +135,6 @@ export const GolfBall: FC<GolfBallProps> = ({
           impulseVector.subVectors(startPositionRef.current, endPositionRef.current)
           impulseVector.multiplyScalar(Math.exp(2.5))
           golfBallRigidRef.current.applyImpulse(impulseVector, true)
-          hitBallSoundEffect.currentTime = 0
-          hitBallSoundEffect.play()
           onHit()
         }
       }
@@ -215,8 +231,11 @@ export const GolfBall: FC<GolfBallProps> = ({
         onContactForce={({ other }) => {
           if (other.rigidBodyObject?.name === 'hole-base-' + holeNumber) {
             onPotBall()
-            ballPotSoundEffect.currentTime = 0
-            ballPotSoundEffect.play()
+            if (potBallSoundRef.current) {
+              const potBall = potBallSoundRef.current
+              potBall.currentTime = 0
+              potBall.play()
+            }
           }
         }}
       >
@@ -245,3 +264,54 @@ export const GolfBall: FC<GolfBallProps> = ({
     </>
   )
 }
+
+// import React, { useRef, useEffect } from 'react'
+
+// export const GolfBall: React.FC = () => {
+//   const hitBallSoundRef = useRef<HTMLAudioElement | null>(null)
+//   const potBallSoundRef = useRef<HTMLAudioElement | null>(null)
+
+//   useEffect(() => {
+//     const hitBallSound = new Audio('/audio/GolfBallShot.mp3')
+//     hitBallSoundRef.current = hitBallSound
+
+//     const potBallSound = new Audio('/audio/PotBall.mp3')
+//     potBallSoundRef.current = potBallSound
+
+//     return () => {
+//       hitBallSound.pause()
+//       potBallSound.pause()
+//       hitBallSound.src = ''
+//       potBallSound.src = ''
+//     }
+//   }, [])
+
+//   const playHitBallSound = () => {
+//     if (hitBallSoundRef.current) {
+//       hitBallSoundRef.current.play()
+//     }
+//   }
+
+//   const playPotBallSound = () => {
+//     if (potBallSoundRef.current) {
+//       potBallSoundRef.current.play()
+//     }
+//   }
+
+//   return (
+//     <div>
+//       <button
+//         style={{ position: 'absolute', top: '20px', left: '20px' }}
+//         onClick={playHitBallSound}
+//       >
+//         Play Hit Ball Sound
+//       </button>
+//       <button
+//         style={{ position: 'absolute', top: '40px', left: '20px' }}
+//         onClick={playPotBallSound}
+//       >
+//         Play Pot Ball Sound
+//       </button>
+//     </div>
+//   )
+// }
