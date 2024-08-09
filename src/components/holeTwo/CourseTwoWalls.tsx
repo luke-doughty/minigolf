@@ -1,37 +1,12 @@
-import { Box } from '@react-three/drei'
-import * as THREE from 'three'
-
 import { GroupProps } from '@react-three/fiber'
 import { RigidBody, RigidBodyProps } from '@react-three/rapier'
 import { FC, useMemo } from 'react'
 import { Fence } from '../models/Fence'
 import { FenceShort } from '../models/FenceShort'
 
-type NewType = GroupProps
-
 interface CourseWallsProps extends GroupProps {}
 
 export const CourseTwoWalls: FC<CourseWallsProps> = () => {
-  const holeSideGeometry = useMemo(() => {
-    const extrudeSettings = {
-      steps: 2,
-      depth: 1,
-      bevelEnabled: true,
-      bevelSegments: 1,
-      curveSegments: 8,
-    }
-
-    const arcShape = new THREE.Shape()
-    arcShape.absarc(0, 0, 19.5, 0, Math.PI * 2, false)
-
-    const holePath = new THREE.Path()
-    holePath.absarc(0, 0, 19.1, 0, Math.PI * 2, true)
-
-    arcShape.holes.push(holePath)
-
-    return new THREE.ExtrudeGeometry(arcShape, extrudeSettings)
-  }, [])
-
   return (
     <>
       <RigidBody

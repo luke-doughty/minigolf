@@ -74,9 +74,9 @@ export const GolfBall: FC<GolfBallProps> = ({
   }, [])
 
   const holeStartPositions = new Map<number, [x: number, y: number, z: number]>([
-    [1, [0, 2, 4]],
-    [2, [-10, 1, -6]],
-    [3, [10, 1, -7]],
+    // [1, [0, 2, 4]],
+    // [2, [-10, 1, -6]],
+    [1, [10, 1, -7]],
   ])
 
   const golfBallRigidRef = useRef<RapierRigidBody>(null!)

@@ -31,6 +31,7 @@ import { PineTreeTwo } from './components/models/PineTreeTwo'
 import { PineTreeThree } from './components/models/PineTreeThree'
 import { FenceShort } from './components/models/FenceShort'
 import { RampInvis } from './components/models/RampInvis'
+import { TrainTrack } from './components/models/TrainTrack'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -214,17 +215,24 @@ const layoutNonTouchableEnvironement = (
           rotation={[0, (Math.PI / 64) * 17, 0]}
         />
         <FloatingIslandRoundThird scale={[45, 30, 45]} position={[122, -30, -52]} />
-
         <Windmill
           position={[-52, -3, -39.5]}
           scale={[4.5, 4.5, 4.5]}
           rotation={[0, (Math.PI / 64) * -46, 0]}
         />
         <RopeBridge
-          position={[50, -14.7, -24]}
-          scale={[0.0000133, 0.000018, 0.000018]}
+          position={[54, -14.7, -25.6]}
+          scale={[0.0000138, 0.000018, 0.000018]}
           rotation={[Math.PI / -2, 0, (Math.PI / 64) * 8]}
         />
+        <mesh
+          scale={[75, 2, 6.5]}
+          position={[50, -0.95, -24]}
+          rotation={[0, (Math.PI / 64) * 7.8, 0]}
+        >
+          <boxGeometry />
+          <meshStandardMaterial opacity={0} transparent={true} />
+        </mesh>
         <Ramp
           position={[-25.5, 4.6, -18]}
           scale={[3, 2.9, 2.7]}
@@ -343,7 +351,10 @@ const layoutNonTouchableEnvironement = (
         rotation={[0, (Math.PI / 64) * 94, 0]}
       />
 
-      <Train initialPos={new Vector3(119, 1.5, -51.8)} />
+      <Train initialPos={new Vector3(121.8, 1.5, -51.8)} />
+
+      <TrainTrack position={[121.8, 0.1, -51.8]} scale={[1.75, 1, 1.75]} />
+
       <WindmillBlades />
     </>
   )

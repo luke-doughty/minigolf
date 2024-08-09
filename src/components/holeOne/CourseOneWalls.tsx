@@ -50,6 +50,12 @@ export const CourseOneWalls: FC<RigidBodyProps> = () => {
         </RigidBody>
 
         <RigidBody type='kinematicPosition' colliders='cuboid' name={'course-one-walls'}>
+          <FenceShort
+            castShadow
+            position={[14.45, -15.7, 68]}
+          />
+        </RigidBody>
+        <RigidBody type='kinematicPosition' colliders='cuboid' name={'course-one-walls'}>
           <Fence
             castShadow
             position={[15.2, -15.25, 64.2]}
