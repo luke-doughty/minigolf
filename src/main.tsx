@@ -35,8 +35,8 @@ function Main() {
   const [currenthole, setCurrentHole] = useState<number>(1)
   const holeToHolePar = new Map<number, number>([
     [1, 2],
-    [2, 6],
-    [3, 8],
+    [2, 5],
+    [3, 2],
   ])
   const [holePar, setHolePar] = useState<number>(holeToHolePar.get(1)!)
 
