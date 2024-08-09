@@ -70,40 +70,40 @@ export const Train: FC<TrainProps> = ({
     }
   })
 
-  interface url {
-    url: string
-  }
-  const Sound: FC<url> = ({ url }): JSX.Element => {
-    const [listener] = useState(() => new THREE.AudioListener())
-    const buffer = useLoader(THREE.AudioLoader, url)
+  // interface url {
+  //   url: string
+  // }
+  // const Sound: FC<url> = ({ url }): JSX.Element => {
+  //   const [listener] = useState(() => new THREE.AudioListener())
+  //   const buffer = useLoader(THREE.AudioLoader, url)
 
-    useFrame(({ camera }) => {
-      if (sound.current) {
-        sound.current.setBuffer(buffer)
-        sound.current.setLoop(true)
-        sound.current.setRefDistance(0.5)
-        sound.current.setRolloffFactor(1)
-        sound.current.setMaxDistance(1)
-        sound.current.setPlaybackRate(2)
-        sound.current.play()
-      }
+  //   useFrame(({ camera }) => {
+  //     if (sound.current) {
+  //       sound.current.setBuffer(buffer)
+  //       sound.current.setLoop(true)
+  //       sound.current.setRefDistance(0.5)
+  //       sound.current.setRolloffFactor(1)
+  //       sound.current.setMaxDistance(1)
+  //       sound.current.setPlaybackRate(2)
+  //       sound.current.play()
+  //     }
 
-      camera.add(listener)
+  //     camera.add(listener)
 
-      return () => {
-        if (listener && camera) {
-          camera.remove(listener)
-        }
-      }
-    })
+  //     return () => {
+  //       if (listener && camera) {
+  //         camera.remove(listener)
+  //       }
+  //     }
+  //   })
 
-    return <positionalAudio ref={sound} args={[listener]} position={initialPos} />
-  }
+  //   return <positionalAudio ref={sound} args={[listener]} position={initialPos} />
+  // }
 
   return (
     <>
       <RigidBody type='kinematicPosition' colliders={'cuboid'} ref={trainRigidRef}>
-        <Sound url={'/audio/Train.mp3'} />
+        {/* <Sound url={'/audio/Train.mp3'} /> */}
         <group scale={[0.029, 0.029, 0.029]} position={[0, -1.6, 0]}>
           <TrainFront position={[-40, 0, 600]} rotation={[0, (Math.PI / 128) * 42, 0]} />
           <SteamTrainCarriage

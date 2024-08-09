@@ -32,6 +32,7 @@ import { PineTreeThree } from './components/models/PineTreeThree'
 import { FenceShort } from './components/models/FenceShort'
 import { RampInvis } from './components/models/RampInvis'
 import { TrainTrack } from './components/models/TrainTrack'
+import { SignPostMultiDirection } from './components/models/SignPostMultiDirection'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -407,6 +408,11 @@ const layoutCourseTwoMap = (onPotBall: () => void) => {
       />
 
       <CourseTwoWalls />
+      <SignPostMultiDirection
+        scale={[6, 8, 6]}
+        position={[-8, -3, -7]}
+        rotation={[0, (Math.PI / 32) * 52, 0]}
+      />
     </>
   )
 }
