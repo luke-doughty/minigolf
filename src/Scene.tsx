@@ -30,6 +30,7 @@ import { PineTreeOne } from './components/models/PineTreeOne'
 import { PineTreeTwo } from './components/models/PineTreeTwo'
 import { PineTreeThree } from './components/models/PineTreeThree'
 import { FenceShort } from './components/models/FenceShort'
+import { RampInvis } from './components/models/RampInvis'
 
 extend({ TextGeometry })
 declare module '@react-three/fiber' {
@@ -228,6 +229,11 @@ const layoutNonTouchableEnvironement = (
           position={[-25.5, 4.6, -18]}
           scale={[3, 2.9, 2.7]}
           rotation={[(Math.PI / 64) * 33, (Math.PI / 64) * -1.5, (Math.PI / 64) * 14]}
+        />
+        <RampInvis
+          position={[-25.8, -0.05, -18.5]}
+          scale={[3, 2.9, 2.7]}
+          rotation={[0, (Math.PI / 64) * 50, 0]}
         />
       </RigidBody>
 

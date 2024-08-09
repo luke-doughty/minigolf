@@ -39,25 +39,18 @@ export const PowerMeter: FC<PowerMeterProps> = ({
 
   useFrame(({ pointer, raycaster, camera, scene }) => {
     if (startPoint && endPoint) {
-      const distance = startPoint.distanceTo(endPoint)
+      const direction = new Vector3().subVectors(endPoint, startPoint)
+      const distance = direction.length()
       if (distance > maximumLineLength) {
-        setEndPointCalculated(
-          new Vector3().subVectors(endPoint, startPoint).clampLength(0, maximumLineLength)
-        )
+        direction.normalize()
+        direction.multiplyScalar(maximumLineLength)
+
+        const newEndPoint = new Vector3().addVectors(startPoint, direction)
+
+        console.log(newEndPoint)
+        setEndPointCalculated(newEndPoint)
       } else {
         setEndPointCalculated(endPoint)
-      }
-    }
-
-    raycaster.setFromCamera(pointer, camera)
-    const cylinderPointer = scene.getObjectByName('power-meter-max-limit')
-    const linePointer = scene.getObjectByName('power-meter')
-    if (cylinderPointer && linePointer) {
-      const intersect = raycaster.intersectObjects([cylinderPointer, linePointer])
-      if ((intersect.length = 1)) {
-        const direction = endPoint.sub(startPoint).normalize()
-        const newEndVec = startPoint.add(direction.multiplyScalar(maximumLineLength))
-        setEndPointCalculated(newEndVec)
       }
     }
   })
