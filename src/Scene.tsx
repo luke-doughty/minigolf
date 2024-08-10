@@ -212,7 +212,7 @@ const layoutNonTouchableEnvironement = (
         />
         <FloatingIslandRoundSecond
           scale={[23, 30, 23]}
-          position={[-62, -26.5, -48]}
+          position={[-60, -26.5, -46]}
           rotation={[0, (Math.PI / 64) * 17, 0]}
         />
         <FloatingIslandRoundThird scale={[45, 30, 45]} position={[122, -30, -52]} />
@@ -372,7 +372,7 @@ const layoutCourseOneMap = (onPotBall: () => void) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(10.1, -14, 46.4)}
+        initialPos={new Vector3(10.1, -15.1, 50.9)}
         rotation={[0, (Math.PI / 64) * 24, 0]}
         onPotBall={onPotBall}
         holeNumber={1}
@@ -400,9 +400,9 @@ const layoutCourseTwoMap = (onPotBall: () => void) => {
   return (
     <>
       <FlagPost
-        initialPos={new Vector3(-58.2, 3, -44.6)}
-        rotation={[0, (Math.PI / 64) * 54, 0]}
-        scale={[1.15, 1.15, 1.15]}
+        initialPos={new Vector3(-57.9, 3, -44.2)}
+        rotation={[0, (Math.PI / 64) * 50, 0]}
+        scale={[1.16, 1.16, 1.16]}
         onPotBall={onPotBall}
         holeNumber={2}
       />
