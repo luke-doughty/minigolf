@@ -11,6 +11,7 @@ import {
   NormalBufferAttributes,
   Object3DEventMap,
   Vector3,
+  Vector3Like,
 } from 'three'
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
@@ -123,6 +124,28 @@ export const GolfBall: FC<GolfBallProps> = ({
           end: ballPosition.clone(),
         }))
       }
+
+      const flagBase = scene.getObjectByName('hole-position-base-' + holeNumber)
+
+      if (flagBase) {
+        const golfBallPos = golfBallRigidRef.current.translation()
+
+        const dx = flagBase.position.x - golfBallPos.x
+        const dy = flagBase.position.y - golfBallPos.y
+        const dz = flagBase.position.z - golfBallPos.z
+
+        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
+
+        if (distance < 8 && flagBase) {
+          // TODO: adjust this, not too easy but not insanely hard
+          const forceMagnitude = 0.2 / (distance * distance * distance)
+          const totalForceVector = new Vector3()
+          totalForceVector.x += dx * forceMagnitude
+          totalForceVector.y += dy * forceMagnitude
+          totalForceVector.z += dz * forceMagnitude
+          golfBallRigidRef.current.applyImpulse(totalForceVector, true)
+        }
+      }
     }
   })
 
@@ -217,7 +240,7 @@ export const GolfBall: FC<GolfBallProps> = ({
         position={holeStartPositions.get(1)}
         colliders='ball'
         ref={golfBallRigidRef}
-        linearDamping={0.3}
+        linearDamping={0.35}
         angularDamping={0.3}
         restitution={0.9}
         onCollisionEnter={({ manifold, other }) => {

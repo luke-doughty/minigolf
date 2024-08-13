@@ -187,7 +187,7 @@ const layoutNonTouchableEnvironement = (
       <group ref={smallCloudsRef}>
         <SmallClouds
           scale={[28, 20, 20]}
-          position={[18, -18, 68]}
+          position={[18, -18, 88]}
           rotation={[0, (Math.PI / 64) * 24, 0]}
         />
       </group>

@@ -7,7 +7,12 @@ import { Cylinder, Sphere, Tube, useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { useFrame } from '@react-three/fiber'
 import { Vector3 } from 'three'
-import { RigidBody, RigidBodyProps } from '@react-three/rapier'
+import {
+  RapierRigidBody,
+  RigidBody,
+  RigidBodyOptions,
+  RigidBodyProps,
+} from '@react-three/rapier'
 import { FC, useMemo, useState } from 'react'
 
 type GLTFResult = GLTF & {
@@ -73,6 +78,12 @@ export const FlagPost: FC<FlagPostProps> = ({
         const vectorToAdd = new Vector3(0, 3, 0)
         newRaisedPosition.addVectors(flagPostBoundaryPos, vectorToAdd)
         wholeFlag.position.lerp(newRaisedPosition, 0.05)
+
+        const forceMagnitude = 10 / (distance * distance)
+        const totalForceVector = new Vector3()
+        totalForceVector.x += flagPostBoundaryIntersect.x * forceMagnitude
+        totalForceVector.y += flagPostBoundaryIntersect.y * forceMagnitude
+        totalForceVector.z += flagPostBoundaryIntersect.z * forceMagnitude
       }
       if (distance > 3 && wholeFlag) {
         const newRaisedPosition = new Vector3()
@@ -82,7 +93,6 @@ export const FlagPost: FC<FlagPostProps> = ({
       }
     }
   })
-
 
   const holeSideGeometry = useMemo(() => {
     const extrudeSettings = {
@@ -152,7 +162,12 @@ export const FlagPost: FC<FlagPostProps> = ({
       </mesh>
 
       <RigidBody colliders={'trimesh'} type='fixed' name={'hole-base-' + holeNumber}>
-        <Cylinder position={holeBasePos} args={[1.2, 1.2, 0.2, 8]}>
+        <Cylinder
+          position={holeBasePos}
+          args={[1.2, 1.2, 0.2, 8]}
+          name={'hole-position-base-' + holeNumber}
+          // I dont know why this works but not with rigid body
+        >
           <meshStandardMaterial color={'grey'} />
         </Cylinder>
       </RigidBody>

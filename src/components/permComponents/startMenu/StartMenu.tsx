@@ -45,10 +45,10 @@ export const textByTicker = new Map<number, JSX.Element>([
     0,
     <>
       <Text size={'4xl'} margin={2}>
-        Thanks for stopping by my interactive portfolio! <br /> <br />
-        I'm Luke, an enthusiastic full-stack developer and mediocre minigolf player <br />
+        Thanks for stopping by my portfolio <br /> <br />
+        I'm Luke, a full-stack developer specializing in react <br />
         <br />
-        Lets dive in
+        Why not try some minigolf, and find out a little bit about me!
       </Text>
     </>,
   ],
@@ -116,7 +116,7 @@ export const StartMenu: FC<StartMenuProps> = ({ isOpen, onClose }) => {
               {textTicker === 1 && (
                 <Text size={'2xl'} margin={2} as='i'>
                   <br />
-                  Don't worry! You can find these controls again in the bottom right!
+                  Don't worry, you can find these controls again in the bottom right!
                 </Text>
               )}
             </ModalBody>
