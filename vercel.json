@@ -1,0 +1,36 @@
+{
+    "projects": {
+        "frontend": {
+            "root": "frontend",
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist",
+            "framework": "vite"
+        },
+        "backend": {
+            "root": "backend",
+            "buildCommand": "npm run build",
+            "outputDirectory": ".next",
+            "framework": "nextjs"
+        }
+    },
+    "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build"
+        },
+        {
+            "src": "backend/package.json",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "backend/pages/api/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "frontend/$1"
+        }
+    ]
+}

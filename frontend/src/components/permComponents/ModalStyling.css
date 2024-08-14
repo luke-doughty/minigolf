@@ -1,0 +1,153 @@
+/* ScoreCard.css */
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Lobster&display=swap');
+
+
+.chakra-modal__content.container {
+  background-image: url('/img/WoodTextureBackground.jpg');
+  background-size:auto;
+  border-radius: 30px;
+  padding: 15px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.inner-container {
+  background-color: aliceblue;
+  border: -10px;
+  border-radius: 25px;
+  box-shadow: 5px 5px 5px inset rgba(0, 0, 0, 0.4);
+}
+
+.chakra-heading.modal-title {
+  font-family: "Lilita One", sans-serif;
+  font-weight: 200;
+  font-size:75px;
+  color: #d2874c;
+  text-shadow: 2px 2px #6c4527cf;
+}
+
+.chakra-text.modal-body {
+  font-family: "Lilita One", sans-serif;
+  font-weight: 100;
+  font-size:22px;
+  color: #30486e;
+  text-shadow: 0.5px 0.5px #6c4527cf;
+}
+
+.chakra-button.next-button{
+  font-family: "Lilita One", sans-serif;
+  font-weight: 100;
+  font-size:20px;
+  background-color: #d2874c;
+  color: #30486e;
+}
+
+.chakra-button.next-button:hover {
+  background-color: #eba773;
+}
+
+.chakra-button.close-button{
+  font-family: "Lilita One", sans-serif;
+  font-weight: 100;
+  font-size:20px;
+  background-color:#d24e4c
+}
+
+.triangle-upwards {
+	position: relative;
+	background-color: #d2874c;
+}
+
+.triangle-upwards:before,
+.triangle-upwards:after {
+	content: '';
+	position: absolute;
+	background-color: inherit;
+}
+.triangle-upwards,
+.triangle-upwards:before,
+.triangle-upwards:after {
+	width:  6vmin;
+	height: 6vmin;
+	border-top-right-radius: 30%;
+}
+
+.triangle-upwards {
+	transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
+}
+.triangle-upwards:before {
+	transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+}
+.triangle-upwards:after {
+	transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
+}
+
+.triangle-downwards {
+	position: relative;
+	background-color: #d2874c;
+}
+
+.triangle-downwards:before,
+.triangle-downwards:after {
+	content: '';
+	position: absolute;
+	background-color: inherit;
+}
+.triangle-downwards,
+.triangle-downwards:before,
+.triangle-downwards:after {
+	width:  6vmin;
+	height: 6vmin;
+	border-top-right-radius: 30%;
+}
+
+.triangle-downwards {
+	transform: rotate(120deg) skewX(-30deg) scale(1,.866);
+}
+.triangle-downwards:before {
+	transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+}
+.triangle-downwards:after {
+	transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
+}
+
+.moving-letter{
+  font-family: "Lilita One", sans-serif;
+  font-weight: 200;
+  font-size:85px;
+  color: #d2874c;
+  text-shadow: 2px 2px #6c4527cf;
+  width:100px;
+  display: flex;
+  justify-content: center;
+}
+
+.leaderboard{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height:500px;
+  max-height: 500px; 
+  overflow-y:unset;  
+  overflow-x: hidden; 
+}
+.leaderboard-title{
+  font-family: "Lilita One", sans-serif;
+  font-weight: 200;
+  font-size:45px;
+  color: #d2874c;
+  text-shadow: 2px 2px #6c4527cf;
+  display: flex;
+  justify-content: center;
+  grid-column: 1/3;
+  padding: 10px;
+}
+.leaderboard-entries{
+  font-family: "Lilita One", sans-serif;
+  font-weight: 200;
+  font-size:40px;
+  color: #d2874c;
+  text-shadow: 2px 2px #6c4527cf;
+  padding: 10px;
+  display: flex;
+  height:100px;
+  justify-content: center;
+}
