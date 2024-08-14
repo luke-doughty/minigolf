@@ -132,11 +132,15 @@ export const ScoreBoardModal: FC<FinishModalProps> = ({
     headers.set('Content-Type', 'application/json')
     headers.set('Accept', 'application/json')
 
-    const request: RequestInfo = new Request('/api/storeScore', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({ name: text, score: totalShots }),
-    })
+    // This is bad but I need to fix vercel.json to not use this
+    const request: RequestInfo = new Request(
+      'https://minigolf-backend.vercel.app/api/storeScore',
+      {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ name: text, score: totalShots }),
+      }
+    )
 
     const response = await fetch(request)
     if (response.status === 200) {
@@ -156,7 +160,6 @@ export const ScoreBoardModal: FC<FinishModalProps> = ({
     <AnimatePresence>
       <Modal
         isOpen={isOpen}
-        
         onClose={onClose}
         closeOnOverlayClick={true}
         isCentered

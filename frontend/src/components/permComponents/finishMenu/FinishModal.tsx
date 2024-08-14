@@ -43,7 +43,7 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      fetch('/api/getScores')
+      fetch('https://minigolf-backend.vercel.app/api/getScores')
         .then((response) => response.json())
         .then((data: Score[]) => {
           setScores(data)
