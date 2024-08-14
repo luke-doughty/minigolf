@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  flexbox,
   FormControl,
   FormLabel,
   Heading,
@@ -15,8 +16,10 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
+import { setServers } from 'dns'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, useState } from 'react'
+import React from 'react'
+import { FC, useEffect, useState } from 'react'
 import '../ModalStyling.css'
 
 interface FinishModalProps {
@@ -30,10 +33,27 @@ interface TextByTicker {
   2: JSX.Element
 }
 
-// @ts-ignore
-const MotionModalContent = motion(ModalContent)
-
 export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
+  interface Score {
+    score: number
+    names: string[]
+  }
+
+  const [scores, setScores] = useState<Score[]>([])
+
+  useEffect(() => {
+    if (isOpen) {
+      fetch('/api/getScores')
+        .then((response) => response.json())
+        .then((data: Score[]) => {
+          setScores(data)
+        })
+        .catch((error) => {
+          console.error('Error fetching scores:', error)
+        })
+    }
+  }, [isOpen])
+
   const [formToSend, setFormToSend] = useState<HTMLFormElement>()
 
   const toast = useToast()
@@ -87,88 +107,132 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
   }
 
   return (
-    <AnimatePresence>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        closeOnOverlayClick={true}
-        isCentered
-        motionPreset='slideInBottom'
-        size={'xl'}
-      >
-        <ModalOverlay />
-        <MotionModalContent
-          initial={{ scale: 1, x: '48vw', y: '48vh' }}
-          exit={{ scale: 0.1, x: '48vw', y: '48vh', opacity: 0 }}
-          animate={{ scale: 1, x: 0, y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className={'chakra-modal__content container'}
-        >
-          <div className='inner-container'>
-            <ModalBody>
-              <ModalHeader>
-                <Heading className={'chakra-heading modal-title'}>End!</Heading>
-              </ModalHeader>
-              <div style={{ display: 'flex' }}>
-                <ModalBody
-                  className={'chakra-text modal-body'}
-                  style={{ display: 'flex', alignItems: 'center' }}
-                >
-                  I hope you enjoyed this portfolio <br />
-                  Let's keep in touch! <br />
-                </ModalBody>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeOnOverlayClick={false}
+      isCentered
+      motionPreset='slideInBottom'
+      size={'xl'}
+    >
+      <ModalOverlay />
+      <ModalContent className={'chakra-modal__content container'}>
+        <div className='inner-container'>
+          <ModalBody>
+            <ModalHeader>
+              <Heading className={'chakra-heading modal-title'}>Game Over</Heading>
+            </ModalHeader>
 
-                <form
-                  onChange={(form) => setFormToSend(form.currentTarget)}
-                  style={{ paddingTop: 20, paddingBottom: 20 }}
-                >
-                  <FormControl id='name'>
-                    <FormLabel className={'chakra-text modal-body'}>Your Name</FormLabel>
-                    <InputGroup borderColor='#E0E1E7'>
-                      <Input type='text' name='name' size='md' required />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id='mail'>
-                    <FormLabel className={'chakra-text modal-body'}>Email</FormLabel>
-                    <InputGroup borderColor='#E0E1E7'>
-                      <Input type='email' name='email' size='md' required />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id='message'>
-                    <FormLabel className={'chakra-text modal-body'}>Message</FormLabel>
-                    <Textarea
-                      borderColor='gray.300'
-                      _hover={{
-                        borderRadius: 'gray.300',
-                      }}
-                      placeholder='message'
-                      name='message'
-                      required
-                    />
-                  </FormControl>
-                  <FormControl
-                    id='submit'
-                    float='right'
-                    style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
-                  ></FormControl>
-                </form>
-              </div>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                type='submit'
-                variant='solid'
-                bg='#0D74FF'
-                color='white'
-                className={'chakra-button next-button'}
-                onClick={handleSubmit}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                height: '100%',
+              }}
+            >
+              <Box>
+                <div className='leaderboard'>
+                  <div className='leaderboard-title'>High Scores</div>
+                  {scores.map((namesPerScore) => {
+                    const scoreElements = namesPerScore.names.map((name, idx) => {
+                      return (
+                        <React.Fragment key={idx}>
+                          <div key={name + '-' + idx} className='leaderboard-entries'>
+                            {name}
+                          </div>
+                          <div
+                            key={namesPerScore.score + '-' + name + '-' + idx}
+                            className='leaderboard-entries'
+                          >
+                            {namesPerScore.score}
+                          </div>
+                        </React.Fragment>
+                      )
+                    })
+                    return scoreElements
+                  })}
+                </div>
+              </Box>
+              <form
+                onChange={(form) => setFormToSend(form.currentTarget)}
+                style={{
+                  paddingLeft: 20,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
               >
-                Send Message
-              </Button>
-            </ModalFooter>
-          </div>
-        </MotionModalContent>
-      </Modal>
-    </AnimatePresence>
+                <div
+                  className={'chakra-text modal-body'}
+                  style={{ display: 'flex', justifyContent: 'flex-end' }}
+                >
+                  Let's keep in touch! <br />
+                </div>
+
+                <FormControl id='name'>
+                  <FormLabel
+                    className={'chakra-text modal-body'}
+                    display={'flex'}
+                    justifyContent={'flex-end'}
+                  >
+                    Your Name
+                  </FormLabel>
+                  <InputGroup borderColor='#E0E1E7'>
+                    <Input type='text' name='name' size='md' required />
+                  </InputGroup>
+                </FormControl>
+                <FormControl id='mail'>
+                  <FormLabel
+                    className={'chakra-text modal-body'}
+                    display={'flex'}
+                    justifyContent={'flex-end'}
+                  >
+                    Email
+                  </FormLabel>
+                  <InputGroup borderColor='#E0E1E7'>
+                    <Input type='email' name='email' size='md' required />
+                  </InputGroup>
+                </FormControl>
+                <FormControl id='message'>
+                  <FormLabel
+                    className={'chakra-text modal-body'}
+                    display={'flex'}
+                    justifyContent={'flex-end'}
+                  >
+                    Message
+                  </FormLabel>
+                  <Textarea
+                    borderColor='gray.300'
+                    _hover={{
+                      borderRadius: 'gray.300',
+                    }}
+                    placeholder='message'
+                    name='message'
+                    required
+                  />
+                </FormControl>
+                <FormControl
+                  id='submit'
+                  float='right'
+                  style={{ justifyContent: 'flex-end', display: 'flex', padding: 10 }}
+                ></FormControl>
+              </form>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              type='submit'
+              variant='solid'
+              bg='#0D74FF'
+              color='white'
+              className={'chakra-button next-button'}
+              onClick={handleSubmit}
+            >
+              Send Message
+            </Button>
+          </ModalFooter>
+        </div>
+      </ModalContent>
+    </Modal>
   )
 }

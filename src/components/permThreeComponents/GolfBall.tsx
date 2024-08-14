@@ -136,9 +136,9 @@ export const GolfBall: FC<GolfBallProps> = ({
 
         const distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
 
-        if (distance < 8 && flagBase) {
+        if (distance < 5 && distance > 1 && flagBase) {
           // TODO: adjust this, not too easy but not insanely hard
-          const forceMagnitude = 0.2 / (distance * distance * distance)
+          const forceMagnitude = 8 / (distance * distance * distance)
           const totalForceVector = new Vector3()
           totalForceVector.x += dx * forceMagnitude
           totalForceVector.y += dy * forceMagnitude
@@ -254,7 +254,7 @@ export const GolfBall: FC<GolfBallProps> = ({
         onContactForce={({ other }) => {
           if (other.rigidBodyObject?.name === 'hole-base-' + holeNumber) {
             onPotBall()
-            if (potBallSoundRef.current) {
+            if (potBallSoundRef.current && holeNumber != 4) {
               const potBall = potBallSoundRef.current
               potBall.currentTime = 0
               potBall.play()

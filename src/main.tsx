@@ -15,6 +15,7 @@ import { LinksModal } from './components/permComponents/linksModal/LinksModal'
 import { ProfessionalExperienceModal } from './components/permComponents/cvModal/ProfessionalExperienceModal'
 import { FinishModal } from './components/permComponents/finishMenu/FinishModal'
 import { Analytics } from '@vercel/analytics/react'
+import { ScoreBoardModal } from './components/permComponents/finishMenu/ScoreBoardModal'
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
@@ -29,6 +30,7 @@ function Main() {
   const [showCVButton, setshowCVButton] = useState<boolean>(false)
 
   const [showFinishModal, setShowFinishModal] = useState<boolean>(false)
+  const [showSaveScoreModal, setShowSaveScoreModal] = useState<boolean>(false)
 
   const [scoreTotal, setScoreTotal] = useState<number>(0)
   const [holeTotal, setHoleTotal] = useState<number>(0)
@@ -119,12 +121,6 @@ function Main() {
     }
   }, [volume])
 
-  useEffect(() => {
-    fetch('/api/hello')
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-  }, [])
-
   const handleStartGame = () => {
     setIsStartMenuOpen(false)
     setShowControlsButton(true)
@@ -165,7 +161,6 @@ function Main() {
           setshowCVButton(true)
         }}
       />
-      <FinishModal isOpen={showFinishModal} onClose={() => setShowFinishModal(false)} />
 
       <Canvas
         dpr={[1, 2]}
@@ -200,7 +195,7 @@ function Main() {
                   }
                   setHoleTotal(0)
                 } else {
-                  setShowFinishModal(true)
+                  setShowSaveScoreModal(true)
                 }
               }}
             />
@@ -232,6 +227,15 @@ function Main() {
         updateVolume={(volume) => setVolume(volume)}
       />
 
+      <FinishModal isOpen={showFinishModal} onClose={() => setShowFinishModal(false)} />
+      <ScoreBoardModal
+        isOpen={showSaveScoreModal}
+        onClose={() => {
+          setShowSaveScoreModal(false)
+          setShowFinishModal(true)
+        }}
+        totalShots={scoreTotal}
+      />
       <Loader />
     </div>
   )

@@ -78,12 +78,6 @@ export const FlagPost: FC<FlagPostProps> = ({
         const vectorToAdd = new Vector3(0, 3, 0)
         newRaisedPosition.addVectors(flagPostBoundaryPos, vectorToAdd)
         wholeFlag.position.lerp(newRaisedPosition, 0.05)
-
-        const forceMagnitude = 10 / (distance * distance)
-        const totalForceVector = new Vector3()
-        totalForceVector.x += flagPostBoundaryIntersect.x * forceMagnitude
-        totalForceVector.y += flagPostBoundaryIntersect.y * forceMagnitude
-        totalForceVector.z += flagPostBoundaryIntersect.z * forceMagnitude
       }
       if (distance > 3 && wholeFlag) {
         const newRaisedPosition = new Vector3()

@@ -47,7 +47,6 @@ export const PowerMeter: FC<PowerMeterProps> = ({
 
         const newEndPoint = new Vector3().addVectors(startPoint, direction)
 
-        console.log(newEndPoint)
         setEndPointCalculated(newEndPoint)
       } else {
         setEndPointCalculated(endPoint)
