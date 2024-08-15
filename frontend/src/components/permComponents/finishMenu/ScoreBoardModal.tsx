@@ -132,8 +132,9 @@ export const ScoreBoardModal: FC<FinishModalProps> = ({
     headers.set('Content-Type', 'application/json')
     headers.set('Accept', 'application/json')
 
-    // This is bad but I need to fix vercel.json to not use this
-    const request: RequestInfo = new Request('/api/storeScore', {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL
+
+    const request: RequestInfo = new Request(`${apiUrl}/storeScore`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({ name: text, score: totalShots }),

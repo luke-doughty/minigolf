@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  flexbox,
   FormControl,
   FormLabel,
   Heading,
@@ -16,8 +15,6 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { setServers } from 'dns'
-import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { FC, useEffect, useState } from 'react'
 import '../ModalStyling.css'
@@ -41,9 +38,11 @@ export const FinishModal: FC<FinishModalProps> = ({ isOpen, onClose }) => {
 
   const [scores, setScores] = useState<Score[]>([])
 
+  const apiUrl = import.meta.env.VITE_API_BASE_URL
+
   useEffect(() => {
     if (isOpen) {
-      fetch('/api/getScores')
+      fetch(`${apiUrl}/getScores`)
         .then((response) => response.json())
         .then((data: Score[]) => {
           setScores(data)
