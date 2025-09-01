@@ -45,11 +45,12 @@ export const ScoreCard: FC<ScoreCardProps> = ({
           </div>
         </div>
       </div>
-      <div className='score-card-inner-volume-slider' style={{ minHeight: '30px' }}>
+      <div className='score-card-inner-volume-slider' style={{ minHeight: '30px', justifyContent: 'center' }}>
         <Slider
           aria-label='volume-slider'
           defaultValue={initialVolumne}
           onChange={(volume) => updateVolume(volume)}
+          width={'85%'}
         >
           <SliderTrack backgroundColor={'#d6915a'} height={'12px'} borderRadius={5}>
             <SliderFilledTrack backgroundColor={'#cc6514'} />

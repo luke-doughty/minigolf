@@ -16,6 +16,8 @@ import { ProfessionalExperienceModal } from './components/permComponents/cvModal
 import { FinishModal } from './components/permComponents/finishMenu/FinishModal'
 import { Analytics } from '@vercel/analytics/react'
 import { ScoreBoardModal } from './components/permComponents/finishMenu/ScoreBoardModal'
+import { VolumeProvider, useVolume } from './components/VolumeContext'
+
 
 function Main() {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState<boolean>(true)
@@ -42,7 +44,7 @@ function Main() {
   ])
   const [holePar, setHolePar] = useState<number>(holeToHolePar.get(1)!)
 
-  const [volume, setVolume] = useState<number>(0) // TODO: currently this re-renders the grass lol
+  const { volume, setVolume } = useVolume();
 
   const { loaded } = useProgress()
 
@@ -70,6 +72,8 @@ function Main() {
   useEffect(() => {
     const golfBallHit = new Audio('/audio/GolfBallShot.mp3')
     hitBallSoundRef.current = golfBallHit
+    hitBallSoundRef.current.volume = volume / 100
+    console.log(hitBallSoundRef.current.volume)
 
     const handleEndedHit = () => {
       golfBallHit.pause()
@@ -82,7 +86,7 @@ function Main() {
       golfBallHit.pause()
       golfBallHit.src = ''
     }
-  }, [])
+  }, [volume])
 
   useEffect(() => {
     const interval = 50 // milliseconds
@@ -245,7 +249,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Analytics />
     <ChakraProvider>
-      <Main />
+      <VolumeProvider>
+        <Main />
+      </VolumeProvider>
     </ChakraProvider>
   </React.StrictMode>
 )

@@ -15,6 +15,7 @@ import {
 } from 'three'
 import { GolfBallModel } from './GolfBallModel'
 import { PowerMeter } from './PowerMeter'
+import { useVolume } from '../VolumeContext'
 
 /**
  * Props for the GolfBall component.
@@ -55,6 +56,9 @@ export const GolfBall: FC<GolfBallProps> = ({
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
   const potBallSoundRef = React.useRef<HTMLAudioElement | null>(null)
+
+  const { volume } = useVolume();
+
 
   useEffect(() => {
     const golfBallPot = new Audio('/audio/PotBall.mp3')
@@ -148,6 +152,19 @@ export const GolfBall: FC<GolfBallProps> = ({
       }
     }
   })
+
+  useFrame(() => {
+    if (golfBallRigidRef.current) {
+      const vel = golfBallRigidRef.current.linvel();
+      const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
+      console.log(speed)
+
+      if (speed < 0.28) {
+        golfBallRigidRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        golfBallRigidRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+      }
+    }
+  });
 
   useEffect(() => {
     const handlePointerUp = (event: MouseEvent) => {
@@ -257,6 +274,7 @@ export const GolfBall: FC<GolfBallProps> = ({
             if (potBallSoundRef.current) {
               const potBall = potBallSoundRef.current
               potBall.currentTime = 0
+              potBall.volume = volume / 100
               potBall.play()
             }
           }
